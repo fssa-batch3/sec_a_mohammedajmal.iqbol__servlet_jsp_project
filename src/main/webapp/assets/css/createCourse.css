@@ -1,0 +1,66 @@
+@charset "ISO-8859-1";
+/* Apply styling to the body to center the form */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f7ff;
+}
+
+.contain {
+	display : flex;
+	justify-content:space-evenly;
+}
+
+/* Style the form container */
+form {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left:50px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    width: 500px;
+}
+
+/* Style the heading */
+h1 {
+	margin-right:50px;
+    margin-bottom: 20px;
+}
+
+/* Style labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style text inputs and textareas */
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style the submit button */
+input[type="submit"] {
+    background-color: #1e90ff; /* Dodger Blue */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Style the submit button on hover */
+input[type="submit"]:hover {
+    background-color: #1565c0; /* Darker Dodger Blue on hover */
+    transition: background-color 0.3s ease-in-out; /* Smooth transition on hover */
+}
