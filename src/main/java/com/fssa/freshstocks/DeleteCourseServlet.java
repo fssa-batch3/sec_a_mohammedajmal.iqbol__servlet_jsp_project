@@ -19,24 +19,23 @@ import com.fssa.freshstocks.services.exception.ServiceException;
 public class DeleteCourseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DeleteCourseServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Handles HTTP POST requests for deleting a course listing created by a seller.
+	 *
+	 * This method retrieves the course ID from the request parameters and creates an
+	 * instance of CourseService to handle the course deletion. It also sets a constant
+	 * value 'isDeleted' to indicate that the course should be marked as deleted.
+	 *
+	 * It attempts to delete the specified course using the CourseService. If the deletion
+	 * is successful, a success message is printed to the response output, and the user is
+	 * redirected to the seller's home page. If the deletion fails or an error occurs during
+	 * the process, an appropriate error message is printed to the response output.
+	 *
+	 * @param request  The HttpServletRequest object representing the incoming request.
+	 * @param response The HttpServletResponse object representing the response to be sent.
+	 * @throws ServletException If a servlet-specific error occurs.
+	 * @throws IOException      If an I/O error occurs during processing.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();

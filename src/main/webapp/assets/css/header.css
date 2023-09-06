@@ -1,0 +1,458 @@
+@charset "ISO-8859-1";
+
+@charset "ISO-8859-1";
+
+body {
+	padding: 0px;
+	margin: 0px;
+	/* background-color: pink; */
+	background-color: #F6F8FC;
+	height: 3000px;
+	overflow-x: hidden;
+}
+
+nav {
+	width: 100%;
+	height: 70px;
+	background-color: white;
+	position: fixed;
+	top: 0px;
+	z-index: 100;
+}
+
+hr {
+	opacity: 0.3;
+}
+
+.nav-logo {
+	width: 200px;
+	height: 60px;
+	margin-top: 4px;
+	margin-left: 30px;
+}
+
+.search {
+	width: 700px;
+	height: 25px;
+	margin-top: 10px;
+	margin-left: 50px;
+	padding: 10px;
+	background-color: #F1F3F4;
+	border-radius: 5px;
+	border-color: lightsteelblue;
+}
+
+.search::placeholder {
+	font-size: 17px;
+	opacity: 0.7;
+}
+
+.login1 {
+	width: 200px;
+}
+
+.navbar {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.notificationimg {
+	width: 30px;
+	height: 30px;
+	margin-top: 19px;
+	margin-left: 70px;
+}
+
+.user-profile {
+	width: 40px;
+	height: 40px;
+	margin-top: 10px;
+	margin-left: 50px;
+}
+
+.blinking {
+	animation: 1.7s blink ease infinite;
+	position: absolute;
+	top: 48px;
+	left: 37.5%;
+}
+
+@
+keyframes blink {from , to { opacity:0;
+	
+}
+
+50
+%
+{
+opacity
+:
+1;
+}
+}
+.navlinks {
+	margin-left: 400px;
+}
+
+.navlink {
+	margin-left: 20px;
+	margin-top: 26px;
+	text-decoration: none;
+	color: black;
+	font-family: sans-serif;
+	font-size: 15px;
+	transition: all 0.2s;
+	opacity: 0.8;
+}
+
+#contact {
+	margin-left: 10px;
+}
+
+.login {
+	margin-left: 200px;
+	margin-top: 20px;
+	padding: 5px;
+	width: 80px;
+	height: 35px;
+	font-size: 16px;
+	background-color: white;
+	color: black;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.7;
+	transition: all 0.2s;
+}
+
+.login:hover, .navlink:hover {
+	color: dodgerblue;
+	opacity: 1;
+}
+
+.registration {
+	margin-top: 20px;
+	margin-left: 100px;
+	padding: 5px;
+	width: 150px;
+	height: 35px;
+	background-color: dodgerblue;
+	color: white;
+	border-radius: 5px;
+	border-color: dodgerblue;
+	cursor: pointer;
+}
+
+/* NAV END */
+.topnav {
+	overflow: hidden;
+	background-color: white;
+	width: 100%;
+	color: black;
+	position: fixed;
+	top: 0;
+	z-index: 20;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.topnav a {
+	float: left;
+	display: block;
+	color: black;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.active {
+	background-color: white;
+	color: white;
+}
+
+.topnav .icon {
+	display: none;
+}
+
+.dropdown .dropbtn {
+	font-size: 17px;
+	border: none;
+	outline: none;
+	color: white;
+	padding: 14px 16px;
+	background-color: inherit;
+	font-family: inherit;
+	margin: 0;
+}
+
+.topnav a:hover, .dropdown:hover .dropbtn {
+	background-color: white;
+	color: dodgerblue;
+}
+
+.dropdown:hover {
+	display: block;
+	top: 100;
+}
+
+@media screen and (max-width: 600px) {
+	.topnav {
+		width: 390px;
+	}
+	.topnav a:not(:first-child), .dropdown .dropbtn {
+		display: none;
+	}
+	.topnav a.icon {
+		position: relative;
+		left: 70px;
+		bottom: 5px;
+		display: block;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.topnav.responsive .icon {
+		position: relative;
+		left: 70px;
+		bottom: 105px;
+	}
+	.topnav.responsive a.active {
+		float: none;
+		display: block;
+		text-align: left;
+	}
+	.topnav.responsive a.navlink {
+		float: none;
+		display: block;
+		text-align: left;
+		position: relative;
+		right: 200px;
+	}
+	.topnav.responsive a.login1 {
+		float: none;
+		display: block;
+		text-align: left;
+		position: relative;
+		right: 190px;
+		bottom: 10px;
+	}
+	.topnav.responsive a.login2 {
+		float: none;
+		display: block;
+		text-align: left;
+		position: relative;
+		right: 80px;
+		bottom: 90px;
+	}
+	.topnav.responsive .dropdown {
+		float: none;
+	}
+	.topnav.responsive {
+		position: relative;
+	}
+	.topnav.responsive .dropdown .dropbtn {
+		display: block;
+		width: 100%;
+		text-align: left;
+	}
+}
+
+/*footer styles end*/
+@media all and (max-width: 600px) {
+	nav {
+		width: 390px;
+		height: 70px;
+		background-color: white;
+		position: fixed;
+		top: 0px;
+		z-index: 100;
+	}
+	hr {
+		opacity: 0.3;
+	}
+	.nav-logo {
+		width: 180px;
+		height: 60px;
+		margin-top: 4px;
+		margin-left: 10px;
+	}
+	.search {
+		width: 700px;
+		height: 25px;
+		margin-top: 10px;
+		margin-left: 50px;
+		padding: 10px;
+		background-color: #F1F3F4;
+		border-radius: 5px;
+		border-color: lightsteelblue;
+	}
+	.search::placeholder {
+		font-size: 17px;
+		opacity: 0.7;
+	}
+	.notificationimg {
+		width: 30px;
+		height: 30px;
+		margin-top: 19px;
+		margin-left: 70px;
+	}
+	.user-profile {
+		width: 40px;
+		height: 40px;
+		margin-top: 10px;
+		margin-left: 50px;
+	}
+	.blinking {
+		animation: 1.7s blink ease infinite;
+		position: absolute;
+		top: 48px;
+		left: 37.5%;
+	}
+	@
+	keyframes blink {from , to { opacity:0;
+		
+	}
+	50
+	%
+{
+	opacity
+	:
+	1;
+}
+
+}
+.navlinks {
+	margin-top: 26px;
+	margin-left: 230px;
+}
+
+.navlink {
+	margin-left: 30px;
+	width: 500px;
+	text-decoration: none;
+	color: black;
+	font-family: sans-serif;
+	font-size: 15px;
+	transition: all 0.2s;
+	opacity: 0.8;
+}
+
+#contact {
+	margin-left: 10px;
+}
+
+.login {
+	margin-left: 0px;
+	margin-top: 20px;
+	padding: 5px;
+	width: 80px;
+	height: 35px;
+	font-size: 16px;
+	background-color: white;
+	color: black;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.7;
+	transition: all 0.2s;
+}
+
+.login:hover, .navlink:hover {
+	color: dodgerblue;
+	opacity: 1;
+}
+
+.registration {
+	margin-top: 20px;
+	margin-left: 0px;
+	padding: 5px;
+	width: 150px;
+	height: 35px;
+	background-color: dodgerblue;
+	color: white;
+	border-radius: 5px;
+	border-color: dodgerblue;
+	cursor: pointer;
+}
+
+/* NAV END */
+
+/*navbar start*/
+a {
+	text-decoration: none;
+	color: white;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 300;
+}
+
+a:hover {
+	border-bottom: 2px solid #55ACEE;
+}
+
+.navbar {
+	display: flex;
+	background-color: white;
+	width: 390px;
+	height: 100px;
+}
+
+.navlogo {
+	width: 50px;
+	height: 150px;
+	margin-left: 50px;
+	position: relative;
+	bottom: 30px;
+	right: 30px;
+	cursor: pointer;
+}
+
+/*navbar end*/
+}
+.dropbtn {
+	background-color: transparent;
+	color: black;
+	font-family: 'Poppins', sans-serif;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	margin-top: -10px;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: white;
+	min-width: 160px;
+	box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+	padding: 10px;
+	width: 200px;
+	font-family: 'Poppins', sans-serif;
+}
+
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	font-family: 'Poppins', sans-serif;
+	width: 180px;
+}
+
+.dropdown-content a:hover {
+	background-color: white;
+	color: dodgerblue;
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+.dropdown:hover .dropbtn {
+	background-color: white;
+}

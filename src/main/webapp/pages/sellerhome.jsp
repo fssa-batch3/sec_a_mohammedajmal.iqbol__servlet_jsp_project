@@ -24,7 +24,7 @@
 <body>
 	<%
 	if (session.getAttribute("loggedInemail") == null) {
-		response.sendRedirect("login.html");
+		response.sendRedirect("login.jsp");
 	} else {
 
 		String loggedInEmail = (String) session.getAttribute("loggedInemail");

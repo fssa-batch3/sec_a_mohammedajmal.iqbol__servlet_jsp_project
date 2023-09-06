@@ -23,23 +23,31 @@ import com.fssa.freshstocks.services.exception.ServiceException;
 public class CreateCourseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CreateCourseServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Handles HTTP POST requests for creating and registering a new course listing
+	 * by a seller.
+	 *
+	 * This method retrieves various course-related information from the request parameters,
+	 * including the course name, cover image URL, timing, language, marked price, selling price,
+	 * description, instructor name, company name, company category, top skills, and the logged-in
+	 * user's ID. It also records the current date and time as the course's creation timestamp.
+	 *
+	 * It then creates a new Course object with the provided information and attempts to register
+	 * it using the CourseService. If the course registration is successful, the user is redirected
+	 * to the seller's home page. If an error occurs during the registration process, an error message
+	 * is printed to the response output.
+	 *
+	 * @param request  The HttpServletRequest object representing the incoming request.
+	 * @param response The HttpServletResponse object representing the response to be sent.
+	 * @throws ServletException If a servlet-specific error occurs.
+	 * @throws IOException      If an I/O error occurs during processing.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 	    PrintWriter out = response.getWriter();
 	    
 	    CourseService courseService = new CourseService();
-//	    long nanotime = System.nanoTime();
 
 	    String name = request.getParameter("name");
 	    String coverImage = request.getParameter("coverImage");

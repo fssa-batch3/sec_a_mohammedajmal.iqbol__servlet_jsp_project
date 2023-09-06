@@ -26,7 +26,19 @@ public class AddCommentServlet extends HttpServlet {
        
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Handles HTTP POST requests for submitting comments on a course page.
+	 *
+	 * This method retrieves the user's comment from the request parameters, along
+	 * with the user's session information (user ID and course ID). It then creates
+	 * a new Comment object with the provided information and attempts to register
+	 * it using the CommentService. If successful, the user is redirected to the
+	 * course details page with the updated comments. If an error occurs during the
+	 * registration process, an error message is printed to the response output.
+	 *
+	 * @param request  The HttpServletRequest object representing the incoming request.
+	 * @param response The HttpServletResponse object representing the response to be sent.
+	 * @throws ServletException If a servlet-specific error occurs.
+	 * @throws IOException      If an I/O error occurs during processing.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

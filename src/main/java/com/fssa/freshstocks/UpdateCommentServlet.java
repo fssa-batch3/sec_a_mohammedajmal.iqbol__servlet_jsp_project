@@ -21,7 +21,23 @@ import com.fssa.freshstocks.services.exception.ServiceException;
 public class UpdateCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	
+	/**
+	 * Handles HTTP POST requests for updating a comment's content.
+	 *
+	 * This method retrieves the comment ID and the edited content from the request parameters.
+	 * It also retrieves the course ID from the user's session. It then creates a Comment object
+	 * with the edited content.
+	 *
+	 * The method uses the CommentService to update the comment's content in the database. If the
+	 * update is successful, the user is redirected to the course details page with the updated
+	 * comments. If an error occurs during the update process, an appropriate error message is
+	 * printed to the response output.
+	 *
+	 * @param request  The HttpServletRequest object representing the incoming request.
+	 * @param response The HttpServletResponse object representing the response to be sent.
+	 * @throws ServletException If a servlet-specific error occurs.
+	 * @throws IOException      If an I/O error occurs during processing.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve comment ID and edited content from the request
 		HttpSession session = request.getSession(false);

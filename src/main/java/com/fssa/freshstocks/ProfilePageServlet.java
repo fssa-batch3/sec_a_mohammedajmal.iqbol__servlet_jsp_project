@@ -33,7 +33,7 @@ public class ProfilePageServlet extends HttpServlet {
             request.getRequestDispatcher("pages/userProfile.jsp").forward(request, response);
         } else {
             // User is not logged in, redirect to login page
-            response.sendRedirect("pages/login.html"); // Replace with your actual login page
+            response.sendRedirect("pages/login.jsp");
         }
     }
 

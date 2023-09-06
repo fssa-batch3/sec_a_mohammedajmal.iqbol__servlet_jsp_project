@@ -20,61 +20,61 @@ import com.fssa.freshstocks.services.exception.ServiceException;
 @WebServlet("/UpdateUserServlet")
 public class UpdateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateUserServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Handles HTTP POST requests for updating user information.
+	 *
+	 * This method retrieves the logged-in user's email from the session and new user information
+	 * (gender, mobile number, date of birth) from the request parameters. It then creates a User
+	 * object with the updated information and uses the UserService to update the user's information
+	 * in the database.
+	 *
+	 * If the update is successful, a success message is printed to the response output, and the
+	 * user's session attributes for gender, mobile number, and date of birth are updated. Based on
+	 * whether the user is a seller or not, they are redirected to their respective home pages. If
+	 * the update fails, an error message is printed to the response output.
+	 *
+	 * @param request  The HttpServletRequest object representing the incoming request.
+	 * @param response The HttpServletResponse object representing the response to be sent.
+	 * @throws ServletException If a servlet-specific error occurs.
+	 * @throws IOException      If an I/O error occurs during processing.
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    HttpSession session = request.getSession();
-	    
-	    String loggedInEmail = (String) session.getAttribute("loggedInemail");
-	    
-	    String newGender = request.getParameter("newGender");
-	    String newMobileNumber = request.getParameter("newMobileNumber");
-	    String newDateOfBirth = request.getParameter("newDateOfBirth");
-	    
-	    UserService userService = new UserService();
-	    PrintWriter out = response.getWriter();
-	    
-	    User updatedUser = new User(newGender, newMobileNumber, newDateOfBirth);
-	    
-	    int loggedInseller = (int) session.getAttribute("loggedInseller");
-	    
-	    try {
-	        if (userService.updateUser(updatedUser,loggedInEmail)) {
-	            out.println("User Information Successfully Updated!");
-	            
-	            session.setAttribute("loggedIngender", updatedUser.getGender());
-	            session.setAttribute("loggedInmobileNumber", updatedUser.getMobileNumber());
-	            session.setAttribute("loggedIndateOfBirth", updatedUser.getDateOfBirth());
-	            
-	        	if(loggedInseller == 0) {
-	    			response.sendRedirect("pages/home.jsp");
-	    		} else {
-	    			response.sendRedirect("pages/sellerhome.jsp");
-	    		}
-	        } else {
-	            out.println("Error updating user information.");
-	        }
-	    } catch (ServiceException e) {
-	    	out.println("Error: " + e.getLocalizedMessage());
-	    }
+		String loggedInEmail = (String) session.getAttribute("loggedInemail");
+
+		String newGender = request.getParameter("newGender");
+		String newMobileNumber = request.getParameter("newMobileNumber");
+		String newDateOfBirth = request.getParameter("newDateOfBirth");
+
+		UserService userService = new UserService();
+		PrintWriter out = response.getWriter();
+
+		User updatedUser = new User(newGender, newMobileNumber, newDateOfBirth);
+
+		int loggedInseller = (int) session.getAttribute("loggedInseller");
+
+		try {
+			if (userService.updateUser(updatedUser, loggedInEmail)) {
+				out.println("User Information Successfully Updated!");
+
+				session.setAttribute("loggedIngender", updatedUser.getGender());
+				session.setAttribute("loggedInmobileNumber", updatedUser.getMobileNumber());
+				session.setAttribute("loggedIndateOfBirth", updatedUser.getDateOfBirth());
+
+				if (loggedInseller == 0) {
+					response.sendRedirect("pages/home.jsp");
+				} else {
+					response.sendRedirect("pages/sellerhome.jsp");
+				}
+			} else {
+				out.println("Error updating user information.");
+			}
+		} catch (ServiceException e) {
+			out.println("Error: " + e.getLocalizedMessage());
+		}
 	}
 
 }

@@ -2,6 +2,7 @@ package com.fssa.freshstocks;
 
 import java.io.IOException;
 
+
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,67 +29,61 @@ public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public IndexServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// get method
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Handles HTTP POST requests for user login.
+	 *
+	 * This method retrieves the email and password from the request parameters, creates
+	 * a User object with this information, and uses the UserService to attempt to login
+	 * the user. If the login is successful and the user is not marked as deleted, their
+	 * session is established, and relevant user attributes are set in the session. Based
+	 * on whether the user is a seller or not, they are redirected to their respective home
+	 * pages.
+	 *
+	 * @param request  The HttpServletRequest object representing the incoming request.
+	 * @param response The HttpServletResponse object representing the response to be sent.
+	 * @throws ServletException If a servlet-specific error occurs.
+	 * @throws IOException      If an I/O error occurs during processing.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+	        throws ServletException, IOException {
+	    String email = request.getParameter("email");
+	    String password = request.getParameter("password");
 
-		PrintWriter out = response.getWriter();
-		User user1 = new User(email, password);
-		UserService userService = new UserService();
+	    PrintWriter out = response.getWriter();
+	    UserService userService = new UserService();
+	    User user1 = new User(email, password);
+	    // Create session
+	    HttpSession session = request.getSession();
 
-		// create session
-		HttpSession session = request.getSession();
-		
-		// passing email for getting userID
-		User userObject = fetchUserIDByEmail(email);
+	    // Passing email for getting userID
+	    User userObject = fetchUserIDByEmail(email);
 
-		try {
-			if (userService.loginUser(user1) && (userObject.getIsDeleted() == 0)) {
+	    try {
+	        if (userService.loginUser(user1) && (userObject.getIsDeleted() == 0)) {
+	            // Setting attributes in session
+	            session.setAttribute("loggedInEmail", email);
+	            session.setAttribute("loggedInUserID", userObject.getUserId());
+	            session.setAttribute("loggedInusername", userObject.getUsername());
+	            session.setAttribute("loggedIngender", userObject.getGender());
+	            session.setAttribute("loggedInmobileNumber", userObject.getMobileNumber());
+	            session.setAttribute("loggedIndateOfBirth", userObject.getDateOfBirth());
+	            session.setAttribute("loggedInemail", userObject.getEmail());
+	            session.setAttribute("loggedInseller", userObject.getIsSeller());
 
-				// setting attributes in session
-				session.setAttribute("loggedInEmail", email);
-				session.setAttribute("loggedInUserID", userObject.getUserId());
-				
-				session.setAttribute("loggedInusername", userObject.getUsername());
-                session.setAttribute("loggedIngender", userObject.getGender());
-                session.setAttribute("loggedInmobileNumber", userObject.getMobileNumber());
-                session.setAttribute("loggedIndateOfBirth", userObject.getDateOfBirth());
-                session.setAttribute("loggedInemail", userObject.getEmail());
-                session.setAttribute("loggedInseller", userObject.getIsSeller());
-                
-				if(userObject.getIsSeller() == 0) {
-					response.sendRedirect("pages/home.jsp");
-				} else {
-					response.sendRedirect("pages/sellerhome.jsp");
-				}
-			} else {
-				out.println("Invalid email or password");
-			}
-		} catch (ServiceException e) {
-			out.println(e.getMessage());
-		}
+	            if (userObject.getIsSeller() == 0) {
+	                response.sendRedirect("pages/home.jsp");
+	            } else {
+	                response.sendRedirect("pages/sellerhome.jsp");
+	            }
+	        } else {
+	            // Invalid user credentials
+	            response.sendRedirect("pages/login.jsp?error=Authentication failed. Please check your email and password.");
+	        }
+	    } catch (ServiceException e) {
+	        // Handle ServiceException by redirecting to the login page with an error message
+	        response.sendRedirect("pages/login.jsp?error=" + e.getMessage());
+	    }
 	}
+
 
 	// fetch userID from the provided email
 	private User fetchUserIDByEmail(String email) {
@@ -114,7 +109,6 @@ public class IndexServlet extends HttpServlet {
 					int isDeleted = resultSet.getInt("is_deleted");
 					
 					user1 = new User(userID,username,gender,mobileNumber,dateOfBirth,userEmail,isSeller,createdAt,modifiedAt,isDeleted);
-                     
 				}
 			}
 		} catch (SQLException e) {

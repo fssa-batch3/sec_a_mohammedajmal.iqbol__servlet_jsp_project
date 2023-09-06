@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +17,27 @@
 </head>
 <body>
 	<main class="fullpage">
+
+		<c:if test="${param.registrationSuccess == '1'}">
+				<%
+				response.sendRedirect("login.jsp");
+				%>
+		</c:if>
+
+		<c:if test="${param.registrationError == '1'}">
+			<div class="alert alert-danger" role="alert">Invalid Email And
+				Password</div>
+		</c:if>
+
+		<c:if test="${param.passwordMismatch == '1'}">
+			<div class="alert alert-danger" role="alert">Password and
+				Confirm Password Don't Match</div>
+		</c:if>
+
+		<c:if test="${param.otherError != null}">
+			<div class="alert alert-danger" role="alert">Error during
+				registration: ${param.otherError}</div>
+		</c:if>
 
 		<div>
 			<img class="nav-logo"
@@ -66,8 +90,7 @@
 							<option selected>Select Role</option>
 							<option value="0">Buyer</option>
 							<option value="1">Seller</option>
-						</select>
-						<br>
+						</select> <br>
 						<div class="form-floating mb-3" id="passinput">
 							<input type="email" class="form-control" id="email" name="email"
 								placeholder="name@example.com" required
@@ -101,7 +124,7 @@
 			<div class="signin-link">
 				<span class="hint--bottom hint--rounded"
 					aria-label="for Existing Users"><a class="login-link"
-					href="login.html">Already have an account? Sign In to your
+					href="login.jsp">Already have an account? Sign In to your
 						Account</a>
 			</div>
 		</div>

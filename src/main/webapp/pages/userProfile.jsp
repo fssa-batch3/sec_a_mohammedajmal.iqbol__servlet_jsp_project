@@ -15,24 +15,22 @@
 <body id="body">
 
 	<%
+	String loggedInEmail = (String) session.getAttribute("loggedInemail");
 
-String loggedInEmail = (String) session.getAttribute("loggedInemail");
+	if (loggedInEmail == null) {
 
-if (loggedInEmail == null) { 
+		response.sendRedirect("login.jsp");
 
-response.sendRedirect("login.html");
+	} else {
 
-} else {
+		int loggedInseller = (int) session.getAttribute("loggedInseller");
+		Integer loggedInUserID = (Integer) session.getAttribute("loggedInUserID");
 
-int loggedInseller = (int) session.getAttribute("loggedInseller");
- Integer loggedInUserID = (Integer) session.getAttribute("loggedInUserID");
+		String dateOfBirthStr = (String) session.getAttribute("loggedIndateOfBirth");
 
- String dateOfBirthStr = (String) session.getAttribute("loggedIndateOfBirth");
-
- UserService userService = new UserService();
-   String profileImg = userService.getUserProfilesFromUserID(loggedInUserID);
-
-%>
+		UserService userService = new UserService();
+		String profileImg = userService.getUserProfilesFromUserID(loggedInUserID);
+	%>
 
 
 	<!-- Loading container -->
@@ -54,7 +52,7 @@ int loggedInseller = (int) session.getAttribute("loggedInseller");
 		<form class="section-head" action="../UpdateUserServlet" method="POST">
 			<div class="profilecontainer">
 				<div>
-					<img id="userprofile-img" src="<%= profileImg %>" alt="">
+					<img id="userprofile-img" src="<%=profileImg%>" alt="">
 					<button class="delbtn" id="delbtn" type="button">
 						<a href="../deleteUserServlet?userEmail=<%=loggedInEmail%>">
 							DELETE PROFILE</a>
@@ -69,8 +67,8 @@ int loggedInseller = (int) session.getAttribute("loggedInseller");
 					</button>
 				</div>
 				<div class="username-city">
-					<h2 class="username"><%= session.getAttribute("loggedInusername") %></h2>
-					<h5 class="useremail"><%= session.getAttribute("loggedInemail") %></h5>
+					<h2 class="username"><%=session.getAttribute("loggedInusername")%></h2>
+					<h5 class="useremail"><%=session.getAttribute("loggedInemail")%></h5>
 				</div>
 			</div>
 			<div class="section2">
@@ -85,22 +83,22 @@ int loggedInseller = (int) session.getAttribute("loggedInseller");
 						<br>
 						<p class="labels">Type of User</p>
 						<input name="typeOfUser" type="text" id="address"
-							value="<% if (loggedInseller == 1) { %>Seller<% } else { %>Buyer<% } %>"
+							value="<%if (loggedInseller == 1) {%>Seller<%} else {%>Buyer<%}%>"
 							disabled><br>
 					</div>
 					<div>
 						<p class="labels">Date Of Birth</p>
 						<input type="date" id="date" name="newDateOfBirth"
-							value="<%= session.getAttribute("loggedIndateOfBirth") %>"><br>
+							value="<%=session.getAttribute("loggedIndateOfBirth")%>"><br>
 						<p class="labels">Gender</p>
 						<input name="newGender" type="text" id="gender"
-							value="<%= session.getAttribute("loggedIngender") %>"><br>
+							value="<%=session.getAttribute("loggedIngender")%>"><br>
 						<input name="editprofile" type="file" id="editprofile"><br>
 					</div>
 					<div>
 						<p class="labels">Mobile Number</p>
 						<input type="number" id="number" name="newMobileNumber"
-							value="<%= session.getAttribute("loggedInmobileNumber") %>"><br>
+							value="<%=session.getAttribute("loggedInmobileNumber")%>"><br>
 						<p class="labels">Age</p>
 						<input name="age" type="number" id="age" disabled><br>
 						<button type="submit" id="edit" name="edit">Update</button>
@@ -109,13 +107,13 @@ int loggedInseller = (int) session.getAttribute("loggedInseller");
 			</div>
 		</form>
 	</div>
-	<% 
-   }
-    %>
+	<%
+	}
+	%>
 	<script src="../assets/js/userprofile1.js"></script>
 	<script>
     // Get the birth date string from the session attribute
-    let dateOfBirthStr = "<%= session.getAttribute("loggedIndateOfBirth") %>
+    let dateOfBirthStr = "<%=session.getAttribute("loggedIndateOfBirth")%>
 		";
 		let calculatedAge = calculateAge(dateOfBirthStr);
 
