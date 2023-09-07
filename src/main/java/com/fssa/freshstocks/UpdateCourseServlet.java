@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.fssa.freshstocks.dao.exception.DAOException;
 import com.fssa.freshstocks.model.Course;
 import com.fssa.freshstocks.utils.ConnectionUtil;
+import com.fssa.freshstocks.utils.exception.DatabaseException;
 
 /**
  * Servlet implementation class UpdateCourseServlet
@@ -95,7 +96,7 @@ public class UpdateCourseServlet extends HttpServlet {
                     }
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | DatabaseException e) {
             throw new DAOException("Failed to retrieve course by ID" + e);
         }
     }

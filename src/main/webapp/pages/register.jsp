@@ -19,9 +19,9 @@
 	<main class="fullpage">
 
 		<c:if test="${param.registrationSuccess == '1'}">
-				<%
-				response.sendRedirect("login.jsp");
-				%>
+			<%
+			response.sendRedirect("login.jsp");
+			%>
 		</c:if>
 
 		<c:if test="${param.registrationError == '1'}">
@@ -63,7 +63,7 @@
 						</div>
 						<br> <select class="form-select" id="select"
 							aria-label="Default select example" required name="gender">
-							<option selected>Select Your Gender</option>
+							<option disabled>Select Your Gender</option>
 							<option value="male">Male</option>
 							<option value="female">Female</option>
 							<option value="other">Other</option>
@@ -86,8 +86,9 @@
 					</div>
 					<div>
 						<br> <br> <select class="form-select" id="role"
-							aria-label="Default select example" required name="role">
-							<option selected>Select Role</option>
+							aria-label="Default select example" required name="role"
+							style="width: 450px; margin-left: 38px;">
+							<option disabled>Select Role</option>
 							<option value="0">Buyer</option>
 							<option value="1">Seller</option>
 						</select> <br>
@@ -125,7 +126,7 @@
 				<span class="hint--bottom hint--rounded"
 					aria-label="for Existing Users"><a class="login-link"
 					href="login.jsp">Already have an account? Sign In to your
-						Account</a>
+						Account</a></span>
 			</div>
 		</div>
 

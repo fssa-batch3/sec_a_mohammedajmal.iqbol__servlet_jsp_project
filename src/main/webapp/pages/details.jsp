@@ -22,10 +22,10 @@
 	if (session.getAttribute("loggedInemail") == null) {
 		response.sendRedirect("login.jsp");
 	} else {
-		
-		   Integer loggedInUserId = (Integer) session.getAttribute("loggedInUserID");
-		   UserService userService = new UserService();
-		   String profileImg = userService.getUserProfilesFromUserID(loggedInUserId);
+
+		Integer loggedInUserId = (Integer) session.getAttribute("loggedInUserID");
+		UserService userService = new UserService();
+		String profileImg = userService.getUserProfilesFromUserID(loggedInUserId);
 	%>
 	<nav>
 		<div class="navbar">
@@ -142,7 +142,7 @@
 			<div class="notification">
 				<span class="hint--bottom hint--rounded" aria-label="User Profile"><a
 					class="dropdown" id="dropuser" href="userProfile.jsp"> <img
-						id='dropusers' alt="profilepic" src="<%= profileImg %>">
+						id='dropusers' alt="profilepic" src="<%=profileImg%>">
 
 				</a></span>
 
@@ -409,7 +409,17 @@
 
 				<div class="offered-by" id="comment">
 					<p class="learn-couse" id="about">Comments</p>
-
+					<%
+					String errormsg = request.getParameter("error");
+					if (errormsg != null) {
+					%>
+					<div class="error-message"
+						style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 10px; margin-bottom: 10px; margin-left: 50px; border-radius: 5px; width: fit-content;">
+						<%=errormsg%>
+					</div>
+					<%
+					}
+					%>
 					<div class="what-you-learn">
 
 						<form action="../AddCommentServlet" method="post">

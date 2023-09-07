@@ -1,9 +1,6 @@
 package com.fssa.freshstocks;
 
 import java.io.IOException;
-
-
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +17,7 @@ import com.fssa.freshstocks.model.User;
 import com.fssa.freshstocks.services.UserService;
 import com.fssa.freshstocks.services.exception.ServiceException;
 import com.fssa.freshstocks.utils.ConnectionUtil;
+import com.fssa.freshstocks.utils.exception.DatabaseException;
 
 /**
  * Servlet implementation class IndexServlet
@@ -48,7 +46,6 @@ public class IndexServlet extends HttpServlet {
 	    String email = request.getParameter("email");
 	    String password = request.getParameter("password");
 
-	    PrintWriter out = response.getWriter();
 	    UserService userService = new UserService();
 	    User user1 = new User(email, password);
 	    // Create session
@@ -111,7 +108,7 @@ public class IndexServlet extends HttpServlet {
 					user1 = new User(userID,username,gender,mobileNumber,dateOfBirth,userEmail,isSeller,createdAt,modifiedAt,isDeleted);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | DatabaseException e) {
 			e.printStackTrace();
 		}
 		return user1;

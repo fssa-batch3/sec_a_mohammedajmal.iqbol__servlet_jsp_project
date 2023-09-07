@@ -71,12 +71,13 @@ public class SaveCourseServlet extends HttpServlet {
 
         try {
             courseService.updateCourse(updatedCourse,courseId);
-
+            // Redirect back to the seller home page after updating
+            response.sendRedirect(request.getContextPath() + "/pages/sellerhome.jsp");
         } catch (ServiceException e) {
-            e.printStackTrace();
+            String exceptionMessage = e.getMessage();
+	    	String[] parts = exceptionMessage.split(":");
+	    	String errorMessage = parts[1].trim();
+	    	response.sendRedirect("/freshstocks_web/pages/editcourse.jsp?courseId=" + courseId + "&error=" + errorMessage);
         }
-        
-     // Redirect back to the seller home page after updating
-        response.sendRedirect(request.getContextPath() + "/pages/sellerhome.jsp");
     }
 }

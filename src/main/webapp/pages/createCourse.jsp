@@ -5,10 +5,25 @@
 <head>
     <title>Create Course Form</title>
     <link rel="stylesheet" href="../assets/css/createCourse.css"/>
+    <link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet" crossorigin="anonymous" integrity="">
 </head>
 <body>
+
     <h1>Create Course Form</h1>
+    
     <form action="../CreateCourseServlet" method="post">
+    		<%
+		String errormsg = request.getParameter("error");
+		if (errormsg != null) {
+		%>
+		<div class="alert alert-danger" role="alert">
+			<%=errormsg%>
+		</div>
+		<%
+		}
+		%>
     <div class="contain">
     <div>
         <label for="name">Course Name:</label>
@@ -29,10 +44,11 @@
         <label for="sellingPrice">Selling Price:</label>
         <input type="number" id="sellingPrice" name="sellingPrice" required><br><br>
         
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
         </div>
         <div>
+             <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+        
         <label for="instructorName">Instructor Name:</label>
         <input type="text" id="instructorName" name="instructorName" required><br><br>
         
@@ -49,6 +65,9 @@
         </div>
         <button type="submit">Create Course</button>
     </form>
+    	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous" integrity=""></script>
 </body>
 </html>
     

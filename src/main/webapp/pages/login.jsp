@@ -8,22 +8,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign In | freshstocks</title>
 <link rel="stylesheet" href="../assets/css/signin.css">
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+	crossorigin="anonymous">
 <script src="../assets/js/bundle.js"></script>
 </head>
 <body>
 	<main class="fullpage">
 		<%
-          String errormsg = request.getParameter("error");
-		  if(errormsg != null) {	  
+		String errormsg = request.getParameter("error");
+		if (errormsg != null) {
 		%>
-			  <div class="alert alert-danger" role="alert">
-			  <%= errormsg %>
-			</div>
-		<%	
-		  }
-        %>
-
+		<div class="alert alert-danger" role="alert">
+			<%=errormsg%>
+		</div>
+		<%
+		}
+		%>
 		<div>
 			<img class="nav-logo"
 				src="../assets/images/Screenshot_2023-02-11_021952-removebg-preview-removebg-preview.png"
@@ -39,24 +42,24 @@
 				<div class="form-floating mb-3" id="emailinput">
 					<input type="email" class="form-control" id="email"
 						placeholder="name@example.com" value="freekyajmal@gmail.com"
-						name="email"> <label for="email">Email address</label>
+						name="email" required> <label for="email">Email
+						address</label>
 				</div>
 				<div class="form-floating" id="passinput">
 					<input type="password" class="form-control" id="password"
-						placeholder="Password" value="Ajmal@123" name="password">
+						placeholder="Password" value="Ajmal@123" name="password" required>
 					<label for="password">Password</label>
 				</div>
-
 
 				<div class="remember-forgot-div">
 					<p class="remember-p">
 						<span class="hint--top hint--rounded"
 							aria-label="Remember Next Time"><input type="checkbox">&nbsp;Remember
-							Me 
+							Me </span>
 					</p>
-					</span> <a class="forgot-p" href="resetpassword.html"><span
+					<a class="forgot-p" href="resetpassword.html"><span
 						class="hint--top hint--rounded"
-						aria-label="Reset Your Old Password">Forgot Password?</a></span>
+						aria-label="Reset Your Old Password">Forgot Password?</span></a>
 				</div>
 
 				<button class="submit-signup" type="submit">Log In</button>
@@ -64,7 +67,7 @@
 			<div class="signin-link">
 				<a href="register.jsp"><span class="hint--bottom hint--rounded"
 					aria-label="Not an Existing User">Dont Have an Account ?
-						Sign Up</a>
+						Sign Up</span></a>
 			</div>
 		</div>
 		</div>

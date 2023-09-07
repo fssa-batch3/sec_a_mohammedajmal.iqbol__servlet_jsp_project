@@ -1,9 +1,6 @@
 package com.fssa.freshstocks;
 
 import java.io.IOException;
-
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,7 +47,6 @@ public class RegistrationServlet extends HttpServlet {
 	    int role = Integer.parseInt(request.getParameter("role"));
 
 	    UserService userService = new UserService();
-	    PrintWriter out = response.getWriter();
 
 	    User user = new User(username, gender, mobileNumber, dateOfBirth, email, password, role);
 

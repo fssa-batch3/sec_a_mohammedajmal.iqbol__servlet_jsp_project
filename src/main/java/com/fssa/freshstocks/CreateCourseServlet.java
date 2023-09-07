@@ -1,7 +1,6 @@
 package com.fssa.freshstocks;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -45,7 +44,6 @@ public class CreateCourseServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-	    PrintWriter out = response.getWriter();
 	    
 	    CourseService courseService = new CourseService();
 
@@ -76,7 +74,10 @@ public class CreateCourseServlet extends HttpServlet {
 	       courseService.registerCourse(course1);
 	       response.sendRedirect(request.getContextPath() + "/pages/sellerhome.jsp");
 	    } catch (ServiceException e) {
-	        out.println("Error: " + e.getMessage());
+	    	String exceptionMessage = e.getMessage();
+	    	String[] parts = exceptionMessage.split(":");
+	    	String errorMessage = parts[1].trim();
+	    	response.sendRedirect("/freshstocks_web/pages/createCourse.jsp?error=" + errorMessage);
 	    }
 	}
 

@@ -8,10 +8,23 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link rel="stylesheet" href="../assets/css/editcourses.css"/>
+ <link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet" crossorigin="anonymous" integrity="">
 </head>
 <body>
 <h1>Update Course Form</h1>
 <form action="../SaveCourseServlet" method="post">
+       <%
+		String errormsg = request.getParameter("error");
+		if (errormsg != null) {
+		%>
+		<div class="alert alert-danger" role="alert">
+			<%=errormsg%>
+		</div>
+		<%
+		}
+		%>
  <div class="contain">
     <div>
     <%
@@ -55,6 +68,9 @@
         </div>
     <button type="submit">Save Changes</button>
 </form>
+    	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous" integrity=""></script>
 </body>
 </html>
 
