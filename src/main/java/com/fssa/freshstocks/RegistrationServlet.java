@@ -67,5 +67,4 @@ public class RegistrationServlet extends HttpServlet {
 	    	response.sendRedirect("pages/register.jsp?otherError=" + errorMessage);
 	    }
 	}
-
 }
