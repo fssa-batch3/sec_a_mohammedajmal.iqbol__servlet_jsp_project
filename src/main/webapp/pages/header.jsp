@@ -11,11 +11,11 @@
      <c:choose>
         <c:when test="${not empty loggedInEmail}">
             <!-- Include CSS for logged-in users -->
-            <link rel="stylesheet" href="../assets/css/headerlogged.css" />
+            <link rel="stylesheet" href="assets/css/headerlogged.css" />
         </c:when>
         <c:otherwise>
             <!-- Include CSS for not logged-in users -->
-            <link rel="stylesheet" href="../assets/css/header.css" />
+            <link rel="stylesheet" href="assets/css/header.css" />
         </c:otherwise>
     </c:choose>
 </head>

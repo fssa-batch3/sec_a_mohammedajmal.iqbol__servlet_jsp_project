@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<!-- navbar start -->
+    	<!-- navbar start -->
 	<div class="topnav" id="myTopnav">
 		<a href="../index.html" class="active"><img class="nav-logo"
 			src="../assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
@@ -39,10 +39,11 @@
 
 	<!-- nav end -->
 	
-	<img src="../assets/images/2488756.jpg" class="errormessage" />
+	<img src="../assets/images/2488756.jpg" alt="error Image" class="errormessage" />
 	
+	<div style="margin-top:-85px;">
     <jsp:include page="footer.jsp" />
-	
+	</div>
 	<script>
 		function myFunction() {
 			var x = document.getElementById("myTopnav");

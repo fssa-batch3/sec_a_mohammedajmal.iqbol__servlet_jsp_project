@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,16 +11,26 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 	integrity="">
 <!--socialmediafontawesome end-->
-<link rel="stylesheet" href="../assets/css/footer.css" />
+<link rel="stylesheet" href="assets/css/footer.css" />
+<c:choose>
+	<c:when test="${not empty loggedInEmail}">
+		<!-- Include CSS for logged-in users -->
+		<link rel="stylesheet" href="../assets/css/footer.css" />
+	</c:when>
+	<c:otherwise>
+		<!-- Include CSS for not logged-in users -->
+		<link rel="stylesheet" href="assets/css/footer.css" />
+	</c:otherwise>
+</c:choose>
 </head>
 <body>
+	<br>
+	<br>
+	<br>
+	<br>
 
-<br>
-<br>
-<br>
-<br>
-
-	<footer id="/footer">
+	<footer
+		style="position: relative; top: 4%; font-family: 'Poppins', sans-serif; font-weight: 300; cursor: pointer; z-index: 20;">
 		<!--footer start-->
 		<div class="footer">
 
@@ -201,11 +212,12 @@
 				</div>
 			</div>
 			<div class="copyrights">
-				<p class="copyrightpara">&copy; 2020 - 2025 freshstocks Inc. All
-					Rights Reserved</p>
+				<p
+					style="background-color: #0069D9; color: white; font-size: 18px; font-weight: 300; font-family: 'Poppins', sans-serif; text-align: center; padding: 10px; position: relative; margin-top: -20px;">&copy;
+					2020 - 2025 freshstocks Inc. All Rights Reserved</p>
 			</div>
 			<!--footer page end-->
-			</div>
+		</div>
 	</footer>
 
 	<!--footer end-->

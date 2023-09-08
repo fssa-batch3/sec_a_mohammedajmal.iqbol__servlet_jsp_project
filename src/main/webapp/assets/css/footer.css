@@ -1,15 +1,6 @@
 @charset "ISO-8859-1";
 
 /*footer styles start*/
-footer {
-	position: relative;
-	bottom: 8%;
-	font-family: 'Poppins', sans-serif;
-	font-weight: 300;
-	cursor: pointer;
-	z-index: 20;
-}
-
 .footer {
 	background-color: #08041e;
 	color: white;
@@ -202,17 +193,6 @@ footer {
 	color: rgb(42, 137, 233);
 }
 
-.copyrightpara {
-	background-color: #0069D9;
-	color: white;
-	font-size: 18px;
-	font-weight: 300;
-	font-family: 'Poppins', sans-serif;
-	text-align: center;
-	padding: 10px;
-	position: relative;
-}
-
 .copyrights {
 	width: 100%;
 	height: 0px;
@@ -385,7 +365,7 @@ footer {
 		text-align: center;
 		padding: 10px;
 		position: relative;
-		bottom: 40px;
+		margin-top:-20px;
 	}
 
 	/*footer styles end*/
