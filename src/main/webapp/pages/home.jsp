@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>User Home | freshstocks</title>
-<link rel="stylesheet" href="../assets/css/userhome.css">
+<link rel="stylesheet" href="../assets/css/home.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
@@ -49,7 +49,14 @@
 		String profileImg = userService.getUserProfilesFromUserID(loggedInUserID);
 	%>
 
-   <jsp:include page="header.jsp" />
+
+	<div class="chat-bot-popup" id="chatBotPopup">
+		<div class="chat-icon">
+			<!-- chat bot icon css -->
+		</div>
+	</div>
+
+	<jsp:include page="header.jsp" />
 
 	<div class="heropage">
 
@@ -456,10 +463,10 @@
 	</div>
 	</main>
 
-    <div class="footerdiv"  style="margin-top: 150px;">
-    <jsp:include page="footer.jsp" />
-    </div>
-	
+	<div class="footerdiv" style="margin-top: 150px;">
+		<jsp:include page="footer.jsp" />
+	</div>
+
 
 	<%
 	}
@@ -468,6 +475,7 @@
 	<script type="text/javascript"
 		src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
 		integrity=""></script>
+		<script src="../assets/js/home.js"></script>
 
 </body>
 </html>
