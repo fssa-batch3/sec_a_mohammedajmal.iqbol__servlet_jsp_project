@@ -8,7 +8,7 @@
     // Function to open the daily quiz page when the popup is clicked
     function openDailyQuizPage() {
         // Replace 'dailyquiz.html' with the actual URL of your daily quiz page
-        const quizPageUrl = 'dailyquiz.html';
+        const quizPageUrl = 'dailyquiz.jsp';
         
         // Open the quiz page in a new browser window with sandboxed attributes
         const quizWindow = window.open(quizPageUrl, '_blank');
