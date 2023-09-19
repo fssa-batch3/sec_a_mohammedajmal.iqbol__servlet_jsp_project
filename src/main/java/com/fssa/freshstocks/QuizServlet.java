@@ -1,9 +1,9 @@
 package com.fssa.freshstocks;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -87,8 +87,7 @@ public class QuizServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException {
-		    HttpSession session = request.getSession();
-
+		
 		    try {
 		        // Read JSON data from the request's input stream
 		        BufferedReader reader = request.getReader();

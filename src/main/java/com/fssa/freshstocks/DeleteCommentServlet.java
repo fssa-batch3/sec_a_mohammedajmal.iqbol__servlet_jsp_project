@@ -1,6 +1,7 @@
 package com.fssa.freshstocks;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -8,8 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.fssa.freshstocks.services.CommentService;
 import com.fssa.freshstocks.services.exception.ServiceException;
 
@@ -40,17 +39,13 @@ public class DeleteCommentServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 PrintWriter out = response.getWriter();
-			HttpSession session = request.getSession();
 			int commentId = Integer.parseInt(request.getParameter("commentId"));
-			int courseID = (int) session.getAttribute("loggedInCourseID");
 			CommentService commentService = new CommentService();
 			final int isDeleted = 1;
 			
 			try {
 	            if(commentService.deleteComment(commentId, isDeleted)) {
 	            	out.println("Comment with CommentID: " + commentId  + " Deleted Successfully!");
-	            	
-	            	response.sendRedirect("/freshstocks_web/pages/details.jsp?courseID=" + courseID);
 	            } else {
 	            	out.println("Error! Course Deleted Unsuccessful!");
 	            }

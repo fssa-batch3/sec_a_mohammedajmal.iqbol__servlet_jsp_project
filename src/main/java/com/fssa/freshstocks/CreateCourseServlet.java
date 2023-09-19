@@ -1,8 +1,9 @@
 package com.fssa.freshstocks;
 
+import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.fssa.freshstocks.model.Course;
 import com.fssa.freshstocks.services.CourseService;
-import com.fssa.freshstocks.services.exception.ServiceException;
+
 
 /**
  * Servlet implementation class AddCourse
@@ -42,43 +46,64 @@ public class CreateCourseServlet extends HttpServlet {
 	 * @throws ServletException If a servlet-specific error occurs.
 	 * @throws IOException      If an I/O error occurs during processing.
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-	    
-	    CourseService courseService = new CourseService();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	    
+	    CourseService courseService = new CourseService();	    
+	    response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
 
-	    String name = request.getParameter("name");
-	    String coverImage = request.getParameter("coverImage");
-	    String timing = request.getParameter("timing");
-	    String language = request.getParameter("language");
-	    int markedPrice = Integer.parseInt(request.getParameter("markedPrice"));
-	    int sellingPrice = Integer.parseInt(request.getParameter("sellingPrice"));
-	    String description = request.getParameter("description");
-	    String instructorName = request.getParameter("instructorName");
-	    String companyName = request.getParameter("companyName");
-	    String companyCategory = request.getParameter("companyCategory");
-	    String topSkills = request.getParameter("topSkills");
-	    int userID = (int) session.getAttribute("loggedInUserID");
-	    // giving current date-time as value
-	    LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String createdAt = currentTime.format(formatter);
+        try {
+            BufferedReader reader = request.getReader();
+            StringBuilder requestData = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestData.append(line);
+            }
 
-	    Course course1 = new Course(name,
-	        coverImage,
-	        timing, language, markedPrice, sellingPrice,
-	        description, instructorName,
-	        companyName, companyCategory, topSkills, userID,createdAt);
+            JSONObject userData = new JSONObject(requestData.toString());
+            JSONObject userJson = userData.getJSONObject("courseObj");
 
-	    try {
-	       courseService.registerCourse(course1);
-	       response.sendRedirect(request.getContextPath() + "/pages/sellerhome.jsp");
-	    } catch (ServiceException e) {
-	    	String exceptionMessage = e.getMessage();
+            String name = userJson.getString("name");
+            String coverImage = userJson.getString("coverImage");
+            String timing = userJson.getString("timing");
+            String language = userJson.getString("language");
+            int markedPrice = userJson.getInt("markedPrice");
+            int sellingPrice = userJson.getInt("sellingPrice");
+            String description = userJson.getString("description");
+            String instructorName = userJson.getString("instructorName");
+            String companyName = userJson.getString("companyName");
+            String companyCategory = userJson.getString("companyCategory");
+            String topSkills = userJson.getString("topSkills");
+            String courseVideo1 = userJson.getString("courseVideo1");
+            String courseVideo2 = userJson.getString("courseVideo2");
+            String courseVideo3 = userJson.getString("courseVideo3");
+            String courseVideoName1 = userJson.getString("courseVideoName1");
+            String courseVideoName2 = userJson.getString("courseVideoName2");
+            String courseVideoName3 = userJson.getString("courseVideoName3");
+            int userID = (int) session.getAttribute("loggedInUserID");
+
+    	    Course course1 = new Course(name,
+    	        coverImage,
+    	        timing, language, markedPrice, sellingPrice,
+    	        description, instructorName,
+    	        companyName, companyCategory, topSkills, userID, courseVideo1, courseVideo2, courseVideo3, courseVideoName1,
+    	         courseVideoName2,courseVideoName3);
+
+             if (courseService.registerCourse(course1)) {
+                out.print("Course Created Successfully.");
+            } else {
+                out.print("Course Creation Failed.");
+            }
+        } catch (JSONException e) {
+            out.println("Invalid JSON format.");
+        } catch (NumberFormatException e) {
+            out.println("Role must be a valid integer.");
+        } catch (Exception e) {
+        	String exceptionMessage = e.getMessage();
 	    	String[] parts = exceptionMessage.split(":");
 	    	String errorMessage = parts[1].trim();
-	    	response.sendRedirect("/freshstocks_web/pages/createCourse.jsp?error=" + errorMessage);
-	    }
+	    	out.println(errorMessage);
+        }
 	}
 
 }

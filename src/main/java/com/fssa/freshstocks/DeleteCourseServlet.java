@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fssa.freshstocks.dao.exception.DAOException;
+import com.fssa.freshstocks.model.Course;
 import com.fssa.freshstocks.services.CourseService;
 import com.fssa.freshstocks.services.exception.ServiceException;
 
@@ -44,15 +46,16 @@ public class DeleteCourseServlet extends HttpServlet {
 		CourseService courseService = new CourseService();
 		final int isDeleted = 1;
 		
+		Course course1 = null;
+		
 		try {
             if(courseService.deleteCourse(courseId, isDeleted)) {
-            	out.println("Course with CourseID: " + courseId  + " Deleted Successfully!");
-            	
-            	response.sendRedirect("/freshstocks_web/pages/sellerhome.jsp");
+            	course1 = SaveCourseServlet.getCourseById(courseId);
+            	out.println("Course with CourseName: " + course1.getName()  + " Deleted Successfully!");
             } else {
             	out.println("Error! Course Deleted Unsuccessful!");
             }
-        } catch (ServiceException e) {
+        } catch (ServiceException | DAOException e) {
         	out.println("Error: " + e.getMessage());
         }
 	}

@@ -1,5 +1,7 @@
 package com.fssa.freshstocks;
 
+import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.fssa.freshstocks.model.User;
 import com.fssa.freshstocks.services.UserService;
-import com.fssa.freshstocks.services.exception.ServiceException;
 
 /**
  * Servlet implementation class UpdateUserServlet
@@ -41,40 +45,76 @@ public class UpdateUserServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		HttpSession session = request.getSession();
-
-		String loggedInEmail = (String) session.getAttribute("loggedInemail");
-
-		String newGender = request.getParameter("newGender");
-		String newMobileNumber = request.getParameter("newMobileNumber");
-		String newDateOfBirth = request.getParameter("newDateOfBirth");
-
-		UserService userService = new UserService();
 		PrintWriter out = response.getWriter();
-
-		User updatedUser = new User(newGender, newMobileNumber, newDateOfBirth);
-
-		int loggedInseller = (int) session.getAttribute("loggedInseller");
-
+		
 		try {
-			if (userService.updateUser(updatedUser, loggedInEmail)) {
-				out.println("User Information Successfully Updated!");
+		BufferedReader reader = request.getReader();
+	    StringBuilder requestData = new StringBuilder();
+	    String line;
+	    while ((line = reader.readLine()) != null) {
+	        requestData.append(line);
+	    }
 
-				session.setAttribute("loggedIngender", updatedUser.getGender());
-				session.setAttribute("loggedInmobileNumber", updatedUser.getMobileNumber());
-				session.setAttribute("loggedIndateOfBirth", updatedUser.getDateOfBirth());
+	    JSONObject userData = new JSONObject(requestData.toString());
+	    JSONObject userJson = userData.getJSONObject("newUserObj");
 
-				if (loggedInseller == 0) {
-					response.sendRedirect("pages/home.jsp");
-				} else {
-					response.sendRedirect("pages/sellerhome.jsp");
-				}
-			} else {
-				out.println("Error updating user information.");
-			}
-		} catch (ServiceException e) {
-			out.println("Error: " + e.getLocalizedMessage());
-		}
+            String gender = userJson.getString("gender");
+            String mobileNumber = userJson.getString("mobile_number");
+            String dateOfBirth = userJson.getString("date_of_birth");
+
+            UserService userService = new UserService();
+            User user = new User(gender, mobileNumber, dateOfBirth);
+            String email = (String) session.getAttribute("loggedInEmail");
+
+             if (userService.updateUser(user,email)) {
+                out.println("User Profile Updated Successfully.");
+	            
+            } else {
+                out.println("User Profile Updating Failed.");
+            }
+        } catch (JSONException e) {
+            out.println("Invalid JSON format.");
+        } catch (NumberFormatException e) {
+            out.println("Role must be a valid integer.");
+        } catch (Exception e) {
+            out.println("Internal Server Error: " + e.getMessage());
+        }
 	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    // Assuming you have a method getUserProfileData() to get user profile data
+		HttpSession session = request.getSession();
+		String email = (String) session.getAttribute("loggedInEmail");
+	    User userProfile = IndexServlet.fetchUserIDByEmail(email); 
+	    
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    
+	    // Assuming you have a utility method to convert the user profile to JSON
+	    String jsonUserProfile = convertUserProfileToJson(userProfile);
+	    
+	    response.getWriter().write(jsonUserProfile);
+	}
+	
+    private String convertUserProfileToJson(User user) {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{");
+        jsonBuilder.append("\"userID\":").append(user.getUserId()).append(",");
+        jsonBuilder.append("\"username\":\"").append(user.getUsername()).append("\",");
+        jsonBuilder.append("\"gender\":\"").append(user.getGender()).append("\",");
+        jsonBuilder.append("\"profilePic\":\"").append(user.getProfilePic()).append("\",");
+        jsonBuilder.append("\"mobileNumber\":\"").append(user.getMobileNumber()).append("\",");
+        jsonBuilder.append("\"dateOfBirth\":\"").append(user.getDateOfBirth()).append("\",");
+        jsonBuilder.append("\"userEmail\":\"").append(user.getEmail()).append("\",");
+        jsonBuilder.append("\"password\":\"").append(user.getPassword()).append("\",");
+        jsonBuilder.append("\"isSeller\":").append(user.getIsSeller()).append(",");
+        jsonBuilder.append("\"createdAt\":\"").append(user.getCreatedAt()).append("\",");
+        jsonBuilder.append("\"modifiedAt\":\"").append(user.getModifiedAt()).append("\",");
+        jsonBuilder.append("\"isDeleted\":").append(user.getIsDeleted());
+        jsonBuilder.append("}");
+        return jsonBuilder.toString();
+    }
 
 }

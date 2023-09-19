@@ -1,5 +1,8 @@
 package com.fssa.freshstocks;
 
+import java.io.BufferedReader;
+
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import com.fssa.freshstocks.model.User;
-import com.fssa.freshstocks.services.UserService;
-import com.fssa.freshstocks.services.exception.ServiceException;
 import com.fssa.freshstocks.utils.ConnectionUtil;
 import com.fssa.freshstocks.utils.exception.DatabaseException;
 
@@ -41,22 +44,24 @@ public class IndexServlet extends HttpServlet {
 	 * @throws ServletException If a servlet-specific error occurs.
 	 * @throws IOException      If an I/O error occurs during processing.
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
-	    String email = request.getParameter("email");
-	    String password = request.getParameter("password");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    BufferedReader reader = request.getReader();
+	    StringBuilder requestData = new StringBuilder();
+	    String line;
+	    while ((line = reader.readLine()) != null) {
+	        requestData.append(line);
+	    }
 
-	    UserService userService = new UserService();
-	    User user1 = new User(email, password);
-	    // Create session
-	    HttpSession session = request.getSession();
+	    JSONObject userData = new JSONObject(requestData.toString());
+	    JSONObject userJson = userData.getJSONObject("loggedin");
+	    String email = userJson.getString("email");
+	    boolean isPasswordCorrect = userJson.getBoolean("isPasswordCorrect");
 
-	    // Passing email for getting userID
 	    User userObject = fetchUserIDByEmail(email);
 
 	    try {
-	        if (userService.loginUser(user1) && (userObject.getIsDeleted() == 0)) {
-	            // Setting attributes in session
+	        if (isPasswordCorrect && (userObject.getIsDeleted() == 0)) {
+	            HttpSession session = request.getSession();
 	            session.setAttribute("loggedInEmail", email);
 	            session.setAttribute("loggedInUserID", userObject.getUserId());
 	            session.setAttribute("loggedInusername", userObject.getUsername());
@@ -67,23 +72,22 @@ public class IndexServlet extends HttpServlet {
 	            session.setAttribute("loggedInseller", userObject.getIsSeller());
 
 	            if (userObject.getIsSeller() == 0) {
-	                response.sendRedirect("pages/home.jsp");
+	                response.getWriter().write("Buyer");
 	            } else {
-	                response.sendRedirect("pages/sellerhome.jsp");
+	                response.getWriter().write("Seller");
 	            }
 	        } else {
-	            // Invalid user credentials
-	            response.sendRedirect("pages/login.jsp?error=Authentication failed. Please check your email and password.");
+	            response.getWriter().write("Invalid");
 	        }
-	    } catch (ServiceException e) {
-	        // Handle ServiceException by redirecting to the login page with an error message
-	        response.sendRedirect("pages/login.jsp?error=" + e.getMessage());
+	    } catch (Exception e) {
+	        response.getWriter().write("Error: " + e.getMessage());
 	    }
 	}
 
 
+
 	// fetch userID from the provided email
-	private User fetchUserIDByEmail(String email) {
+	public static User fetchUserIDByEmail(String email) {
 		User user1 = null;
 		// Database query
 		String query = "SELECT * FROM freshstocks WHERE email = ?";
@@ -99,13 +103,21 @@ public class IndexServlet extends HttpServlet {
 					String gender = resultSet.getString("gender");
 					String mobileNumber = resultSet.getString("mobile_number");
 					String dateOfBirth = resultSet.getString("date_of_birth");
+					String profilePic = resultSet.getString("avatar_url");
 					String userEmail = resultSet.getString("email");
+					String password = resultSet.getString("password");
 					int isSeller = resultSet.getInt("is_seller");
 					String createdAt = resultSet.getString("created_at");
 					String modifiedAt = resultSet.getString("modified_at");
 					int isDeleted = resultSet.getInt("is_deleted");
+					String purchasedCourses;
+					if(resultSet.getString("purchased_courses") != null) {
+					 purchasedCourses = resultSet.getString("purchased_courses");
+					} else {
+					 purchasedCourses = "0";
+					}
 					
-					user1 = new User(userID,username,gender,mobileNumber,dateOfBirth,userEmail,isSeller,createdAt,modifiedAt,isDeleted);
+					user1 = new User(userID,username,gender,mobileNumber,dateOfBirth,userEmail,password,isSeller,createdAt,modifiedAt,isDeleted,profilePic,purchasedCourses);
 				}
 			}
 		} catch (SQLException | DatabaseException e) {
