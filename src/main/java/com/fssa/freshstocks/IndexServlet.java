@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import com.fssa.freshstocks.model.User;
+import com.fssa.freshstocks.services.UserService;
+import com.fssa.freshstocks.services.exception.ServiceException;
 import com.fssa.freshstocks.utils.ConnectionUtil;
 import com.fssa.freshstocks.utils.exception.DatabaseException;
 
@@ -47,6 +49,7 @@ public class IndexServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    BufferedReader reader = request.getReader();
 	    StringBuilder requestData = new StringBuilder();
+	    UserService userService = new UserService();
 	    String line;
 	    while ((line = reader.readLine()) != null) {
 	        requestData.append(line);
@@ -57,7 +60,12 @@ public class IndexServlet extends HttpServlet {
 	    String email = userJson.getString("email");
 	    boolean isPasswordCorrect = userJson.getBoolean("isPasswordCorrect");
 
-	    User userObject = fetchUserIDByEmail(email);
+	    User userObject = null;
+		try {
+			userObject = userService.getUserByEmail(email);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 
 	    try {
 	        if (isPasswordCorrect && (userObject.getIsDeleted() == 0)) {
@@ -82,48 +90,6 @@ public class IndexServlet extends HttpServlet {
 	    } catch (Exception e) {
 	        response.getWriter().write("Error: " + e.getMessage());
 	    }
-	}
-
-
-
-	// fetch userID from the provided email
-	public static User fetchUserIDByEmail(String email) {
-		User user1 = null;
-		// Database query
-		String query = "SELECT * FROM freshstocks WHERE email = ?";
-		try (Connection connection = ConnectionUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query)) {
-
-			statement.setString(1, email);
-
-			try (ResultSet resultSet = statement.executeQuery()) {
-				if (resultSet.next()) {
-					int userID = resultSet.getInt("user_id");
-					String username = resultSet.getString("username");
-					String gender = resultSet.getString("gender");
-					String mobileNumber = resultSet.getString("mobile_number");
-					String dateOfBirth = resultSet.getString("date_of_birth");
-					String profilePic = resultSet.getString("avatar_url");
-					String userEmail = resultSet.getString("email");
-					String password = resultSet.getString("password");
-					int isSeller = resultSet.getInt("is_seller");
-					String createdAt = resultSet.getString("created_at");
-					String modifiedAt = resultSet.getString("modified_at");
-					int isDeleted = resultSet.getInt("is_deleted");
-					String purchasedCourses;
-					if(resultSet.getString("purchased_courses") != null) {
-					 purchasedCourses = resultSet.getString("purchased_courses");
-					} else {
-					 purchasedCourses = "0";
-					}
-					
-					user1 = new User(userID,username,gender,mobileNumber,dateOfBirth,userEmail,password,isSeller,createdAt,modifiedAt,isDeleted,profilePic,purchasedCourses);
-				}
-			}
-		} catch (SQLException | DatabaseException e) {
-			e.printStackTrace();
-		}
-		return user1;
 	}
 
 }

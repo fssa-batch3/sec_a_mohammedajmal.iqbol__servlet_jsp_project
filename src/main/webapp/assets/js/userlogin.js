@@ -31,7 +31,7 @@ password.addEventListener("input", async () => {
     console.log(response.data);
     console.log(isPasswordCorrect);
   } catch (error) {
-    console.error("Error fetching password:", error);
+    console.log("Error fetching password:" + error);
     throw error;
   }
 });
@@ -69,12 +69,13 @@ login.addEventListener("submit", (event) => {
           newWindow.focus();
 	  } else if (response.data === "Invalid") {
 		  alert("Authentication Failed! Recheck Your Credentials");
+	  } else {
+		   alert("Authentication Failed! Recheck Your Credentials");
 	  }
-
 })
 .catch((error) => {
   // Handle errors, such as incorrect credentials
-  console.error("Error:", error);
+  alert("Authentication failed: Recheck Your Credentials!");
 });
 
     //catch statement

@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import com.fssa.freshstocks.model.User;
 import com.fssa.freshstocks.services.UserService;
+import com.fssa.freshstocks.services.exception.ServiceException;
 
 /**
  * Servlet implementation class UpdateUserServlet
@@ -86,8 +87,14 @@ public class UpdateUserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    // Assuming you have a method getUserProfileData() to get user profile data
 		HttpSession session = request.getSession();
+		UserService userService = new UserService();
 		String email = (String) session.getAttribute("loggedInEmail");
-	    User userProfile = IndexServlet.fetchUserIDByEmail(email); 
+	    User userProfile = null;
+		try {
+			userProfile = userService.getUserByEmail(email);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		} 
 	    
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");

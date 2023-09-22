@@ -11,6 +11,7 @@ import com.fssa.freshstocks.dao.exception.DAOException;
 import com.fssa.freshstocks.model.Course;
 import com.fssa.freshstocks.model.User;
 import com.fssa.freshstocks.services.CourseService;
+import com.fssa.freshstocks.services.UserService;
 import com.fssa.freshstocks.services.exception.ServiceException;
 
 /**
@@ -27,12 +28,13 @@ public class BuyCourseServlet extends HttpServlet {
 	        int courseId = Integer.parseInt(request.getParameter("courseId"));
 
 	        CourseService courseService = new CourseService();
+	        UserService userService = new UserService();
 
 	        try {
-	        	User user = IndexServlet.fetchUserIDByEmail(email);
+	        	User user = userService.getUserByEmail(email);
 
 	            if (user != null) {
-	                Course course = SaveCourseServlet.getCourseById(courseId);
+	                Course course = courseService.getCourseById(courseId);
 	                boolean success = courseService.purchaseCourse(user, course, courseId);
 
 	                if (success) {
@@ -43,7 +45,7 @@ public class BuyCourseServlet extends HttpServlet {
 	            } else {
 	                response.getWriter().write("User not found.");
 	            }
-	        } catch (ServiceException | DAOException e) {
+	        } catch (ServiceException e) {
 	            e.printStackTrace();
 	            response.getWriter().write("An error occurred.");
 	        }

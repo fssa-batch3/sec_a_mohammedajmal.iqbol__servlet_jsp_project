@@ -1,11 +1,17 @@
+<%@page import="java.util.concurrent.ScheduledExecutorService"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="com.fssa.freshstocks.utils.exception.DatabaseException"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="java.util.concurrent.Executors"%>
+<%@page import="java.util.concurrent.ScheduledExecutorService"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="com.fssa.freshstocks.utils.ConnectionUtil"%>
 <%@page import="java.util.List"%>
+<%@page import="java.sql.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.fssa.freshstocks.model.Question"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -21,6 +27,7 @@
 <%
  int userId = (int) session.getAttribute("loggedInUserID");
 int streakCount = 0;
+boolean answered = false;
 Timestamp quizStartTime = new Timestamp(System.currentTimeMillis());
 String time = "";
 try (Connection connection = ConnectionUtil.getConnection()) {
@@ -33,6 +40,7 @@ try (Connection connection = ConnectionUtil.getConnection()) {
             if (resultSet.next()) {
                 streakCount = resultSet.getInt("streak_count");
                 quizStartTime = resultSet.getTimestamp("quiz_start_time");
+                answered = resultSet.getBoolean("answered_today");
                 time = quizStartTime.toString();
             } 
         }
@@ -40,6 +48,32 @@ try (Connection connection = ConnectionUtil.getConnection()) {
 } catch (SQLException | DatabaseException e) {
     e.printStackTrace();
 }
+
+
+
+ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+Runnable task = () -> {
+    // Use try-with-resources to automatically close the resources
+    try (Connection connection = ConnectionUtil.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user_quiz_info SET answered_today = false WHERE user_id = ?")) {
+        
+    	preparedStatement.setInt(1, userId);
+        int rowsAffected = preparedStatement.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Boolean updated to false!");
+        } else {
+            System.out.println("No rows were updated.");
+        }
+    } catch (SQLException | DatabaseException e) {
+        e.printStackTrace();
+    }
+};
+
+// Schedule the task to run after 24 hours
+scheduler.schedule(task, 30, TimeUnit.SECONDS);
+
 %>
 	<div class="container">
 		<div class="quiz-header">
@@ -49,7 +83,32 @@ try (Connection connection = ConnectionUtil.getConnection()) {
 					&#128293;<span class="streak-value" id="streak"><%= streakCount %></span>
 				</p>
 			</div>
+			<%
+			if(answered != true) {
+			%>
 			<button id="start-quiz-button">Start Quiz</button>
+			<%
+			} else {
+			%>
+			<script>
+		    let secondsRemaining = localStorage.getItem('secondsRemaining') || 30;
+
+		    const countdownInterval = setInterval(() => {
+		        secondsRemaining--;
+		        if (secondsRemaining >= 1) {
+		            document.getElementById("next-quiz").textContent = " " + secondsRemaining + " Seconds Remaining for the Next Quiz";
+		            localStorage.setItem('secondsRemaining', secondsRemaining);
+		        } else {
+		            clearInterval(countdownInterval);
+		            if (!isQuizSubmitted) {
+		                submitQuizAndExitFullscreen();
+		            }
+		        }
+		    }, 1000);
+			</script>
+			<%
+			}
+			%>
 		</div>
 		<%
 		List<Question> questions = new ArrayList<>();
@@ -109,6 +168,8 @@ try (Connection connection = ConnectionUtil.getConnection()) {
 			<p class="already-answered" id="already-answered"></p>
 			<p class="timer" id="timer"></p>
 			<h1 class="submit-msg" id="submit-msg"></h1>
+			<p id="timer-display"></p>
+			<p id="next-quiz"></p>
 			<a href="leaderboard.jsp">LeaderBoard</a>
 
 			<ol>
@@ -147,13 +208,13 @@ try (Connection connection = ConnectionUtil.getConnection()) {
 		</div>
 	</div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
 
          var quizStartTime = new Date(); 
          var quizStartTimeMillis = quizStartTime.getTime();
-        document.getElementById("quizStartTime").value = quizStartTimeMillis;
+       document.getElementById("quizStartTime").value = quizStartTimeMillis;
         document.getElementById("answeredToday").value = "true";
         
         
@@ -184,11 +245,20 @@ try (Connection connection = ConnectionUtil.getConnection()) {
                     // Mark that we are in fullscreen mode
                     isInFullscreen = true;
 
-                    setTimeout(() => {
-                        if (!isQuizSubmitted) {
-                            submitQuizAndExitFullscreen();
+
+                    let secondsRemaining = 60;
+
+                    const countdownInterval = setInterval(() => {
+                        secondsRemaining--;
+                        if (secondsRemaining >= 1) {
+                             document.getElementById("timer-display").textContent = " " + secondsRemaining + " Seconds Remaining to Answer this Quiz";
+                        } else {
+                            clearInterval(countdownInterval);
+                            if (!isQuizSubmitted) {
+                                submitQuizAndExitFullscreen();
+                            }
                         }
-                    }, 60000); // Simulated delay before quiz submission 60seconds
+                    }, 1000);
             }
         });
         

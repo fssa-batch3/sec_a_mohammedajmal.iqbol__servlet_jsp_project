@@ -3,11 +3,60 @@
  */
 
  //addcourses page js code start
+ 
+ let videoString1;
+ let videoString2;
+ let videoString3;
+ 
+async function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
+}
+
+async function Main() {
+    const file = document.querySelector('#courseVideo1').files[0];
+    try {
+        const result = await toBase64(file);
+        videoString1 = result;
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+async function Main1() {
+    const file = document.querySelector('#courseVideo2').files[0];
+    try {
+        const result = await toBase64(file);
+        videoString2 = result;
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+
+async function Main2() {
+    const file = document.querySelector('#courseVideo3').files[0];
+    try {
+        const result = await toBase64(file);
+        videoString3 = result;
+    } catch(error) {
+        console.error(error);
+    }
+}
+
 
 //form submit event start
 //seller can add courses when he/she submit the form with valid details
 function createcourse(event) {
 	 event.preventDefault();
+	 
+	  console.log(videoString1);
+	 console.log(videoString2);
+	 console.log(videoString3);
 
     //for adding new course these are course details we get from user.
     let coverImage = document.getElementById("coverImage").value;
@@ -21,15 +70,13 @@ function createcourse(event) {
     let instructorName = document.getElementById("instructorName").value;
     let companyName = document.getElementById("companyName").value;
     let companyCategory = document.getElementById("companyCategory").value;
-    let courseVideo1 = document.getElementById("courseVideo1").value;
-    let courseVideo2 = document.getElementById("courseVideo2").value;
-    let courseVideo3 = document.getElementById("courseVideo3").value;
     let courseVideoName1 = document.getElementById("courseVideoName1").value;
     let courseVideoName2 = document.getElementById("courseVideoName2").value;
     let courseVideoName3 = document.getElementById("courseVideoName3").value;
 
     /* create new course object within that pushing all details for courses 
    we get from user */
+  
 
     let courseObj = {
       name,
@@ -44,9 +91,9 @@ function createcourse(event) {
       instructorName,
       companyName,
       companyCategory,
-      courseVideo1,
-      courseVideo2,
-      courseVideo3,
+      videoString1,
+      videoString2,
+      videoString3,
       courseVideoName1,
       courseVideoName2,
       courseVideoName3,
@@ -57,17 +104,15 @@ function createcourse(event) {
   .then(response => {
     console.log(response.data);
     const res = response.data;
-    alert(response.data);
+   alert(response.data);
     if(res === "Course Created Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";
     }
-    // Handle success
   })
   .catch(error => {
-    console.error('Error creating course:', error);
+    alert("Error creating course:" + error);
     // Handle error
   });
-    
     
 };
 

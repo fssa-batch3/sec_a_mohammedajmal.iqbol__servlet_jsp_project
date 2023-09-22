@@ -44,7 +44,7 @@ public class QuizServlet extends HttpServlet {
                     HttpSession session = request.getSession();
 					while (questionsResultSet.next()) {
 						Question question = new Question();
-						question.setQuestion(questionsResultSet.getString("question"));
+						question.setQuestion(questionsResultSet.getString("question_text"));
 						// Retrieve options and correct answer from the result set and populate the
 						// Question object
 						question.setoption1(questionsResultSet.getString("option1"));
@@ -69,11 +69,21 @@ public class QuizServlet extends HttpServlet {
 						if (userInfoResultSet.next()) {
 							Timestamp quizStartTime = userInfoResultSet.getTimestamp("quiz_start_time");
 							boolean answeredToday = userInfoResultSet.getBoolean("answered_today");
-							int streak = userInfoResultSet.getInt("streak");
+							int streak = userInfoResultSet.getInt("streak_count");
 
 							request.setAttribute("quiz_start_time", quizStartTime);
 							request.setAttribute("answeredToday", answeredToday);
 							request.setAttribute("streak", streak);
+							
+							// Create a JSON object with the data
+	                        JSONObject responseData = new JSONObject();
+	                        responseData.put("quiz_start_time", quizStartTime.toString());
+	                        responseData.put("answeredToday", answeredToday);
+	                        responseData.put("streak", streak);
+
+	                        // Send the JSON response
+	                        response.setContentType("application/json");
+	                        response.getWriter().write(responseData.toString());
 						}
 					}
 				}

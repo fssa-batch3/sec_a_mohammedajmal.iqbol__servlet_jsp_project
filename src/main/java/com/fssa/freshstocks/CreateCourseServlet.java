@@ -74,9 +74,9 @@ public class CreateCourseServlet extends HttpServlet {
             String companyName = userJson.getString("companyName");
             String companyCategory = userJson.getString("companyCategory");
             String topSkills = userJson.getString("topSkills");
-            String courseVideo1 = userJson.getString("courseVideo1");
-            String courseVideo2 = userJson.getString("courseVideo2");
-            String courseVideo3 = userJson.getString("courseVideo3");
+            String videoString1 = userJson.getString("videoString1");
+            String videoString2 = userJson.getString("videoString2");
+            String videoString3 = userJson.getString("videoString3");
             String courseVideoName1 = userJson.getString("courseVideoName1");
             String courseVideoName2 = userJson.getString("courseVideoName2");
             String courseVideoName3 = userJson.getString("courseVideoName3");
@@ -86,7 +86,7 @@ public class CreateCourseServlet extends HttpServlet {
     	        coverImage,
     	        timing, language, markedPrice, sellingPrice,
     	        description, instructorName,
-    	        companyName, companyCategory, topSkills, userID, courseVideo1, courseVideo2, courseVideo3, courseVideoName1,
+    	        companyName, companyCategory, topSkills, userID, videoString1, videoString2, videoString3, courseVideoName1,
     	         courseVideoName2,courseVideoName3);
 
              if (courseService.registerCourse(course1)) {
@@ -94,8 +94,6 @@ public class CreateCourseServlet extends HttpServlet {
             } else {
                 out.print("Course Creation Failed.");
             }
-        } catch (JSONException e) {
-            out.println("Invalid JSON format.");
         } catch (NumberFormatException e) {
             out.println("Role must be a valid integer.");
         } catch (Exception e) {

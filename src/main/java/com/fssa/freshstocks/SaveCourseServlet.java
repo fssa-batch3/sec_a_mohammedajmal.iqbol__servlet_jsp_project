@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import com.fssa.freshstocks.dao.exception.DAOException;
 import com.fssa.freshstocks.model.Course;
 import com.fssa.freshstocks.services.CourseService;
+import com.fssa.freshstocks.services.exception.ServiceException;
 import com.fssa.freshstocks.utils.ConnectionUtil;
 import com.fssa.freshstocks.utils.exception.DatabaseException;
 import com.google.gson.Gson;
@@ -74,9 +75,9 @@ public class SaveCourseServlet extends HttpServlet {
             String companyName = userJson.getString("companyName");
             String companyCategory = userJson.getString("companyCategory");
             String topSkills = userJson.getString("topSkills");
-            String courseVideo1 = userJson.getString("courseVideo1");
-            String courseVideo2 = userJson.getString("courseVideo2");
-            String courseVideo3 = userJson.getString("courseVideo3");
+            String videoString1 = userJson.getString("videoString1");
+            String videoString2 = userJson.getString("videoString2");
+            String videoString3 = userJson.getString("videoString3");
             String courseVideoName1 = userJson.getString("courseVideoName1");
             String courseVideoName2 = userJson.getString("courseVideoName2");
             String courseVideoName3 = userJson.getString("courseVideoName3");
@@ -85,7 +86,7 @@ public class SaveCourseServlet extends HttpServlet {
     	    Course updatedCourse = new Course(coverImage,
     	        timing, language, markedPrice, sellingPrice,
     	        description, instructorName,
-    	        companyName, companyCategory, topSkills, courseVideo1, courseVideo2, courseVideo3, courseVideoName1,
+    	        companyName, companyCategory, topSkills, videoString1, videoString2, videoString3, courseVideoName1,
     	         courseVideoName2,courseVideoName3);
 
              if (courseService.updateCourse(updatedCourse,courseId)) {
@@ -107,13 +108,15 @@ public class SaveCourseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
+        CourseService courseService = new CourseService();
         
-        // Assuming you have a method getCourseByCourseId(int courseId) to retrieve a course object
+        // a method getCourseByCourseId(int courseId) to retrieve a course object
         int courseId = Integer.parseInt(request.getParameter("courseId"));
         Course course = null;
 		try {
-			course = getCourseById(courseId);
-		} catch (DAOException e) {
+			
+			course = courseService.getCourseById(courseId);
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 
@@ -125,45 +128,4 @@ public class SaveCourseServlet extends HttpServlet {
         response.getWriter().write(jsonCourse);
     }
     
-	
-    public static Course getCourseById(int courseId) throws DAOException {
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            String sql = "SELECT * FROM course WHERE course_id = ?";
-            
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, courseId);
-                
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next()) {
-                    	String courseName = resultSet.getString("name");
-                        String coverImage = resultSet.getString("cover_image");
-                        String timing = resultSet.getString("timing");
-                        String language = resultSet.getString("language");
-                        int markedPrice = resultSet.getInt("marked_price");
-                        int sellingPrice = resultSet.getInt("selling_price");
-                        String description = resultSet.getString("description");
-                        String instructorName = resultSet.getString("instructor_name");
-                        String companyName = resultSet.getString("company_name");
-                        String companyCategory = resultSet.getString("company_category");
-                        String topSkills = resultSet.getString("top_skills");
-                        String courseVideo1 = resultSet.getString("courseVideo1");
-                	    String courseVideo2 = resultSet.getString("courseVideo1");
-                	    String courseVideo3 = resultSet.getString("courseVideo1");
-                	    String courseVideoName1 = resultSet.getString("courseVideoName1");
-                	    String courseVideoName2 = resultSet.getString("courseVideoName2");
-                	    String courseVideoName3 = resultSet.getString("courseVideoName3");
-                	    int userID = resultSet.getInt("user_id");
-                        
-                        return new Course(courseName,coverImage,timing,language,markedPrice,sellingPrice,description,instructorName
-                        		,companyName,companyCategory,topSkills, userID,courseVideo1, courseVideo2, courseVideo3, courseVideoName1,
-                   	         courseVideoName2,courseVideoName3);
-                    } else {
-                        return null; // Course with given ID not found
-                    }
-                }
-            }
-        } catch (SQLException | DatabaseException e) {
-            throw new DAOException("Failed to retrieve course by ID" + e);
-        }
-    }
 }

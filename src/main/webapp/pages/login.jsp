@@ -57,7 +57,7 @@
 							aria-label="Remember Next Time"><input type="checkbox">&nbsp;Remember
 							Me </span>
 					</p>
-					<a class="forgot-p" href="resetpassword.html"><span
+					<a class="forgot-p" href="resetpassword.jsp"><span
 						class="hint--top hint--rounded"
 						aria-label="Reset Your Old Password">Forgot Password?</span></a>
 				</div>

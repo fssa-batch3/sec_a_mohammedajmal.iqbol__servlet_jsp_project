@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fssa.freshstocks.model.User;
+import com.fssa.freshstocks.services.UserService;
 
 /**
  * Servlet implementation class fetchUserDetailsFromEmail
@@ -21,11 +22,12 @@ public class fetchUserDetailsFromEmail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
+        UserService userService = new UserService();
 
         String email = request.getParameter("email"); // Assuming you're passing email as a parameter
 
         try {
-            User user = IndexServlet.fetchUserIDByEmail(email);
+            User user = userService.getUserByEmail(email);
 
             // Assuming you have a method to convert User object to JSON string
             String userJsonString = convertUserToJson(user);

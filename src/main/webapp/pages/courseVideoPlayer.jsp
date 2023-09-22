@@ -11,6 +11,7 @@
 
    <div class="player">
      <video class="player__video viewer" id="videoPlayer"></video>
+     <button id="fullScreenButton" class="fullscreen-emoji">&#x1F5D6;</button>
 
      <div class="player__controls">
        <div class="progress">
@@ -22,7 +23,9 @@
        <button data-skip="-10" class="player__button" id="skipBackwardButton">« 10s</button>
        <button data-skip="25" class="player__button" id="skipForwardButton">25s »</button>
      </div>
+     
    </div>
+   
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="../assets/js/courseVideoPlayer.js"></script>

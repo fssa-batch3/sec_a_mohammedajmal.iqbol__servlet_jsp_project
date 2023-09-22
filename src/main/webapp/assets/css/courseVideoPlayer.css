@@ -11,9 +11,8 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  background: #7A419B;
+  background: powderblue;
   min-height: 100vh;
-  background: linear-gradient(135deg, #7c1599 0%,#921099 48%,#7e4ae8 100%);
   background-size: cover;
   align-items: center;
   justify-content: center;
@@ -22,11 +21,13 @@ body {
 .player {
   border: 5px solid rgba(0,0,0,0.2);
   box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  position: relative;
+  position: absolute;
+  top: 40px;
+  left: 30px;
   font-size: 0;
   overflow: hidden;
-  width:1100px;
-  height:550px;
+  width:900px;
+  height:450px;
 }
 
 /* This css is only applied when fullscreen is active. */
@@ -162,3 +163,99 @@ input[type=range]::-moz-range-thumb {
   background: #ffc600;
   cursor: pointer;
 }
+
+
+.accordion , .accordion1 {
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
+	width: 885px;
+    margin-left: 60px;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+	transition: 0.4s;
+}
+
+.active, .accordion:hover {
+	background-color: #ccc;
+}
+
+.accord {
+	width: 100px;
+    position:absolute;
+    left: -20px;
+    margin-top: 450px;
+}
+
+.accordion:after {
+	content: '\002B';
+	color: #777;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+}
+
+.active:after {
+	content: "\21E3";
+}
+
+.panel {
+	padding: 0 18px;
+	display: none;
+	background-color: white;
+	overflow: hidden;
+	margin-left: 20px;
+	padding-top: 10px;
+    margin-left: 60px;
+    width: 885px;
+}
+
+
+.course-details {
+    width: 450px;
+    height: 710px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 40px;
+    right: 60px;
+}
+
+.course-details h2 {
+    font-size: 2.0em;
+    margin-bottom: 10px;
+    color: #333333;
+}
+
+#fullScreenButton {
+	position: absolute;
+    top: 13px;
+    right: 11px;
+    width: 60px;
+}
+
+.fullscreen-emoji {
+    font-size: 3em; 
+    color: #007BFF;
+}
+
+.course-details p {
+    font-size: 1.3em;
+    margin-bottom: 8px;
+    color: #555555;
+     word-wrap: break-word;
+     font-family: sans-serif;
+}
+
+.course-details strong {
+    font-weight: bold;
+    color: #000000;
+}
+

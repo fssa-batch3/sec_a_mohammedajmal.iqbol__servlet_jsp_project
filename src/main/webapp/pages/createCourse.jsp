@@ -57,14 +57,14 @@
 
 			</div>
 			    <div>
-        <label for="courseVideo1">Course Video 1 URL:</label>
-        <input type="text" id="courseVideo1" name="courseVideo1" value="https://youtu.be/_tEbIzKbZhY?feature=shared" required><br><br>
+        <label for="courseVideo1">Course Video 1 :</label>
+        <input type="file" id="courseVideo1" name="courseVideo1" accept="video/*" onchange="Main()" ><br><br>
 
-        <label for="courseVideo2">Course Video 2 URL:</label>
-        <input type="text" id="courseVideo2" name="courseVideo2" value="https://youtu.be/_tEbIzKbZhY?feature=shared" required><br><br>
+        <label for="courseVideo2">Course Video 2 :</label>
+        <input type="file" id="courseVideo2" name="courseVideo2"  accept="video/*"  onchange="Main1()" ><br><br>
 
-        <label for="courseVideo3">Course Video 3 URL:</label>
-        <input type="text" id="courseVideo3" name="courseVideo3" value="https://youtu.be/_tEbIzKbZhY?feature=shared" required><br><br>
+        <label for="courseVideo3">Course Video 3 :</label>
+        <input type="file" id="courseVideo3" name="courseVideo3"  accept="video/*" onchange="Main2()" ><br><br>
 
         <label for="courseVideoName1">Course Video Name 1:</label>
         <input type="text" id="courseVideoName1" name="courseVideoName1" value="Investing Basics: forex" required><br><br>

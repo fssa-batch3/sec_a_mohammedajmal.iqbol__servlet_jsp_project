@@ -3,6 +3,7 @@ package com.fssa.freshstocks;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,9 @@ import com.fssa.freshstocks.dao.CourseDAO;
 import com.fssa.freshstocks.dao.exception.DAOException;
 import com.fssa.freshstocks.model.Course;
 import com.fssa.freshstocks.model.User;
+import com.fssa.freshstocks.services.CourseService;
+import com.fssa.freshstocks.services.UserService;
+import com.fssa.freshstocks.services.exception.ServiceException;
 import com.google.gson.Gson;
 
 /**
@@ -30,13 +34,14 @@ public class GetPurchasedCoursesServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    HttpSession session = request.getSession();
+	    CourseService courseService = new CourseService();
 	    String email = (String) session.getAttribute("loggedInEmail");
 
 	    if (request.getParameter("courseId") != null) {
 	        int courseId = Integer.parseInt(request.getParameter("courseId"));
 
 	        try {
-	            List<Course> purchasedCourses = getPurchasedCourses(email);
+	            List<Course> purchasedCourses = courseService.getPurchasedCourses(email);
 	            boolean coursePurchased = false;
 
 	            for (Course course : purchasedCourses) {
@@ -56,7 +61,7 @@ public class GetPurchasedCoursesServlet extends HttpServlet {
 	        }
 	    } else {
 	        try {
-	            List<Course> purchasedCourses = getPurchasedCourses(email);
+	            List<Course> purchasedCourses = courseService.getPurchasedCourses(email);
 
 	            // Convert the list of courses to JSON and send it as the response
 	            response.setContentType("application/json");
@@ -70,34 +75,4 @@ public class GetPurchasedCoursesServlet extends HttpServlet {
 	    }
 	}
 	
-
-    public static List<Course> getPurchasedCourses(String email) throws SQLException {
-        // Assuming userDAO is your Data Access Object for users
-    	CourseDAO courseDAO = new CourseDAO();
-       User user = IndexServlet.fetchUserIDByEmail(email);
-
-        if (user != null && user.getPurchasedCourses() != null) {
-            // Split the purchasedCourses string into an array of course IDs
-            String[] courseIds = user.getPurchasedCourses().split(",");
-
-            List<Course> purchasedCourses = new ArrayList<>();
-
-            // Assuming courseDAO is your Data Access Object for courses
-            for (String courseId : courseIds) {
-                Course course = null;
-				try {
-					course = courseDAO.getCourseFromCourseId(Integer.parseInt(courseId));
-				} catch (NumberFormatException | DAOException e) {
-					e.printStackTrace();
-				} 
-                if (course != null) {
-                    purchasedCourses.add(course);
-                }
-            }
-
-            return purchasedCourses;
-        }
-
-        return null; // User not found or no purchased courses
-    }
 }

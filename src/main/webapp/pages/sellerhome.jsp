@@ -170,7 +170,7 @@
 		</div>
 
 		<div class="tab4">
-			<a class="logout" id="logout" href="../LogoutServlet">LogOut</a>
+			<a class="logout" id="logout" onclick="logout()">LogOut</a>
 		</div>
 
 

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fssa.freshstocks.model.User;
+import com.fssa.freshstocks.services.CourseService;
+import com.fssa.freshstocks.services.UserService;
+import com.fssa.freshstocks.services.exception.ServiceException;
 import com.fssa.freshstocks.utils.ConnectionUtil;
 import com.fssa.freshstocks.utils.exception.DatabaseException;
 
@@ -28,6 +31,7 @@ public class RemoveMyCoursesServlet extends HttpServlet {
        
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    	HttpSession session = request.getSession();
+	    	CourseService courseService = new CourseService();
 		    String email = (String) session.getAttribute("loggedInEmail");
 		    int userId = (int) session.getAttribute("loggedInUserID");
 	        int courseId = Integer.parseInt(request.getParameter("courseId"));
@@ -49,33 +53,28 @@ public class RemoveMyCoursesServlet extends HttpServlet {
 	                    .map(String::valueOf) // Convert integers to strings
 	                    .collect(Collectors.joining(","));
 
-	            // Update the database
-	            String sql = "UPDATE freshstocks SET purchased_courses = ? WHERE user_id = ?";
-	            try (Connection conenction = ConnectionUtil.getConnection();
-	            		PreparedStatement stmt = conenction.prepareStatement(sql)) {
-	                stmt.setString(1, updatedPurchasedCourses);
-	                stmt.setInt(2, userId);
-	                int rowsUpdated = stmt.executeUpdate();
-
-	                // Send a response back to the client
-	                response.setContentType("text/plain");
-	                response.setCharacterEncoding("UTF-8");
-	                if (rowsUpdated > 0) {
-	                    response.getWriter().write("Course removed successfully.");
-	                } else {
-	                    response.getWriter().write("Course removal failed.");
-	                }
-	            } catch (DatabaseException e) {
-					e.printStackTrace();
-				}
-	        } catch (SQLException e) {
+                int rowsUpdated = courseService.updatePurchasedCourses(updatedPurchasedCourses,userId);
+	            
+	            if (rowsUpdated > 0) {
+                    response.getWriter().write("Course removed successfully.");
+                } else {
+                    response.getWriter().write("Course removal failed.");
+                }
+	            
+	        } catch (SQLException | ServiceException e) {
 	            e.printStackTrace();
 	            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error removing course.");
 	        }
 	    }
 	    
 	    public static String getPurchasedCourses(String email) throws SQLException {
-	        User user = IndexServlet.fetchUserIDByEmail(email);
+	    	UserService userService = new UserService();
+	        User user = null;
+			try {
+				user = userService.getUserByEmail(email);
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
 
 	        if (user != null && user.getPurchasedCourses() != null) {
 	            return user.getPurchasedCourses();

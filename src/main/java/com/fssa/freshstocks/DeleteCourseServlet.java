@@ -50,12 +50,12 @@ public class DeleteCourseServlet extends HttpServlet {
 		
 		try {
             if(courseService.deleteCourse(courseId, isDeleted)) {
-            	course1 = SaveCourseServlet.getCourseById(courseId);
+            	course1 = courseService.getCourseById(courseId);
             	out.println("Course with CourseName: " + course1.getName()  + " Deleted Successfully!");
             } else {
             	out.println("Error! Course Deleted Unsuccessful!");
             }
-        } catch (ServiceException | DAOException e) {
+        } catch (ServiceException e) {
         	out.println("Error: " + e.getMessage());
         }
 	}

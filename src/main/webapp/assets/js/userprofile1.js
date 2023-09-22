@@ -177,7 +177,7 @@ let newUserObj = {
             location.reload();
         })
         .catch(error => {
-            console.error('Error editing profile:', error);
+            alert("Error editing profile:" + error);
         });
 };
 
@@ -203,7 +203,7 @@ function deleteUser() {
 
             })
             .catch(error => {
-                console.error('Error editing profile:', error);
+                alert("Error editing profile:" + error);
             });
     }
 }
@@ -224,7 +224,7 @@ function logout() {
                 newWindow.focus();
             })
             .catch(error => {
-                console.error('Error logging out:', error);
+                alert("Error logging out:" + error);
             });
     }
 }

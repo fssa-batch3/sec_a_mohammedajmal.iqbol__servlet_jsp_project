@@ -95,7 +95,7 @@ emailjs.send("service_sp6m68x","template_uo2qcla",params)
 	  }
     })
     .catch(error => {
-      console.error("Error:", error);
+       alert("User Registration failed");
     });
            
        } else {

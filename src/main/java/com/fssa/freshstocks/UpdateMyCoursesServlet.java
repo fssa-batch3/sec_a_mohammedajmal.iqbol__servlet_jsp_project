@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import com.fssa.freshstocks.model.CourseProgressData;
+import com.fssa.freshstocks.services.CourseService;
+import com.fssa.freshstocks.services.exception.ServiceException;
 import com.fssa.freshstocks.utils.ConnectionUtil;
 import com.fssa.freshstocks.utils.exception.DatabaseException;
 
@@ -32,6 +34,7 @@ public class UpdateMyCoursesServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        CourseService courseService = new CourseService();
 	    response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -52,14 +55,14 @@ public class UpdateMyCoursesServlet extends HttpServlet {
             
 
             // Update database to mark video as watched
-            updateVideoWatchStatus(courseID, videoID, userId);
+            courseService.updateVideoWatchStatus(courseID, videoID, userId);
             
             out.println("Video progress saved successfully.");
             
         } catch (Exception e) {
         	String exceptionMessage = e.getMessage();
 	    	String[] parts = exceptionMessage.split(":");
-	    	String errorMessage = parts[1].trim();
+	    	String errorMessage = parts[0].trim();
 	    	out.println(errorMessage);
         }
 	}
@@ -67,11 +70,17 @@ public class UpdateMyCoursesServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		CourseService courseService = new CourseService();
 		int userId = (int) session.getAttribute("loggedInUserID");
 	    int courseId = Integer.parseInt(request.getParameter("courseId"));
 
 	    // Here, you would have your logic to retrieve the progress and latest modified timestamp from the database
-	    CourseProgressData progressData = getCourseProgress(userId, courseId);
+	    CourseProgressData progressData = null;
+		try {
+			progressData = courseService.getCourseProgress(userId, courseId);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 
 	    // Set the response content type
 	    response.setContentType("application/json");
@@ -83,71 +92,5 @@ public class UpdateMyCoursesServlet extends HttpServlet {
 	    out.print("{\"progress\": " + progressData.getTotalProgress() + ", \"latestModifiedAt\": \"" + progressData.getLatestModifiedAt() + "\"}");
 	    out.flush();
 	}
-	
-	
-	private CourseProgressData getCourseProgress(int userId, int courseId) {
-	    CourseProgressData courseProgressData = null;
-
-	    try {
-	        String query = "SELECT SUM(progress) as total_progress, MAX(modified_at) as latest_modified_at FROM course_progress WHERE user_id = ? AND course_id = ?";
-	        Connection connection = ConnectionUtil.getConnection();
-	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setInt(1, userId);
-	        statement.setInt(2, courseId);
-
-	        ResultSet resultSet = statement.executeQuery();
-
-	        if (resultSet.next()) {
-	            double totalProgress = resultSet.getDouble("total_progress");
-	            Timestamp latestModifiedAt = resultSet.getTimestamp("latest_modified_at");
-	            courseProgressData = new CourseProgressData(totalProgress, latestModifiedAt);
-	        }
-
-	        resultSet.close();
-	        statement.close();
-	    } catch (SQLException | DatabaseException e) {
-	        e.printStackTrace();
-	        // Handle the exception as needed
-	    }
-
-	    return courseProgressData;
-	}
-
-	
-	
-	private void updateVideoWatchStatus(int courseID, int videoID, int userID) {
-	    try (Connection connection = ConnectionUtil.getConnection();
-	         PreparedStatement checkIfExistsStmt = connection.prepareStatement(
-	                 "SELECT * FROM course_progress WHERE user_id = ? AND course_id = ? AND video_id = ?");
-	         PreparedStatement updateStmt = connection.prepareStatement(
-	                 "UPDATE course_progress SET watched = true, progress = 100, modified_at = NOW() " +
-	                 "WHERE user_id = ? AND course_id = ? AND video_id = ?");
-	         PreparedStatement insertStmt = connection.prepareStatement(
-	                 "INSERT INTO course_progress (user_id, course_id, video_id, progress, watched, modified_at) " +
-	                 "VALUES (?, ?, ?, ?, true, NOW())")) {
-
-	        checkIfExistsStmt.setInt(1, userID);
-	        checkIfExistsStmt.setInt(2, courseID);
-	        checkIfExistsStmt.setInt(3, videoID);
-	        ResultSet resultSet = checkIfExistsStmt.executeQuery();
-
-	        if (resultSet.next()) {
-	            updateStmt.setInt(1, userID);
-	            updateStmt.setInt(2, courseID);
-	            updateStmt.setInt(3, videoID);
-	            updateStmt.setInt(4, 100);
-	            updateStmt.executeUpdate();
-	        } else {
-	            insertStmt.setInt(1, userID);
-	            insertStmt.setInt(2, courseID);
-	            insertStmt.setInt(3, videoID);
-	            insertStmt.setInt(4, 100); // Set initial progress to 100
-	            insertStmt.executeUpdate();
-	        }
-	    } catch (SQLException | DatabaseException e) {
-	        e.printStackTrace();
-	    }
-	}
-
 
 }

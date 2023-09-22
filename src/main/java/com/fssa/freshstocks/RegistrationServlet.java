@@ -74,7 +74,7 @@ public class RegistrationServlet extends HttpServlet {
                 out.println("User Registered Successfully.");
                 
                 // Passing email for getting userID
-        	    User userObject = IndexServlet.fetchUserIDByEmail(email);
+        	    User userObject = userService.getUserByEmail(email);
                 
                 session.setAttribute("loggedInEmail", email);
 	            session.setAttribute("loggedInUserID", userObject.getUserId());
@@ -96,4 +96,44 @@ public class RegistrationServlet extends HttpServlet {
             out.println("Internal Server Error: " + e.getMessage());
         }
 	}
+	
+	
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        UserService userService = new UserService();
+
+        int userId = Integer.parseInt(request.getParameter("userId")); // Assuming you're passing email as a parameter
+
+        try {
+            User user = userService.getUserByUserId(userId);
+
+            // Assuming you have a method to convert User object to JSON string
+            String userJsonString = convertUserToJson(user);
+
+            out.println(userJsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("{\"error\":\"An error occurred.\"}");
+        }
+    }
+    
+    private String convertUserToJson(User user) {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{");
+        jsonBuilder.append("\"userID\":").append(user.getUserId()).append(",");
+        jsonBuilder.append("\"username\":\"").append(user.getUsername()).append("\",");
+        jsonBuilder.append("\"gender\":\"").append(user.getGender()).append("\",");
+        jsonBuilder.append("\"mobileNumber\":\"").append(user.getMobileNumber()).append("\",");
+        jsonBuilder.append("\"dateOfBirth\":\"").append(user.getDateOfBirth()).append("\",");
+        jsonBuilder.append("\"purchasedCourses\":\"").append(user.getPurchasedCourses()).append("\",");
+        jsonBuilder.append("\"userEmail\":\"").append(user.getEmail()).append("\",");
+        jsonBuilder.append("\"password\":\"").append(user.getPassword()).append("\",");
+        jsonBuilder.append("\"isSeller\":").append(user.getIsSeller()).append(",");
+        jsonBuilder.append("\"createdAt\":\"").append(user.getCreatedAt()).append("\",");
+        jsonBuilder.append("\"modifiedAt\":\"").append(user.getModifiedAt()).append("\",");
+        jsonBuilder.append("\"isDeleted\":").append(user.getIsDeleted());
+        jsonBuilder.append("}");
+        return jsonBuilder.toString();
+    }
 }

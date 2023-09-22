@@ -53,7 +53,7 @@ div1.innerHTML = `
           <div class="security-code-group form-group">
               <label for="SecurityCode">Security code</label>
               <div class="input-container" >
-                  <input id="SecurityCode" class="form-control" type="text" required></input>
+                  <input id="SecurityCode" class="form-control" type="password" max="3" required></input>
                   <i id="cvc" class="fa fa-question-circle"></i>
               </div>
               <div class="cvc-preview-container two-card hide">
@@ -85,7 +85,7 @@ document.querySelector("body").append(div1);
 })
 .catch(function (error) {
     // Handle error
-    console.error('Error fetching course details:', error);
+    alert("Error fetching course details" + error);
 });
 
 
@@ -103,7 +103,7 @@ function submitpayment(courseID) {
                 window.location.href="learn.jsp";
             })
             .catch(function(error) {
-                console.error(error);
+                alert(error);
             });
 	}
 	

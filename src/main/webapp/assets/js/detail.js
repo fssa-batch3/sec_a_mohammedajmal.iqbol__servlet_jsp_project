@@ -198,55 +198,31 @@ div1.innerHTML = `
     <div id="lastModified" class="last-modified">
         Last Modified: <span id="lastModifiedText"></span>
     </div>
+    <button type="button" onclick="viewcertify()" id="viewcertify" style="display:none;margin-left: 43%;">View the Course Certificate</button>
 </div>
 
 <div id="celebration-container"></div>
-
 
 
 					<button class="accordion">Beginner's Module <span id="locked1">&#128274;</span></button>
 					<div class="panel">
 						<a href="courseVideoPlayer.jsp?courseID=${courseID}&videoId=${1}" class="course-links" id="course-links1"
 							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">${courseDetails.courseVideoName1}</li></a><a class="quiz-btn"
-							id="quiz1" href="">take quiz</a><br> <br> <a href="#"
-							class="course-links" id="course-links1" target="_blank"
-							onclick="openFile(event)"><li class="begginer-module">Course
-								Video 2</li></a><a class="quiz-btn" id="quiz2" href="">take quiz</a><br>
-						<br> <a href="#" class="course-links" id="course-links1"
-							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">Course Video 3</li></a><a class="quiz-btn"
-							id="quiz3" href="">take quiz</a><br> <br>
+							class="begginer-module">${courseDetails.courseVideoName1}</li></a> <br>
 					</div>
 
 					<button class="accordion">Intermediate Module <span id="locked2">&#128274;</span></button>
 					<div class="panel">
 						<a href="courseVideoPlayer.jsp?courseID=${courseID}&videoId=${2}" class="course-links" id="course-links1"
 							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">${courseDetails.courseVideoName2}</li></a><a class="quiz-btn"
-							id="quiz4" href="">take quiz</a><br> <br> <a href="#"
-							class="course-links" id="course-links1" target="_blank"
-							onclick="openFile(event)"><li class="begginer-module">Course
-								Video 5</li></a><a class="quiz-btn" id="quiz5" href="">take quiz</a><br>
-						<br> <a href="#" class="course-links" id="course-links1"
-							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">Course Video 6</li></a><a class="quiz-btn"
-							id="quiz6" href="">take quiz</a><br> <br>
+							class="begginer-module">${courseDetails.courseVideoName2}</li></a> <br>
 					</div>
 
 					<button class="accordion">Advanced Module <span id="locked3">&#128274;</span></button>
 					<div class="panel">
 						<a href="courseVideoPlayer.jsp?courseID=${courseID}&videoId=${3}" class="course-links" id="course-links1"
 							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">${courseDetails.courseVideoName3}</li></a><a class="quiz-btn"
-							id="quiz7" href="">take quiz</a><br> <br> <a href="#"
-							class="course-links" id="course-links1" target="_blank"
-							onclick="openFile(event)"><li class="begginer-module">Course
-								Video 8</li></a><a class="quiz-btn" id="quiz8" href="">take quiz</a><br>
-						<br> <a href="#" class="course-links" id="course-links1"
-							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">Course Video 9</li></a><a class="quiz-btn"
-							id="quiz9" href="">take quiz</a><br> <br>
+							class="begginer-module">${courseDetails.courseVideoName3}</li></a> <br>
 					</div>
 
 
@@ -419,6 +395,8 @@ setTimeout(() => setInterval(coursePurchased(), intervalTime), 100);
 
 
 
+
+
 })
 .catch(function (error) {
     // Handle error
@@ -510,6 +488,8 @@ axios.get(`/freshstocks_web/UpdateMyCoursesServlet?courseId=${CourseID}`)
         
         if (overallProgress === 100) {
            celebrateCompletion(courseID);
+           
+            document.getElementById("viewcertify").style.display = "block";
         }
 
     })
@@ -591,6 +571,7 @@ function celebrateCompletion(courseId) {
   
    // Store in local storage that the user has completed the course
    localStorage.setItem(`courseCompleted_${courseId}`, 'true');
+   
     }
 }
 
@@ -863,8 +844,8 @@ function addcomment(event) {
     console.log(response.data);
     const res = response.data;
     alert(response.data);
-    if(res === "Comment Created Successfully.") {
-        window.location.href=`/freshstocks_web/pages/details.jsp?courseID=${courseId}#comment`;
+    if(res == "Comment Created Successfully.") {
+      window.location.href=`/freshstocks_web/pages/details.jsp?courseID=${courseId}`;
     }
     // Handle success
   })
@@ -896,6 +877,10 @@ function deleteComment(commentId) {
             console.error('Error deleting comment:', error);
         });
         }
+}
+
+function viewcertify() {
+	window.location.href = `certificate.jsp?courseId=${courseID}`;
 }
 
 
