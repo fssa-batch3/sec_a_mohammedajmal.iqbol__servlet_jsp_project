@@ -54,7 +54,7 @@
 				<div class="remember-forgot-div">
 					<p class="remember-p">
 						<span class="hint--top hint--rounded"
-							aria-label="Remember Next Time"><input type="checkbox">&nbsp;Remember
+							aria-label="Remember Next Time"><input type="checkbox" id="remember-me">&nbsp;Remember
 							Me </span>
 					</p>
 					<a class="forgot-p" href="resetpassword.jsp"><span

@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>Create Course Form</title>
-<link rel="stylesheet" href="../assets/css/createCourse.css" />
+<link rel="stylesheet" href="../assets/css/create-course.css" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
 	rel="stylesheet" crossorigin="anonymous" integrity="">
@@ -58,13 +58,13 @@
 			</div>
 			    <div>
         <label for="courseVideo1">Course Video 1 :</label>
-        <input type="file" id="courseVideo1" name="courseVideo1" accept="video/*" onchange="Main()" ><br><br>
+        <input type="file" id="courseVideo1" name="courseVideo1" accept="video/*" onchange="Main()" required ><br><br>
 
         <label for="courseVideo2">Course Video 2 :</label>
-        <input type="file" id="courseVideo2" name="courseVideo2"  accept="video/*"  onchange="Main1()" ><br><br>
+        <input type="file" id="courseVideo2" name="courseVideo2"  accept="video/*"  onchange="Main1()" required ><br><br>
 
         <label for="courseVideo3">Course Video 3 :</label>
-        <input type="file" id="courseVideo3" name="courseVideo3"  accept="video/*" onchange="Main2()" ><br><br>
+        <input type="file" id="courseVideo3" name="courseVideo3"  accept="video/*" onchange="Main2()" required ><br><br>
 
         <label for="courseVideoName1">Course Video Name 1:</label>
         <input type="text" id="courseVideoName1" name="courseVideoName1" value="Investing Basics: forex" required><br><br>

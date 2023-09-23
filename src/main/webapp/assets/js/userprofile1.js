@@ -218,6 +218,8 @@ function logout() {
             .then(response => {
                 console.log(response.data);
                 alert(response.data);
+                
+                localStorage.removeItem("userEmail");
 
                 let newWindow = window.open("/freshstocks_web/index.jsp", "_blank", "noopener,noreferrer");
                 window.close();

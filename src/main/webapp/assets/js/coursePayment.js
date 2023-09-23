@@ -26,11 +26,11 @@ div1.innerHTML = `
           <span class="amex"></span>
           <span class="discover"></span>
       </div>
-      <form>
+      <form  onsubmit="submitpayment(${courseID})">
           <div class="form-group">
               <label for="PaymentAmount">Payment amount</label>
               <div class="amount-placeholder">
-                  <span>$</span>
+                  <span>&#8377;</span>
                   <span>${res.toFixed(2)}</span>
               </div>
           </div>
@@ -39,21 +39,21 @@ div1.innerHTML = `
               <input id="NameOnCard" class="form-control" type="text" value="${name}" style="width:200px;" disabled></input>
           </div><br>
           <div class="form-group">
-              <label or="NameOnCard">Name on card</label>
-              <input id="NameOnCard" class="form-control" type="text" maxlength="255" required></input>
+              <label or="NameOnCard">Cardholder Name:</label>
+              <input id="NameOnCard" class="form-control" type="text"  pattern="^[a-zA-Z\s'-]+$" placeholder="John Doe" required title="Enter a valid cardholder name" ></input>
           </div><br>
           <div class="form-group">
-              <label for="CreditCardNumber">Card number</label>
-              <input id="CreditCardNumber" class="null card-image form-control" type="text" required></input>
+              <label for="CreditCardNumber">Card Number:</label>
+              <input id="CreditCardNumber" class="null card-image form-control" pattern="^[0-9]{16}$" type="text" title="Enter a 16-digit card number" required></input>
           </div><br>
           <div class="expiry-date-group form-group">
               <label for="ExpiryDate">Expiry date</label>
-              <input id="ExpiryDate" class="form-control" type="text" placeholder="MM / YY" maxlength="7" required></input>
+              <input id="ExpiryDate" class="form-control" type="text" pattern="^(0[1-9]|1[0-2])\/[0-9]{4}$" placeholder="MM / YYYY" title="Enter the expiry date in MM/YYYY format" required></input>
           </div>
           <div class="security-code-group form-group">
               <label for="SecurityCode">Security code</label>
               <div class="input-container" >
-                  <input id="SecurityCode" class="form-control" type="password" max="3" required></input>
+                  <input id="SecurityCode" class="form-control" type="password" pattern="^[0-9]{3,4}$" title="Enter a 3 or 4-digit CVV" required></input>
                   <i id="cvc" class="fa fa-question-circle"></i>
               </div>
               <div class="cvc-preview-container two-card hide">
@@ -61,14 +61,7 @@ div1.innerHTML = `
                   <div class="visa-mc-dis-cvc-preview"></div>
               </div>
           </div>
-          <div class="zip-code-group form-group">
-              <label for="ZIPCode">ZIP/Postal code</label>
-              <div class="input-container">
-                  <input id="ZIPCode" class="form-control" type="text" maxlength="10" required></input>
-                  <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-content="Enter the ZIP/Postal code for your credit card billing address."><i class="fa fa-question-circle"></i></a>
-              </div>
-          </div>
-          <button id="PayButton" class="btn btn-block btn-success submit-button" type="button" onclick="submitpayment(${courseID})">
+          <button id="PayButton" class="btn btn-block btn-success submit-button" type="submit" >
               <span class="submit-button-lock"></span>
               <span class="align-middle">Pay ${res.toFixed(2)}</span>
           </button>

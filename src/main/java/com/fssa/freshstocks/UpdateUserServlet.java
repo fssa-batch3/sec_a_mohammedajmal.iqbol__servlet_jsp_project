@@ -80,7 +80,9 @@ public class UpdateUserServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             out.println("Role must be a valid integer.");
         } catch (Exception e) {
-            out.println("Internal Server Error: " + e.getMessage());
+        	String exceptionMessage = e.getMessage();
+	    	String sub = exceptionMessage.substring(64);
+	    	out.println(sub);
         }
 	}
 	

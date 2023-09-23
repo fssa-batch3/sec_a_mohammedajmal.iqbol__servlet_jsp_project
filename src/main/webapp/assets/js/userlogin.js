@@ -85,3 +85,31 @@ login.addEventListener("submit", (event) => {
 });
 
 //user login page js code end
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    var storedEmail = localStorage.getItem("userEmail");
+    if (storedEmail) {
+        axios.post(`/freshstocks_web/autologin?email=${storedEmail}`)
+        .then(function (response) {
+            if(response.data === "Buyer") {
+                window.location.href = "/freshstocks_web/pages/home.jsp";
+            } else if (response.data === "Seller") {
+                window.location.href = "/freshstocks_web/pages/sellerhome.jsp";
+            } else if (response.data === "Invalid") {
+                console.log("Authentication Failed! User Not found.");
+            } else {
+                console.log("User failed to Login!");
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+});
+
+
+
+
+

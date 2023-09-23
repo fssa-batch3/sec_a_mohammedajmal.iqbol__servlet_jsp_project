@@ -86,28 +86,9 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
 			<%
 			if(answered != true) {
 			%>
-			<button id="start-quiz-button">Start Quiz</button>
+			<button id="start-quiz-button" onclick="startQuizButton1()">Start Quiz</button>
 			<%
-			} else {
-			%>
-			<script>
-		    let secondsRemaining = localStorage.getItem('secondsRemaining') || 30;
-
-		    const countdownInterval = setInterval(() => {
-		        secondsRemaining--;
-		        if (secondsRemaining >= 1) {
-		            document.getElementById("next-quiz").textContent = " " + secondsRemaining + " Seconds Remaining for the Next Quiz";
-		            localStorage.setItem('secondsRemaining', secondsRemaining);
-		        } else {
-		            clearInterval(countdownInterval);
-		            if (!isQuizSubmitted) {
-		                submitQuizAndExitFullscreen();
-		            }
-		        }
-		    }, 1000);
-			</script>
-			<%
-			}
+			} 
 			%>
 		</div>
 		<%
@@ -171,6 +152,32 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
 			<p id="timer-display"></p>
 			<p id="next-quiz"></p>
 			<a href="leaderboard.jsp">LeaderBoard</a>
+			
+			<%
+			  if(answered == true) {
+				  
+			%>
+			
+						<script>
+		    let secondsRemaining = localStorage.getItem('secondsRemaining') || 30;
+
+		    const countdownInterval = setInterval(() => {
+		        secondsRemaining--;
+		        if (secondsRemaining >= 1) {
+		            document.getElementById("next-quiz").textContent = " " + secondsRemaining + " Seconds Remaining for the Next Quiz";
+		            localStorage.setItem('secondsRemaining', secondsRemaining);
+		        } else {
+		            clearInterval(countdownInterval);
+		            if (!isQuizSubmitted) {
+		                submitQuizAndExitFullscreen();
+		            }
+		        }
+		    }, 1000);
+			</script>
+			
+			<%
+			}
+			%>
 
 			<ol>
 				<h2>Daily Quiz Rules</h2>
@@ -224,7 +231,7 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
         const startQuizButton = document.getElementById("start-quiz-button");
         const submitButton = document.getElementById("submit-button");
 
-        startQuizButton.addEventListener("click", () => {
+        function startQuizButton1() {
         	
                 if (!isInFullscreen && !isQuizSubmitted) {
                 	document.getElementById("answer-form").style.display = "block";
@@ -260,13 +267,13 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
                         }
                     }, 1000);
             }
-        });
+        };
         
         submitButton.addEventListener("click", submitQuizAndExitFullscreen);
         
     	function submitQuizAndExitFullscreen() {
             if (isInFullscreen && !isQuizSubmitted) {
-                // Add your code to submit the quiz here
+                // submit the quiz here
                 // For example, you can check if all questions are answered, calculate scores, etc.
                 // Exit fullscreen mode
                 if (document.exitFullscreen) {
@@ -285,6 +292,9 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
                 
                 document.getElementById("answer-form").style.display = "none";
                 document.getElementById("submit-msg").innerText="Quiz Submitted Successfully";
+                
+                
+                
                 
             }
             }
