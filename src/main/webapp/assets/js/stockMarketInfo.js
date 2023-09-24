@@ -1,33 +1,4 @@
-let login_array = JSON.parse(localStorage.getItem("login_arr"));
-console.log(login_array);
-
-if(login_array === null){
-  window.location.href = "../pages/signin.html";
-}
-
-        //userprofile show
-
-
-            const register_arr = JSON.parse(localStorage.getItem("register_arr"));
-        
-            const login_arr = JSON.parse(localStorage.getItem("login_arr"));
-        
-            const get_obj = register_arr.find( event => event.email === login_arr);
-             
-             //user profile show
-              let user_profile;
-        
-        
-              user_profile = document.createElement("img");
-              user_profile.setAttribute("id","user-profile");
-              user_profile.setAttribute("class","dropbtn");
-              user_profile.setAttribute("onclick","profile()");
-              user_profile.setAttribute("src", get_obj["profile_pic"]);
-              document.querySelector("#dropuser").prepend(user_profile);
-        
-        
-        
-            //  api call stock market search
+//  api call stock market search
         
         const urls = "https://api.twelvedata.com/stocks";
         
