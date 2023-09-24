@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Movers API</title>
+    <link rel="stylesheet" href="../assets/css/mutual_funds_info.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Tilt+Neon&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <div class="navbar">
+        <img class="nav-logo" src="../assets/images/Screenshot 2023-02-11 021952.png" alt="">
+        <input class="search" list="search" type="text" placeholder="Search for topics,location & sources"  id="searchbar"/>
+        <div class="notification"  id="notification-img">
+          
+          <div class="dropdown">
+            <img class="notificationimg" onclick="profile1()" src="../assets/images/icons8-notification-50.png" alt="notification-img">
+            <div class="dropdown-content-notification">
+              <a><div class="notify-head">
+
+               <h1 class="notify-user-h1">Notifications</h1>
+
+              </div></a>
+               <a href="#"><div class="notify-1">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Ajith</b> promoted your answer</p>
+
+              </div></a> 
+              <a href="#"><div class="notify-2">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Chandru</b> promoted your answer</p>
+
+              </div></a> 
+              <a href="#"><div class="notify-1">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Kamalesh</b> promoted your answer</p>
+
+              </div></a> 
+              <a href="#"><div class="notify-2">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Durga</b> promoted your answer</p>
+
+              </div></a> 
+              <a href="#"><div class="notify-1">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Vanitha</b> promoted your answer</p>
+
+              </div></a> 
+              <a href="#"><div class="notify-2">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Vicky</b> promoted your answer</p>
+
+              </div></a> 
+              <a href="#"><div class="notify-1">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Susi kumar</b> promoted your answer</p>
+
+              </div></a> 
+              <a href="#"><div class="notify-2">
+
+                <img class="notify-user-img" src="../assets/images/icons8-male-user-48.png" alt="">
+                <p class="notify-user-p"><b>Akshaya</b> promoted your answer</p>
+
+              </div></a> 
+            </div>
+          </div>
+    
+        </div>
+        <div class="notification">
+            <div class="dropdown1">
+            <img class="notificationimg" onclick="profile1()" src="../assets/images/icons8-translator-50.png" alt="translator-img">
+            <div class="dropdown-content-lang"><br>
+              <div id="google_translate_element" id="lang"></div>
+                </div>
+                </div>
+        </div>
+        <div class="notification">
+
+          <a id="notificationimg" href="contact.html">
+            <img class="notificationimg" src="../assets/images/icons8-online-support-50.png" alt="support-img">
+          </a>
+
+        </div>
+          <div class="notification">
+              <a class="dropdown" id="dropuser" href="userprofile.html">
+                  
+                
+              </a>
+
+    </div>
+
+    <div class="tab">
+        <a class="tablinks1" href="stock_market_info.html">Stock Market Informations</a>
+        <a class="tablinks1" href="forex_market_info.html">forex Market Information</a>
+        <a class="tablinks1" href="crypto_market_info.html">Crypto Market Information</a>
+        <a class="tablinks1" href="etf_market_info.html">ETF Market Information</a>
+        <a class="tablinks1" href="indices_info.html">Indices Information</a>
+        <a class="tablinks1" href="mutual_funds_info.html">Exchange Information</a>
+      </div> 
+</nav>
+
+
+<main>
+  <div class="stock-flex">
+    <h1 class="global-h1">Exchange List</h1>
+    <a href="market.html"><p class="breadcrumb">Global Market list</p></a>
+    <p class="breadcrumb">/</p>
+    <a href="stock_market_info.html"><p class="breadcrumb">Stock Market List</p></a>
+    <p class="breadcrumb">/</p>
+    <a href="forex_market_info.html"><p class="breadcrumb">forex Market List</p></a>
+    <p class="breadcrumb">/</p>
+    <a href="crypto_market_info.html"><p class="breadcrumb">Crypto Market List</p></a>
+    <p class="breadcrumb">/</p>
+    <a href="etf_market_info.html"><p class="breadcrumb">ETF Market List</p></a>
+    <p class="breadcrumb">/</p>
+    <a href="indices_info.html"><p class="breadcrumb">Market Movers List</p></a>
+    <p class="breadcrumb">/</p>
+    <a href="indices_info.html"><p class="breadcrumb">Indices List</p></a>
+    <p class="breadcrumb">/</p>
+    <p class="breadcrumb">Exchange Info</p>
+  </div>
+<div id="forex">
+
+
+
+ 
+
+</div>
+
+
+
+</main>
+
+<script src="../assets/js/mutualfundsMarketInfo.js"></script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" integrity=""></script>
+
+
+
+</body>
+</html>

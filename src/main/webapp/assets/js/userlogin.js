@@ -41,6 +41,8 @@ password.addEventListener("input", async () => {
 let login = document.getElementById("form");
 login.addEventListener("submit", (event) => {
   event.preventDefault();
+  
+  rememberMe();
 
   //try statement
   let email = document.getElementById("email").value;
@@ -110,6 +112,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
+function rememberMe() {
+    var checkBox = document.getElementById("remember-me");
+    var email = document.getElementById("email").value;
+    if (checkBox.checked == true) {
+        localStorage.setItem("userEmail", email);
+        // Proceed with further actions, such as submitting to the server
+    } else {
+        localStorage.removeItem("userEmail");
+    }
+}
 
 

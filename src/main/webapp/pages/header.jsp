@@ -11,11 +11,11 @@
      <c:choose>
         <c:when test="${not empty loggedInEmail}">
             <!-- Include CSS for logged-in users -->
-            <link rel="stylesheet" href="assets/css/headerlogged.css" />
+            <link rel="stylesheet" href="../assets/css/headerlogged.css" />
         </c:when>
         <c:otherwise>
             <!-- Include CSS for not logged-in users -->
-            <link rel="stylesheet" href="assets/css/header.css" />
+            <link rel="stylesheet" href="../assets/css/header.css" />
         </c:otherwise>
     </c:choose>
 </head>
@@ -30,14 +30,14 @@
 	<!-- navbar start -->
 	<div class="topnav" id="myTopnav">
 		<a href="index.jsp" class="active"><img class="nav-logo"
-			src="assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
+			src="../assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
 		<div class="navlinks">
 			<a href="javascript:void(0);" style="font-size: 15px;" class="icon"
-				onclick="myFunction()">&#9776;</a> <a href="./pages/userabout.html"
+				onclick="myFunction()">&#9776;</a> <a href="./pages/userabout.jsp"
 				class="navlink">About</a> <a href="./pages/marketdata.html"
 				class="navlink">Market</a> <a href="#" class="navlink">Trade</a> <a
 				href="#" class="navlink">Learn</a> <a
-				href="./pages/userContact.html" class="navlink">Contact</a> <a
+				href="./pages/userContact.jsp" class="navlink">Contact</a> <a
 				class="login1" href="#contact">
 				<div class="notification">
 					<form class="login1" action="pages/login.jsp">
@@ -74,7 +74,7 @@
 				src="../assets/images/Screenshot 2023-02-11 021952.png" alt="">
 
 			<div class="navlinks">
-				<a href="./userabout.html" class="navlink">About</a>&emsp;
+				<a href="./userabout.jsp" class="navlink">About</a>&emsp;
 				<div class="dropdown">
 					<a class="dropbtn" href="marketdata.html">Market</a>
 
@@ -85,7 +85,7 @@
 				</div>
 				<div class="dropdown">
 					<a class="dropbtn" href="learn.jsp">Learn</a> <a
-						href="./userContact.html" class="navlink" id="contact">Contact</a>
+						href="./userContact.jsp" class="navlink" id="contact">Contact</a>
 
 				</div>
 
@@ -190,7 +190,7 @@
 			</div>
 			<div class="notification">
 
-				<a id="notificationimg" href="userContact.html"> <span
+				<a id="notificationimg" href="userContact.jsp"> <span
 					class="hint--bottom hint--rounded" aria-label="Contact Support"><img
 						class="notificationimg"
 						src="../assets/images/icons8-online-support-50.png"

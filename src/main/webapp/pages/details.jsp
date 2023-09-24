@@ -16,6 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course Details</title>
 <link rel="stylesheet" href="../assets/css/details.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 </head>
 <body>
 	<%
@@ -187,6 +188,8 @@
 	}
 	%>
 
+        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		<script src="../assets/js/detail.js"></script>
 		<script type="text/javascript"

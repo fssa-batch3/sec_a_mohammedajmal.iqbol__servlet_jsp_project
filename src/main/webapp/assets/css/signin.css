@@ -1,4 +1,9 @@
 @charset "ISO-8859-1";
+
+body {
+	overflow: hidden;
+}
+
 .signup {
     width:530px;
     height:470px;

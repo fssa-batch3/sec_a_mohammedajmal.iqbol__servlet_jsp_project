@@ -72,7 +72,7 @@ Runnable task = () -> {
 };
 
 // Schedule the task to run after 24 hours
-scheduler.schedule(task, 30, TimeUnit.SECONDS);
+scheduler.schedule(task, 24, TimeUnit.HOURS);
 
 %>
 	<div class="container">
@@ -126,9 +126,9 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
 						<p class="question-text" id="question-text"><%=question.getQuestion()%></p>
 					</span>
 				</div>
-				<input type="hidden" name="correctAnswer"
-					value="<%=question.getCorrectAnswer()%>"> <input
-					type="hidden" name="quizStartTime" id="quizStartTime" value="">
+				<input type="hidden" name="correctAnswer" value="<%=question.getCorrectAnswer()%>">
+		        <input type="hidden" name="quizStartTime" id="quizStartTime" value="<%= quizStartTime %>">
+		        <input type="hidden" name="streak" id="streak" value="<%= streakCount %>">
 				<input type="hidden" name="answeredToday" id="answeredToday"
 					value=""> <label for="answer">Select your answer:</label> <select
 					id="answer" class="answer-select" name="selectedAnswer" required>
@@ -159,20 +159,30 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
 			%>
 			
 						<script>
-		    let secondsRemaining = localStorage.getItem('secondsRemaining') || 30;
+						let quizendtime = document.getElementById("quizStartTime").value;
+						console.log(quizendtime);
+						let endTime = new Date(quizendtime);
 
-		    const countdownInterval = setInterval(() => {
-		        secondsRemaining--;
-		        if (secondsRemaining >= 1) {
-		            document.getElementById("next-quiz").textContent = " " + secondsRemaining + " Seconds Remaining for the Next Quiz";
-		            localStorage.setItem('secondsRemaining', secondsRemaining);
-		        } else {
-		            clearInterval(countdownInterval);
-		            if (!isQuizSubmitted) {
-		                submitQuizAndExitFullscreen();
-		            }
-		        }
-		    }, 1000);
+						// Calculate the start time for the next quiz
+						let nextQuizStartTime = new Date(endTime.getTime() + 24 * 60 * 60 * 1000);
+
+						function updateCountdown() {
+						    let now = new Date();
+						    let timeDifference = nextQuizStartTime - now;
+
+						    let hours = Math.floor(timeDifference / (1000 * 60 * 60));
+						    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+						    let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+						    let countdownElement = document.getElementById('next-quiz');
+						    countdownElement.textContent = "Next quiz available in " + hours + " hr : " + minutes + " min : " + seconds + " sec";
+						}
+
+						// Call the function once to display the initial countdown
+						updateCountdown();
+
+						// Update the countdown every second
+						setInterval(updateCountdown, 1000);
 			</script>
 			
 			<%
@@ -291,10 +301,7 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
                 isQuizSubmitted = true;
                 
                 document.getElementById("answer-form").style.display = "none";
-                document.getElementById("submit-msg").innerText="Quiz Submitted Successfully";
-                
-                
-                
+                localStorage.removeItem('secondsRemaining');
                 
             }
             }
@@ -302,6 +309,12 @@ scheduler.schedule(task, 30, TimeUnit.SECONDS);
     	document.addEventListener('keydown', function(event) {
     	    if (event.ctrlKey) {
     	        document.getElementById('answer-form').submit();
+    	    }
+    	});
+    	
+       	document.addEventListener('fullscreenchange', function() {
+    	    if (!document.fullscreenElement) {
+    	    	document.getElementById('answer-form').submit();
     	    }
     	});
     	

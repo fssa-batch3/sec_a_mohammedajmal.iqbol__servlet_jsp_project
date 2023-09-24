@@ -1,0 +1,48 @@
+/* leaderboard.css */
+
+/* leaderboard.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 20px;
+    background-color: #f7fbff; /* Light blue background */
+}
+
+h1 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid #69c; /* Darker blue border */
+    width: 1200px;
+    margin-left: -100px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+thead {
+    background-color: #69c; /* Dark blue header background */
+    color: #fff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #edf5ff; /* Lighter blue alternating rows */
+}
+
+tbody tr:hover {
+    background-color: #cce8ff; /* Hover state color */
+}
+

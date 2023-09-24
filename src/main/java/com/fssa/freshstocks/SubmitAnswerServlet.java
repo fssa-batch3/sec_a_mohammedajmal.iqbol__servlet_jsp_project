@@ -40,6 +40,7 @@ public class SubmitAnswerServlet extends HttpServlet {
     	    String correctAnswer = request.getParameter("correctAnswer");
     	    int userId = (int) session.getAttribute("loggedInUserID");
     	    String quizStartTimeMillisStr = request.getParameter("quizStartTime");
+    	    int streak = Integer.parseInt(request.getParameter("streak"));
     	    
     	    System.out.println(selectedAnswer);
     	    System.out.println(correctAnswer);
@@ -55,10 +56,8 @@ public class SubmitAnswerServlet extends HttpServlet {
     	    boolean answeredToday = Boolean.parseBoolean(request.getParameter("answeredToday"));
     	    if (selectedAnswer != null && selectedAnswer.equals(correctAnswer)) {
 
-    	      if(session.getAttribute("streak") != null) {
-    	    	   streak = (int) session.getAttribute("streak");
+    	      if(Integer.toString(streak) != null) {
     	    	   streak++; // Increment streak
-       	        session.setAttribute("streak", streak);
        	     try {
 				quizDAO.insertOrUpdateUserData(userId, streak, quizStartTime ,answeredToday);
 			} catch (DAOException e) {
@@ -70,7 +69,6 @@ public class SubmitAnswerServlet extends HttpServlet {
     	      
     	    } else {
     	    	streak--;
-    	    	session.setAttribute("streak", streak);
     	    	try {
 					quizDAO.insertOrUpdateUserData(userId, streak, quizStartTime ,answeredToday);
 				} catch (DAOException e) {

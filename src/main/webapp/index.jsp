@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Home | freshstocks</title>
-<link rel="stylesheet" href="assets/css/index.css">
+<link rel="stylesheet" href="assets/css/indexpage.css">
 <!-- google fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +32,33 @@
 </head>
 <body>
 
-	<jsp:include page="pages/header.jsp" />
+		<!-- navbar start -->
+	<div class="topnav" id="myTopnav">
+		<a href="index.jsp" class="active"><img class="nav-logo"
+			src="assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
+		<div class="navlinks">
+			<a href="javascript:void(0);" style="font-size: 15px;" class="icon"
+				onclick="myFunction()">&#9776;</a> <a href="./pages/userabout.jsp"
+				class="navlink">About</a> <a href="./pages/marketdata.html"
+				class="navlink">Market</a> <a href="#" class="navlink">Trade</a> <a
+				href="#" class="navlink">Learn</a> <a
+				href="./pages/userContact.jsp" class="navlink">Contact</a> <a
+				class="login1" href="#contact">
+				<div class="notification">
+					<form class="login1" action="pages/login.jsp">
+						<button class="login" alt="">Log In</button>
+					</form>
+					</span>
+				</div>
+			</a> <a class="login2" href="#contact"><div class="notification">
+					<span class="hint--left" aria-label="Sign Up / Register">
+						<form action="pages/register.jsp">
+							<button class="registration" alt="">FREE TRIAL</button>
+						</form>
+					</span>
+				</div></a>
+		</div>
+	</div>
 
 	<div class="heropage">
 
