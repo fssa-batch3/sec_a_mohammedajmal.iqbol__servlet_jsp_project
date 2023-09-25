@@ -3,15 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | freshstocks</title>
-    <link rel="stylesheet" href="../assets/css/userabout.css">
+    <script src="../assets/js/bundle.js"></script>
 </head>
 <body>
-<jsp:include page="header.jsp" />
 
+
+<jsp:include page="header.jsp" />
+    <!-- nav end -->
 
 
    <div class="heropage">
@@ -98,11 +100,13 @@
    </div>
 
 
- <script src="https://unpkg.com/aos@next/dist/aos.js" integrity=""></script>
+
+   <script src="https://unpkg.com/aos@next/dist/aos.js" integrity=""></script>
    <script>
      AOS.init();
    </script>
 <script src="../assets/js/userabout.js"></script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" integrity=""></script>
+
 </body>
 </html>

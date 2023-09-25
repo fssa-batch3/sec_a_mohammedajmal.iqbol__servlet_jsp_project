@@ -35,32 +35,34 @@
 <body>
 
 		<!-- navbar start -->
-	<div class="topnav" id="myTopnav">
-		<a href="index.jsp" class="active"><img class="nav-logo"
+    <div class="navbar">
+        <a href="pages/home.jsp"><img class="logo"
 			src="assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
-		<div class="navlinks">
-			<a href="javascript:void(0);" style="font-size: 15px;" class="icon"
-				onclick="myFunction()">&#9776;</a> <a href="./pages/userabout.jsp"
-				class="navlink">About</a> <a href="./pages/marketdata.html"
-				class="navlink">Market</a> <a href="#" class="navlink">Trade</a> <a
-				href="#" class="navlink">Learn</a> <a
-				href="./pages/userContact.jsp" class="navlink">Contact</a> <a
-				class="login1" href="#contact">
-				<div class="notification">
-					<form class="login1" action="pages/login.jsp">
-						<button class="login" alt="">Log In</button>
-					</form>
-					</span>
-				</div>
-			</a> <a class="login2" href="#contact"><div class="notification">
-					<span class="hint--left" aria-label="Sign Up / Register">
-						<form action="pages/register.jsp">
-							<button class="registration" alt="">FREE TRIAL</button>
-						</form>
-					</span>
-				</div></a>
-		</div>
-	</div>
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="pages/userabout.jsp">About</a></li>
+            <li><a href="#">Market</a></li>
+            <li><a href="#">Trade</a></li>
+            <li><a href="#">Learn</a></li>
+            <li><a href="pages/userContact.jsp">Contact</a></li>
+        </ul>
+        <div class="login-signup">
+        <form action="pages/login.jsp">
+            <button>Login</button></form>
+            <form action="pages/register.jsp"><button>Signup</button></form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 
 	<div class="heropage">
 

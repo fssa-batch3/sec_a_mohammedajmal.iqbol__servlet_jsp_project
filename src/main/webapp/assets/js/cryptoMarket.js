@@ -1,5 +1,15 @@
 //crypto market page js code start
 
+
+ function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+setTimeout(hideLoader, 3000);
+
+
 //headers and options i get from rapidapi
 const options = {
 	method: 'GET',

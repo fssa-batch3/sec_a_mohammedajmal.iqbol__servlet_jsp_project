@@ -49,11 +49,46 @@ async function Main2() {
 }
 
 
+function showLoader() {
+    document.getElementById('loader').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "400",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+    
+
+    toastr.error('Hello, this is a success message!');
+
+
 //form submit event start
 //seller can add courses when he/she submit the form with valid details
 function createcourse(event) {
 	 event.preventDefault();
 	 
+	 showLoader();
+	 
+
 	  console.log(videoString1);
 	 console.log(videoString2);
 	 console.log(videoString3);
@@ -104,6 +139,9 @@ function createcourse(event) {
   .then(response => {
     console.log(response.data);
     const res = response.data;
+    if (res === "Course Created Successfully.") {
+        hideLoader();
+    }
    alert(response.data);
     if(res === "Course Created Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";
@@ -112,6 +150,9 @@ function createcourse(event) {
   .catch(error => {
     alert("Error creating course:" + error);
     // Handle error
+  })
+    .finally(() => {
+    hideLoader();
   });
     
 };

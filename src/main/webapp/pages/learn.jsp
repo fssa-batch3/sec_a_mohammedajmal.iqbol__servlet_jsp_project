@@ -22,6 +22,7 @@
 <link href="https://cdn.jsdelivr.net/npm/hint.css@2.7.0/hint.min.css"
 	integrity="" rel="stylesheet">
 <link rel="stylesheet" href="hint.css" />
+<link rel="stylesheet" href="../assets/css/loader1.css"/>
 </head>
 
 <body>
@@ -38,6 +39,16 @@
    String profileImg = userService.getUserProfilesFromUserID(loggedInUserID);
 
     %>
+    
+   <div class="overlay" id="overlay"></div>
+   <div class="loading" id="loader">
+	  <div class="loading-1"></div>
+	  <div class="loading-2"></div>
+	  <div class="loading-3"></div>
+	  <div class="loading-4"></div>
+	</div>
+	
+	
 	<nav>
 		<div class="navbar">
 			<img class="nav-logo"

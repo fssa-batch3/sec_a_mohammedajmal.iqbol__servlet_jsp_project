@@ -20,6 +20,7 @@
 <link href="https://cdn.jsdelivr.net/npm/hint.css@2.7.0/hint.min.css"
 	rel="stylesheet" integrity="">
 <link rel="stylesheet" href="hint.css" />
+<link rel="stylesheet" href="../assets/css/loader1.css"/>
 </head>
 <body>
 	<%
@@ -34,6 +35,14 @@
 		UserService userService = new UserService();
 		String profileImg = userService.getUserProfilesFromUserID(loggedInUserID);
 	%>
+	<div class="overlay" id="overlay"></div>
+   <div class="loading" id="loader">
+	  <div class="loading-1"></div>
+	  <div class="loading-2"></div>
+	  <div class="loading-3"></div>
+	  <div class="loading-4"></div>
+	</div>
+	
 	<nav>
 		<div class="navbar">
 			<img class="nav-logo"
@@ -161,7 +170,7 @@
 
 
 		<div class="tab">
-			<button class="tablinks active" onclick="homeon()">Home</button>
+			<button class="tablinks active">Home</button>
 		</div>
 		<div class="tab2">
 			<span class="hint--right hint--info hint--rounded"

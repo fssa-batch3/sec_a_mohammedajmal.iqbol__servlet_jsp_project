@@ -9,7 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | freshstocks</title>
   <link rel="stylesheet" href="../assets/css/usercontact.css">
-  <script src="../assets/js/bundle.js"></script>
     <script type="text/javascript">
         (function () {
             emailjs.init("xJczW25BwYvEu6S51");

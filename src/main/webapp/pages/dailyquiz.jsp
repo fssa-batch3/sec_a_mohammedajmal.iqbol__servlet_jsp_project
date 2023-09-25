@@ -176,8 +176,6 @@ scheduler.schedule(task, 24, TimeUnit.HOURS);
 
 						    let countdownElement = document.getElementById('next-quiz');
 						    countdownElement.textContent = "Next quiz available in " + hours + " hr : " + minutes + " min : " + seconds + " sec";
-						}
-
 						// Call the function once to display the initial countdown
 						updateCountdown();
 

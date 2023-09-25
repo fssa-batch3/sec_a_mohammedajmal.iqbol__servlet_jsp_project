@@ -2,6 +2,13 @@
  * 
  */
 
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+setTimeout(hideLoader, 2000);
+
 //js tabs code start
 function openCity(evt, cityName) {
   //try statement

@@ -3,6 +3,16 @@
  */
 
  //market data front page dashboard js code start
+ 
+ 
+ function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+setTimeout(hideLoader, 5000);
+
 
 function renderclock() {
   document.getElementById(

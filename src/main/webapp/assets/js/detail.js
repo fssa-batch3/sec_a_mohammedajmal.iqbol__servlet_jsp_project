@@ -2,6 +2,14 @@
  * 
  */
 
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+setTimeout(hideLoader, 4000);
+
+
 // using this method, I will show the whole details page dynamically
 let urlParams = new URLSearchParams(window.location.search);
 let courseID = urlParams.get('courseID');  

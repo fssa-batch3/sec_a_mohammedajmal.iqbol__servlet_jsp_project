@@ -1,5 +1,15 @@
 //forex market page js code start
 
+
+ function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+setTimeout(hideLoader, 3000);
+
+
 //api call new
 
 const options = {

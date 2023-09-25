@@ -1,4 +1,13 @@
 //market news page js code start
+
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+setTimeout(hideLoader, 5000);
+
 //required params contains api key and host permissions 
 const options = {
   method: "GET",

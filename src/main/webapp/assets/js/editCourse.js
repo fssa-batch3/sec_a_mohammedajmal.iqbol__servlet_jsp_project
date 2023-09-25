@@ -8,6 +8,17 @@ const courseId = urlParams.get('courseId');
 console.log(courseId);
 
 
+function showLoader() {
+    document.getElementById('loader').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
 // Step 3: Send data using Axios
 axios.get(`/freshstocks_web/SaveCourseServlet?courseId=${courseId}`)
   .then(function(response) {
@@ -15,8 +26,7 @@ axios.get(`/freshstocks_web/SaveCourseServlet?courseId=${courseId}`)
    const courseData = response.data;
     console.log('Course Data:', courseData);
     
-    
-    // show course data dynamically
+// show course data dynamically
 let div1;
 
 div1 = document.createElement('div');
@@ -83,6 +93,10 @@ div1.setAttribute("class","contain");
 
 document.querySelector("#form").append(div1);
 
+    if(document.getElementById("courseVideoName3").value) {
+		hideLoader();
+	}
+
 
   })
   .catch(function(error) {
@@ -148,6 +162,8 @@ async function Main2() {
 //seller can add courses when he/she submit the form with valid details
 function editcourse(event) {
 	 event.preventDefault();
+	 
+	 showLoader();
 
     //for adding new course these are course details we get from user.
     let coverImage = document.getElementById("updatedCoverImage").value;
@@ -195,7 +211,11 @@ let courseID = urlParam.get('courseId');
   .then(response => {
     console.log(response.data);
     const res = response.data;
+    if (res === "Course Updated Successfully.") {
+        hideLoader();
+    }
     alert(response.data);
+    hideLoader();
     if(res === "Course Updated Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";
     }

@@ -6,16 +6,10 @@
 <link rel="stylesheet" href="../assets/css/live_trading.css">
 </head>
 <body>
-<div class="top">
-  <h1>freshstocks</h1>
-  <ul class="menu">
-    <li><a href="userHome.html">Home</a></li>
-    <li><a href="market.html">Market Research</a></li>
-    <li><a href="live_trading.html" class="selected">Live forex Trading</a></li>
-    <li><a href="learn.html">Learn</a></li>
-    <li><a href="news.html">News</a></li>
-  </ul>
-</div>
+
+<jsp:include page="header.jsp" />
+
+
 <div class="content">
   <!-- Web Terminal Code Start -->
  <div id="webterminal" style="width:100%;height:800px;"></div>

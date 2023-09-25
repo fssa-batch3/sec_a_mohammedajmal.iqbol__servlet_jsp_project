@@ -1,6 +1,19 @@
 //stock market data page js code start
 //api data
 
+
+function showLoader() {
+    document.getElementById('loader').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+ function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+
 //try statement
 
   const options = {
@@ -151,11 +164,13 @@ let stockdata = {
 let newticker = document.getElementById("submit");
 newticker.addEventListener("click", (event) => {
   event.preventDefault();
+  
+  showLoader();
 
   getData().then((data) => {
     // Handle the resolved data here
 
- 
+ setTimeout(hideLoader, 2000);
 
     return data;
   }).catch((err) => {

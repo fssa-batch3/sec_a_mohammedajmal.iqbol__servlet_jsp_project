@@ -52,7 +52,7 @@
 
 	<div class="chat-bot-popup" id="chatBotPopup">
 		<div class="chat-icon">
-			<!-- chat bot icon css -->
+			<img name="quiz-icon" id="quiz-icon" src="../assets/images/quiz.png"/>
 		</div>
 	</div>
 

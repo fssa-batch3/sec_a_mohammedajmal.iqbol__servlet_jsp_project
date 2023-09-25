@@ -5,6 +5,8 @@
 <head>
 <title>Create Course Form</title>
 <link rel="stylesheet" href="../assets/css/create-course.css" />
+<link rel="stylesheet" href="../assets/css/loader1.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
 	rel="stylesheet" crossorigin="anonymous" integrity="">
@@ -16,6 +18,13 @@
 		response.sendRedirect("login.jsp");
 	} 
 	%>
+   <div class="overlay" id="overlay" style="display:none;"></div>
+   <div class="loading" id="loader" style="display:none;">
+	  <div class="loading-1"></div>
+	  <div class="loading-2"></div>
+	  <div class="loading-3"></div>
+	  <div class="loading-4"></div>
+	</div>
 								
 	<h1>Create Course Form</h1>
 
@@ -78,6 +87,10 @@
 		</div>
 		<button type="submit">Create Course</button>
 	</form>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="../assets/js/createCourse.js"></script>
 	<script

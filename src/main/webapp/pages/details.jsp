@@ -16,7 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course Details</title>
 <link rel="stylesheet" href="../assets/css/details.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<link rel="stylesheet" href="../assets/css/loader1.css"/>
 </head>
 <body>
 	<%
@@ -28,6 +28,15 @@
 		UserService userService = new UserService();
 		String profileImg = userService.getUserProfilesFromUserID(loggedInUserId);
 	%>
+	
+   <div class="overlay" id="overlay"></div>
+   <div class="loading" id="loader">
+	  <div class="loading-1"></div>
+	  <div class="loading-2"></div>
+	  <div class="loading-3"></div>
+	  <div class="loading-4"></div>
+	</div>
+	
 	<nav>
 		<div class="navbar">
 			<img class="nav-logo"
@@ -188,8 +197,6 @@
 	}
 	%>
 
-        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		<script src="../assets/js/detail.js"></script>
 		<script type="text/javascript"
