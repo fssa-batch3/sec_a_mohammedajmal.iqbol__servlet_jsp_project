@@ -41,9 +41,6 @@
 	
 	<img src="../assets/images/2488756.jpg" alt="error Image" class="errormessage" />
 	
-	<div style="margin-top:-85px;">
-    <jsp:include page="footer.jsp" />
-	</div>
 	<script>
 		function myFunction() {
 			var x = document.getElementById("myTopnav");

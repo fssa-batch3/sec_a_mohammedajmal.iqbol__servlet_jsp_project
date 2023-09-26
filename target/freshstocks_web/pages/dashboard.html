@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <!-- g fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,600&display=swap" rel="stylesheet">
+<!-- g fonts -->
+</head>
+<body>
+    <header class="header">
+        <div class="sidebar">
+              
+        <div class="company-logo">
+            <img  src="../assets/images/Screenshot 2023-02-11 021952.png" alt="" class="nav-logo">
+            <hr class="navhr">
+        </div>
+
+       
+            <hr>
+            <br>
+            
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-dashboard-layout-24.png" alt="">
+                <a class="dash-name" href="dashboard.html">Dashboard</a>
+            </div>
+            
+            <hr>
+            <br>
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-shopping-cart-64.png" alt="">
+                <a class="dash-name">Orders</a>
+            </div>
+            
+            
+            <hr>
+            <br>
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-trade-64.png" alt="">
+                <a class="dash-name">Products</a>
+            </div>
+            
+            <hr>
+            <br>
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-newspaper-50.png" alt="">
+                <a class="dash-name">Customers</a>
+            </div>
+            
+            
+            <hr>
+            <br>
+            
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-futures-50.png" alt="">
+                <a class="dash-name">Sales</a>
+            </div>
+            
+            
+            <hr>
+            <br>
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-group-50.png" alt="">
+                <a class="dash-name">Reports</a>
+            </div>
+
+            <hr>
+            <br>
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-group-message-50.png" alt="">
+                <a class="dash-name">Messages</a>
+            </div>
+            
+            
+            <hr>
+            <br>
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-salesman-50.png" alt="">
+                <a class="dash-name">Marketing</a>
+            </div>
+            
+            
+          
+            <hr class="help-support-hr">
+            <br>
+            <div class="firstrow-sidebar"  id="help-support">
+
+                
+                
+                <img class="dash-img" src="../assets/images/icons8-online-support-50.png" alt="">
+                <a class="dash-name">Support</a>
+            </div>
+            
+            
+            <br>
+           
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-gears-30.png" alt="">
+                <a class="dash-name">Settings</a>
+            </div>
+            
+            <br>
+           
+            <div class="firstrow-sidebar">
+                <img class="dash-img" src="../assets/images/icons8-logout-rounded-50 (1).png" alt="">
+                <a class="dash-name-logout" href="../index.html">Logout</a>
+            </div>
+            
+            </div>
+
+
+
+
+
+        </div>
+        <div class="right-content">
+
+
+             <div class="navbar">
+                <div class="admin-name">
+                    <h1 class="admin-h1">Mohammed Ajmal</h1>
+                    <p class="admin-p" id="admin-p"></p>
+                 </div>
+                <div class="search-input">
+                   <img class="searchimg" src="../assets/images/icons8-search-50.png" alt="">
+                    <input type="search" name="search" id="search" placeholder="Search here...">
+                </div>
+                <div class="notification">
+                    <img class="notificationimg" onclick="profile1()" src="../assets/images/icons8-notification-50.png" alt="">
+                </div>
+                <div class="notification">
+                    <img class="notificationimg1" onclick="profile1()" src="../assets/images/icons8-group-message-50.png" alt="">
+                </div>
+                <div class="notification">
+                    <img class="user-profile" id="user-profile" onclick="profile()" src="../assets/images/icons8-male-user-48.png" alt="">
+                </div>
+                
+
+              <!--  -->
+              <div class="user-tab" id="user-tab">
+
+                <div class="side-bar-content">
+                    <div class="firstrow-sidebar">
+                        <img class="dash-img" src="../assets/images/icons8-home-page-32 (1).png" alt="">
+                        <a class="dash-name">Profile</a>
+                    </div>
+                    <hr>
+                    <br>
+                    
+                    <div class="firstrow-sidebar">
+                        <img class="dash-img" src="../assets/images/icons8-dashboard-layout-24.png" alt="">
+                        <a class="dash-name">Edit Profile</a>
+                    </div>
+                    
+                    <hr>
+                    <br>
+                    <div class="firstrow-sidebar">
+                        <img class="dash-img" src="../assets/images/icons8-shopping-cart-64.png" alt="">
+                        <a class="dash-name">Settings</a>
+                    </div>
+                    
+                    
+                    <hr>
+                    <br>
+                    <div class="firstrow-sidebar">
+                        <img class="dash-img" src="../assets/images/icons8-home-page-32 (1).png" alt="">
+                        <a class="dash-name">Log Out</a>
+                    </div>
+                    <hr>
+                    <br>
+                    
+                    
+                    
+                    </div>
+
+              </div>
+              <!--  -->
+
+
+
+              <!-- notification start -->
+              
+              <div class="user-tab" id="user-notification">
+
+
+                <div class="side-bar-content">
+                    <div class="firstrow-sidebar">
+                        <!-- <img class="dash-img" src="images/icons8-home-page-32 (1).png" alt=""> -->
+
+                        <a class="dash-name">Latest Notifications</a>
+                    </div>
+                    <hr>
+                   
+
+                <div class="side-bar-content">
+                    <div class="firstrow-sidebar">
+                        <!-- <img class="dash-img" src="images/icons8-home-page-32 (1).png" alt=""> -->
+                      
+                        <a class="dash-name">Get upto 30% off in trading t-shirts</a>
+                    </div>
+                    <hr>
+                    <br>
+                    
+                    <div class="firstrow-sidebar">
+                        <!-- <img class="dash-img" src="images/icons8-dashboard-layout-24.png" alt=""> -->
+                        <a class="dash-name">Still feared about trading ?</a>
+                    </div>
+                    
+                    <hr>
+                    <br>
+                    <div class="firstrow-sidebar">
+                        <!-- <img class="dash-img" src="images/icons8-shopping-cart-64.png" alt=""> -->
+                        <a class="dash-name">best ever blogs of 2023</a>
+                    </div>
+                    
+                    
+                    <hr>
+                    <br>
+                    <div class="firstrow-sidebar">
+                        <!-- <img class="dash-img" src="images/icons8-home-page-32 (1).png" alt=""> -->
+                        <a class="dash-name">bitcoin again went down in this month </a>
+                    </div>
+                    <hr>
+                    <br>
+                    
+                    
+                    
+                    </div> 
+
+              <!-- notify end -->
+             </div>
+                
+             
+          
+        </div>
+    </header>
+
+<main class="maindata">
+  
+      
+</main>
+
+
+
+
+
+
+
+<script src="../assets/js/moment/moment.min.js"></script>
+
+
+<script>
+
+
+
+
+function profile() {
+    
+ x  = document.getElementById("user-tab");
+
+ if(x.style.display === "none"){
+   x.style.display = "block";
+ } else {
+    x.style.display = "none";
+ }
+}
+
+function profile1() {
+    
+    x  = document.getElementById("user-notification");
+   
+    if(x.style.display === "none"){
+      x.style.display = "block";
+    } else {
+       x.style.display = "none";
+    }
+   }
+
+
+
+   document.getElementById("admin-p").innerText =  moment().format('MMMM Do YYYY, h:mm:ss a');
+
+
+
+</script>
+
+</body>
+</html>

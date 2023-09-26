@@ -3,7 +3,7 @@
 <%@page import="java.util.List"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.fssa.freshstocks.model.*"%>
 <%@ page import="com.fssa.freshstocks.services.*"%>
@@ -16,6 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course Details</title>
 <link rel="stylesheet" href="../assets/css/details.css" />
+<link rel="stylesheet" href="../assets/css/loader1.css"/>
 </head>
 <body>
 	<%
@@ -27,6 +28,15 @@
 		UserService userService = new UserService();
 		String profileImg = userService.getUserProfilesFromUserID(loggedInUserId);
 	%>
+	
+   <div class="overlay" id="overlay"></div>
+   <div class="loading" id="loader">
+	  <div class="loading-1"></div>
+	  <div class="loading-2"></div>
+	  <div class="loading-3"></div>
+	  <div class="loading-4"></div>
+	</div>
+	
 	<nav>
 		<div class="navbar">
 			<img class="nav-logo"

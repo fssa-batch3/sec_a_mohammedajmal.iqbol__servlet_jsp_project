@@ -7,7 +7,6 @@ let submit = document.getElementById("submit")
 submit.addEventListener("click", function (e){ 
      e.preventDefault();
      
-       let hashedpassword;
 
      
  let email = document.getElementById("otp-input").value;
@@ -94,14 +93,10 @@ emailjs.send("service_sp6m68x","template_1veprt4",params)
     // Send a GET request to retrieve the user's hashed password
     
     if (password != null) {
-  
-    hashedpassword = encryptPassword(password);
-    
-    console.log(hashedpassword);
 
             
 let newUserPasswordObj = {
-    hashedpassword,
+    password,
     email
 }; 
 
@@ -145,24 +140,4 @@ let newUserPasswordObj = {
   function back() {
     window.location.href = "login.jsp";
   }
-  
-
-
-function encryptPassword(password) {
-  try {
-    // Generate a random salt value
-    const salt = CryptoJS.lib.WordArray.random(16);
-
-    // Hash the password using SHA-256 with salt
-    const hashedPassword = CryptoJS.SHA256(password + salt);
-
-    hashedpassword = salt.toString() + " " + hashedPassword.toString();
-
-
-    // Return the salt and hashed password as a string
-    return salt.toString() + " " + hashedPassword.toString();
-  } catch (error) {
-    console.error("Error encrypting password:", error);
-    throw error;
-  }
-}
+ 

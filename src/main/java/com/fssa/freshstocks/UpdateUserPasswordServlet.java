@@ -41,7 +41,7 @@ public class UpdateUserPasswordServlet extends HttpServlet {
 	    JSONObject userData = new JSONObject(requestData.toString());
 	    JSONObject userJson = userData.getJSONObject("newUserPasswordObj");
 
-            String password = userJson.getString("hashedpassword");
+            String password = userJson.getString("password");
             String email = userJson.getString("email");
             UserService userService = new UserService();
 

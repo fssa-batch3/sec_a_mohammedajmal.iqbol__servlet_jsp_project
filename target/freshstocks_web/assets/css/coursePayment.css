@@ -54,6 +54,7 @@ body {
   font-size: 16px;
   background-color: #54C7C3!important;
   border: none;
+  margin-top: 40px;
 }
 
 #PayButton:hover {

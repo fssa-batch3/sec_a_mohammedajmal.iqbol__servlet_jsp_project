@@ -2,6 +2,15 @@
  * 
  */
 
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+setTimeout(hideLoader, 4000);
+
+
+// using this method, I will show the whole details page dynamically
 let urlParams = new URLSearchParams(window.location.search);
 let courseID = urlParams.get('courseID');  
 
@@ -181,51 +190,47 @@ div1.innerHTML = `
 
 				<div class="offered-by-videos" id="videos">
 					<p class="learn-couse" id="about1">Videos</p>
+					
+					
+					
+				<div class="progress-container">
+    <div class="progress-label">
+        Course Progress:
+        <span id="progressText" class="progress-text">0%</span>
+    </div>
+    <div class="progress">
+        <div class="progress-bar">
+            <div id="progressBar" class="progress-fill"></div>
+        </div>
+    </div>
+    <div id="lastModified" class="last-modified">
+        Last Modified: <span id="lastModifiedText"></span>
+    </div>
+    <button type="button" onclick="viewcertify()" id="viewcertify" style="display:none;margin-left: 43%;">View the Course Certificate</button>
+</div>
+
+<div id="celebration-container"></div>
 
 
 					<button class="accordion">Beginner's Module <span id="locked1">&#128274;</span></button>
 					<div class="panel">
-						<a href="${courseDetails.courseVideo1}" class="course-links" id="course-links1"
+						<a href="courseVideoPlayer.jsp?courseID=${courseID}&videoId=${1}" class="course-links" id="course-links1"
 							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">${courseDetails.courseVideoName1}</li></a><a class="quiz-btn"
-							id="quiz1" href="">take quiz</a><br> <br> <a href="#"
-							class="course-links" id="course-links1" target="_blank"
-							onclick="openFile(event)"><li class="begginer-module">Course
-								Video 2</li></a><a class="quiz-btn" id="quiz2" href="">take quiz</a><br>
-						<br> <a href="#" class="course-links" id="course-links1"
-							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">Course Video 3</li></a><a class="quiz-btn"
-							id="quiz3" href="">take quiz</a><br> <br>
+							class="begginer-module">${courseDetails.courseVideoName1}</li></a> <br>
 					</div>
 
 					<button class="accordion">Intermediate Module <span id="locked2">&#128274;</span></button>
 					<div class="panel">
-						<a href="${courseDetails.courseVideo2}" class="course-links" id="course-links1"
+						<a href="courseVideoPlayer.jsp?courseID=${courseID}&videoId=${2}" class="course-links" id="course-links1"
 							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">${courseDetails.courseVideoName2}</li></a><a class="quiz-btn"
-							id="quiz4" href="">take quiz</a><br> <br> <a href="#"
-							class="course-links" id="course-links1" target="_blank"
-							onclick="openFile(event)"><li class="begginer-module">Course
-								Video 5</li></a><a class="quiz-btn" id="quiz5" href="">take quiz</a><br>
-						<br> <a href="#" class="course-links" id="course-links1"
-							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">Course Video 6</li></a><a class="quiz-btn"
-							id="quiz6" href="">take quiz</a><br> <br>
+							class="begginer-module">${courseDetails.courseVideoName2}</li></a> <br>
 					</div>
 
 					<button class="accordion">Advanced Module <span id="locked3">&#128274;</span></button>
 					<div class="panel">
-						<a href="${courseDetails.courseVideo3}" class="course-links" id="course-links1"
+						<a href="courseVideoPlayer.jsp?courseID=${courseID}&videoId=${3}" class="course-links" id="course-links1"
 							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">${courseDetails.courseVideoName3}</li></a><a class="quiz-btn"
-							id="quiz7" href="">take quiz</a><br> <br> <a href="#"
-							class="course-links" id="course-links1" target="_blank"
-							onclick="openFile(event)"><li class="begginer-module">Course
-								Video 8</li></a><a class="quiz-btn" id="quiz8" href="">take quiz</a><br>
-						<br> <a href="#" class="course-links" id="course-links1"
-							target="_blank" onclick="openFile(event)"><li
-							class="begginer-module">Course Video 9</li></a><a class="quiz-btn"
-							id="quiz9" href="">take quiz</a><br> <br>
+							class="begginer-module">${courseDetails.courseVideoName3}</li></a> <br>
 					</div>
 
 
@@ -248,6 +253,7 @@ div1.innerHTML = `
 
 						<div id="new-comments">
 							<!-- comments div start -->
+							
 
 
 <div id="edit-popup" class="popup" style="display:none;">
@@ -392,9 +398,11 @@ div1.innerHTML = `
 
     document.querySelector("body").append(div1);
     
-addcomment();
 
-coursePurchased();
+setTimeout(() => setInterval(coursePurchased(), intervalTime), 100);
+
+
+
 
 
 })
@@ -404,56 +412,7 @@ coursePurchased();
 });
 
 
-let urlParamms = new URLSearchParams(window.location.search);
-let CourseID = urlParamms.get('courseID');
-
-axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
-.then(response => {
-const courses = response.data;
-console.log(response.data);
-
-if(courses[0] == null){
-	  
-			  let div1 = document.createElement("div");
-   div1.setAttribute("class", "comment-1");
-   div1.setAttribute("id", "comment-1");
-   div1.innerHTML = `
-	   <div class="comment-img">
-		   <p class="comment-letters" id="comment-letters">No Comments Available Right Now! </p>
-	   </div>
-   `;
-   
-   document.querySelector("#new-comments").appendChild(div1);
-}
-
-courses.forEach(course => {
-   let div1 = document.createElement("div");
-   div1.setAttribute("class", "comment-1");
-   div1.setAttribute("id", "comment-1");
-   div1.innerHTML = `
-	   <div class="comment-img">
-		   <img class="profile-img_block" id="profile-pic" src="${course.userProfile}">
-		   <p class="comment-letters" id="comment-letters">${course.commentBody}</p>
-		   &emsp;
-		   <p class="datenow">${course.createdTime}</p>
-		   <a onclick="openEditPopup(${course.commentId})"
-			   style="display: inline-block; padding: 5px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px; transition: background-color 0.3s; height: fit-content; margin: 15px 20px;">Edit</a>
-		   <a onclick="deleteComment(${course.commentId})"
-			   style="display: inline-block; padding: 5px 16px; background-color: red; color: #fff; text-decoration: none; border-radius: 4px; transition: background-color 0.3s; height: fit-content; margin: 15px 0px;">Delete</a>
-		   <button style="display: none;">Edit</button>
-		   <button style="display: none;">Delete</button>
-	   </div>
-   `;
-   
-   document.querySelector("#new-comments").appendChild(div1);
-});
-})
-.catch(error => {
-console.error('Error creating course:', error);
-// Handle error
-});
-
-
+// using this method i will get purchased courses list 
 function coursePurchased() {
 	
 	let urlParams = new URLSearchParams(window.location.search);
@@ -504,6 +463,253 @@ for (i = 0; i < acc.length; i++) {
 
 // accordian code function end
 
+
+// url params get courseID
+ let urlParamms = new URLSearchParams(window.location.search);
+     let CourseID = urlParamms.get('courseID');
+
+
+
+axios.get(`/freshstocks_web/UpdateMyCoursesServlet?courseId=${CourseID}`)
+    .then(response => {
+        const courseProgressData = response.data; 
+        const totalVideos = 3; // there are 3 videos in total
+        
+        let progressVal = courseProgressData.progress;
+        const latestModifiedAt = courseProgressData.latestModifiedAt;
+        
+        let overallProgress = progressVal / 3;
+        
+        console.log(courseProgressData);
+
+        // Update progress bar and last modified timestamp
+        const progressBar = document.querySelector('.progress-fill');
+        const lastModified = document.getElementById('lastModified');
+        const progressText = document.getElementById('progressText');
+        
+        
+        const formattedTimestamp = formatTimestamp(latestModifiedAt);
+
+        progressBar.style.width = overallProgress + '%';
+        lastModified.innerText = "\n Last Updated: " + formattedTimestamp;
+        progressText.innerText = Math.round(overallProgress) + '%';
+        
+        if (overallProgress === 100) {
+           celebrateCompletion(courseID);
+           
+            document.getElementById("viewcertify").style.display = "block";
+        }
+
+    })
+    .catch(error => {
+        console.error('Error fetching course progress:', error);
+    });
+    
+    
+    
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    const hours = Math.floor(diffInSeconds / 3600);
+    const minutes = Math.floor((diffInSeconds % 3600) / 60);
+
+    if (hours > 0) {
+        if (hours === 1) {
+            return hours + ' hour ago';
+        } else {
+            return hours + ' hours ago';
+        }
+    } else if (minutes > 0) {
+        if (minutes === 1) {
+            return minutes + ' minute ago';
+        } else {
+            return minutes + ' minutes ago';
+        }
+    } else {
+        return 'just now';
+    }
+}
+
+
+function celebrateCompletion(courseId) {
+	
+	  // Check if the user has already completed the course
+    const courseCompleted = localStorage.getItem(`courseCompleted_${courseId}`);
+
+  if (!courseCompleted) {
+    // Add the active class to the body
+    document.body.classList.add('celebration-active');
+    
+  // Add the active class to the body
+  document.body.classList.add('celebration-active');
+
+  // Create confetti elements
+  const confettiContainer = document.createElement('div');
+  confettiContainer.classList.add('confetti-container');
+
+  for (let i = 0; i < 100; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+    confetti.style.animationDelay = Math.random() + 's';
+    confetti.style.animationIterationCount = 'infinite';
+
+    confettiContainer.appendChild(confetti);
+  }
+
+  // Append confetti to the body
+  document.body.appendChild(confettiContainer);
+
+  // Show celebration message
+  const messageElement = document.createElement('div');
+  messageElement.classList.add('celebration-message');
+  messageElement.innerHTML = '&#x1F389; Congratulations for finishing the course! &#x1F389;';
+
+  document.body.appendChild(messageElement);
+
+  // Automatically remove after 10 seconds
+  setTimeout(() => {
+    messageElement.remove();
+    confettiContainer.remove();
+    document.body.classList.remove('celebration-active');
+  }, 10000);
+  
+   // Store in local storage that the user has completed the course
+   localStorage.setItem(`courseCompleted_${courseId}`, 'true');
+   
+    }
+}
+
+
+/* using this method i will update comment and if comment 
+object null means show message no comment available else 
+show comments and there i will check if the comments created 
+by him means show edit and delete button else can't show
+*/
+axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
+  .then(response => {
+    const courses = response.data.comment;
+    const userId = response.data.userID;
+    let firstComment = response.data.comment[0];
+    console.log(response.data.comment);
+    
+    if(firstComment == null){
+           
+                   let div1 = document.createElement("div");
+        div1.setAttribute("class", "comment-1");
+        div1.setAttribute("id", "comment-1");
+        div1.innerHTML = `
+            <div class="comment-img">
+                <p class="comment-letters" id="comment-letters">No Comments Available Right Now! </p>
+            </div>
+        `;
+        
+        document.querySelector("#new-comments").appendChild(div1);
+	} else {
+		
+	let rev = courses.reverse();
+    
+    rev.forEach(course => {
+        let div1 = document.createElement("div");
+        div1.setAttribute("class", "comment-1");
+        div1.setAttribute("id", "comment-" + course.commentId);
+        div1.innerHTML = `
+            <div class="comment-img">
+                <img class="profile-img_block" id="profile-pic" src="${course.userProfile}">
+                <p class="comment-letters" id="comment-letters">${course.commentBody}</p>
+                &emsp;
+                <p class="datenow">${course.createdTime}</p>
+                <a onclick="openEditPopup(${course.commentId})" id="anker1-${course.commentId}"
+                    style="display: inline-block; padding: 5px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px; transition: background-color 0.3s; height: fit-content; margin: 15px 20px;">Edit</a>
+                <a onclick="deleteComment(${course.commentId})" id="anker2-${course.commentId}"
+                    style="display: inline-block; padding: 5px 16px; background-color: red; color: #fff; text-decoration: none; border-radius: 4px; transition: background-color 0.3s; height: fit-content; margin: 15px 0px;">Delete</a>
+                <button style="display: none;">Edit</button>
+                <button style="display: none;">Delete</button>
+            </div>
+        `;
+        
+        document.querySelector("#new-comments").appendChild(div1);
+        
+        if (userId !== course.userId) {
+        document.getElementById(`anker1-${course.commentId}`).style.display = "none";
+        document.getElementById(`anker2-${course.commentId}`).style.display = "none";
+       }
+		
+		})
+    }
+  })
+  .catch(error => {
+    console.error('Error creating course:', error);
+    // Handle error
+});
+
+
+
+		} else { 
+			//if he not purchased the course means below will run
+			
+		
+    document.getElementById("comment-input").disabled = true;
+    document.getElementById("submit-comment").disabled = true;
+			
+			            let div1 = document.createElement("div");
+        div1.setAttribute("class", "comment-1");
+        div1.setAttribute("id", "comment-1");
+        div1.innerHTML = `
+            <div class="comment-img">
+                <p class="comment-letters" id="comment-letters">Kindly, Enroll this Course to Access the Comment Section! </p>
+            </div>
+        `;
+        
+        document.querySelector("#new-comments").appendChild(div1);
+        
+        
+         let urlParamms = new URLSearchParams(window.location.search);
+     let CourseID = urlParamms.get('courseID');
+
+axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
+  .then(response => {
+    const courses = response.data.comment;
+    
+    if(courses[0] == null){
+           
+                   let div1 = document.createElement("div");
+        div1.setAttribute("class", "comment-1");
+        div1.setAttribute("id", "comment-1");
+        div1.innerHTML = `
+            <div class="comment-img">
+                <p class="comment-letters" id="comment-letters">No Comments Available Right Now! </p>
+            </div>
+        `;
+        
+        document.querySelector("#new-comments").appendChild(div1);
+	} else {
+    
+    courses.forEach(course => {
+        let div1 = document.createElement("div");
+        div1.setAttribute("class", "comment-1");
+        div1.setAttribute("id", "comment-1");
+        div1.innerHTML = `
+            <div class="comment-img">
+                <img class="profile-img_block" id="profile-pic" src="${course.userProfile}">
+                <p class="comment-letters" id="comment-letters">${course.commentBody}</p>
+            </div>
+        `;
+        
+        document.querySelector("#new-comments").appendChild(div1);
+        
+    });
+    
+    }
+  })
+  .catch(error => {
+    console.error('Error creating course:', error);
+    // Handle error
+});
+        
 		}
         
            })
@@ -513,7 +719,7 @@ for (i = 0; i < acc.length; i++) {
 }
 
 
-
+// using this method i will enroll or buy the course.
 function enrollcourse(sellingPrice2) {
 	event.preventDefault();
 	
@@ -536,7 +742,7 @@ function enrollcourse(sellingPrice2) {
     }
 }
 
-
+// using this function method, I will delete the course using courseId 
 function deletemycourses() {
 	
 	let urlParams = new URLSearchParams(window.location.search);
@@ -561,7 +767,7 @@ axios.post(`/freshstocks_web/RemoveMyCoursesServlet?courseId=${courseID}`)
 
 
 
-
+// using this method, I will show the edit comment popup and existing comment 
 function openEditPopup(commentId) {
 	
 	// Set the commentId in the hidden input field
@@ -585,7 +791,7 @@ function openEditPopup(commentId) {
 
 
 
-
+// using this method, I will update the comment
 function submitEditComment(event) {
     event.preventDefault();
     
@@ -618,14 +824,14 @@ function submitEditComment(event) {
 
 
 
-
+// using this method, I will close the edit popup
 function closeEditPopup() {
     var editPopup = document.getElementById('edit-popup');
     editPopup.style.display = 'none';
 }
 
 
-
+// using this method, I will add comment to database
 function addcomment(event) {
 	 event.preventDefault();
 	 
@@ -646,8 +852,8 @@ function addcomment(event) {
     console.log(response.data);
     const res = response.data;
     alert(response.data);
-    if(res === "Comment Created Successfully.") {
-        window.location.href=`/freshstocks_web/pages/details.jsp?courseID=${courseId}#comment`;
+    if(res == "Comment Created Successfully.") {
+      window.location.href=`/freshstocks_web/pages/details.jsp?courseID=${courseId}`;
     }
     // Handle success
   })
@@ -660,6 +866,7 @@ function addcomment(event) {
 };
 
 
+// using this method, I will delete the comment from the database
 function deleteComment(commentId) {
 	event.preventDefault();
 	let msg = confirm("Are you Sure! You Want to Delete this Commwnt ?");
@@ -678,6 +885,10 @@ function deleteComment(commentId) {
             console.error('Error deleting comment:', error);
         });
         }
+}
+
+function viewcertify() {
+	window.location.href = `certificate.jsp?courseId=${courseID}`;
 }
 
 

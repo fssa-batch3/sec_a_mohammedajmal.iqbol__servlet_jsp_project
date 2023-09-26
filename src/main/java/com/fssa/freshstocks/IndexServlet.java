@@ -58,8 +58,8 @@ public class IndexServlet extends HttpServlet {
 	    JSONObject userData = new JSONObject(requestData.toString());
 	    JSONObject userJson = userData.getJSONObject("loggedin");
 	    String email = userJson.getString("email");
-	    boolean isPasswordCorrect = userJson.getBoolean("isPasswordCorrect");
-
+	    String password = userJson.getString("password");
+        User user = new User(email,password);
 	    User userObject = null;
 		try {
 			userObject = userService.getUserByEmail(email);
@@ -68,7 +68,7 @@ public class IndexServlet extends HttpServlet {
 		}
 
 	    try {
-	        if (isPasswordCorrect && (userObject.getIsDeleted() == 0)) {
+	        if (userService.loginUser(user) && (userObject.getIsDeleted() == 0)) {
 	            HttpSession session = request.getSession();
 	            session.setAttribute("loggedInEmail", email);
 	            session.setAttribute("loggedInUserID", userObject.getUserId());

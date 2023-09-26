@@ -1,4 +1,5 @@
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\AddCommentServlet.java
+C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\LeaderBoardServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\UpdateCommentServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\deleteUserServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\ProfilePageServlet.java
@@ -9,12 +10,14 @@ C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\SaveCourseServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\GetPurchasedCoursesServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\SubmitAnswerServlet.java
+C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\UpdateMyCoursesServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\LogoutServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\RemoveMyCoursesServlet.java
+C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\UpdateUserPasswordServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\QuizServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\BuyCourseServlet.java
-C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\GetAllUserServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\RegistrationServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\DeleteCommentServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\CreateCourseServlet.java
+C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\AutoLoginServlet.java
 C:\Users\MohammedAjmalIqbol\eclipse-workspace\freshstocks_web\src\main\java\com\fssa\freshstocks\UpdateCourseServlet.java

@@ -9,149 +9,19 @@ body {
 	overflow-x: hidden;
 }
 
-nav {
-	width: 100%;
-	height: 70px;
-	background-color: white;
-	position: fixed;
-	top: 0px;
-	z-index: 100;
-}
-
-hr {
-	opacity: 0.3;
-}
-
-.nav-logo {
-	width: 200px;
-	height: 60px;
-	margin-top: 4px;
-	margin-left: 30px;
-}
-
-.search {
-	width: 700px;
-	height: 25px;
-	margin-top: 10px;
-	margin-left: 50px;
-	padding: 10px;
-	background-color: #F1F3F4;
-	border-radius: 5px;
-	border-color: lightsteelblue;
-}
-
-.search::placeholder {
-	font-size: 17px;
-	opacity: 0.7;
-}
-
-.navbar {
-	display: flex;
-	flex-wrap: wrap;
-	z-index: 10;
-}
-
-.notificationimg {
-	width: 30px;
-	height: 30px;
-	margin-top: 19px;
-	margin-left: 50px;
-}
-
-.user-profile {
-	width: 40px;
-	height: 40px;
-	margin-top: 10px;
-	margin-left: 50px;
-}
-
-.blinking {
-	animation: 1.7s blink ease infinite;
-	position: absolute;
-	top: 48px;
-	left: 37.5%;
-}
-
-@
-keyframes blink {from , to { opacity:0;
-	
-}
-
-50
-%
-{
-opacity
-:
-1;
-}
-}
-.navlinks {
-	margin-top: 26px;
-	margin-left: 200px;
-}
-
-.navlink {
-	margin-left: 30px;
-	text-decoration: none;
-	color: black;
-	font-family: sans-serif;
-	font-size: 15px;
-	transition: all 0.2s;
-	opacity: 0.8;
-}
-
-#contact {
-	margin-left: 10px;
-}
-
-.login {
-	margin-left: 350px;
-	margin-top: 20px;
-	padding: 5px;
-	width: 80px;
-	height: 35px;
-	font-size: 16px;
-	background-color: white;
-	color: black;
-	border-radius: 5px;
-	border: none;
-	cursor: pointer;
-	opacity: 0.7;
-	transition: all 0.2s;
-}
-
-.login:hover, .navlink:hover {
-	color: dodgerblue;
-	opacity: 1;
-}
-
-.registration {
-	margin-top: 20px;
-	margin-left: 0px;
-	padding: 5px;
-	width: 150px;
-	height: 35px;
-	background-color: dodgerblue;
-	color: white;
-	border-radius: 5px;
-	border-color: dodgerblue;
-	cursor: pointer;
-}
-
 /* NAV END */
 .heropage {
 	background-color: white;
 	color: black;
 	width: 100%;
 	height: 1065px;
-	/* position: relative; */
-	margin-top: 60px;
+	margin-top: 80px;
 }
 
 .heroheading {
 	color: black;
 	position: relative;
-	top: 100px;
+	top: 70px;
 	font-family: 'Poppins', sans-serif;
 	font-size: 45px;
 	font-weight: 600;
@@ -272,11 +142,14 @@ scale(
 .chat-icon {
 	width: 50px;
 	height: 50px;
-	background-image:
-		url('https://static.thenounproject.com/png/2078998-200.png');
-	background-size: cover;
 	border-radius: 50%;
-	margin: 10px;
+	margin: 5px;
+}
+
+#quiz-icon {
+	width:60px;
+	height:60px;
+	margin:-5px;
 }
 
 .chat-content {
@@ -785,31 +658,6 @@ translateX(
 }
 
 @media all and (max-width: 600px) {
-	/*navbar start*/
-	a {
-		text-decoration: none;
-		color: white;
-		font-family: 'Poppins', sans-serif;
-		font-weight: 300;
-	}
-	a:hover {
-		border-bottom: 2px solid #55ACEE;
-	}
-	.navbar {
-		display: flex;
-		background-color: #08041e;
-		width: 390px;
-		height: 100px;
-	}
-	.navlogo {
-		width: 150px;
-		height: 150px;
-		margin-left: 50px;
-		position: relative;
-		bottom: 30px;
-		right: 30px;
-		cursor: pointer;
-	}
 
 	/*navbar end*/
 	/*herosection start*/

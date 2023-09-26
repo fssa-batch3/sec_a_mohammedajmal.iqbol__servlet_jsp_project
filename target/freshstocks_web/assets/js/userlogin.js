@@ -31,7 +31,7 @@ password.addEventListener("input", async () => {
     console.log(response.data);
     console.log(isPasswordCorrect);
   } catch (error) {
-    console.error("Error fetching password:", error);
+    console.log("Error fetching password:" + error);
     throw error;
   }
 });
@@ -41,6 +41,8 @@ password.addEventListener("input", async () => {
 let login = document.getElementById("form");
 login.addEventListener("submit", (event) => {
   event.preventDefault();
+  
+  rememberMe();
 
   //try statement
   let email = document.getElementById("email").value;
@@ -69,12 +71,13 @@ login.addEventListener("submit", (event) => {
           newWindow.focus();
 	  } else if (response.data === "Invalid") {
 		  alert("Authentication Failed! Recheck Your Credentials");
+	  } else {
+		   alert("Authentication Failed! Recheck Your Credentials");
 	  }
-
 })
 .catch((error) => {
   // Handle errors, such as incorrect credentials
-  console.error("Error:", error);
+  alert("Authentication failed: Recheck Your Credentials!");
 });
 
     //catch statement
@@ -84,3 +87,40 @@ login.addEventListener("submit", (event) => {
 });
 
 //user login page js code end
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    var storedEmail = localStorage.getItem("userEmail");
+    if (storedEmail) {
+        axios.post(`/freshstocks_web/autologin?email=${storedEmail}`)
+        .then(function (response) {
+            if(response.data === "Buyer") {
+                window.location.href = "/freshstocks_web/pages/home.jsp";
+            } else if (response.data === "Seller") {
+                window.location.href = "/freshstocks_web/pages/sellerhome.jsp";
+            } else if (response.data === "Invalid") {
+                console.log("Authentication Failed! User Not found.");
+            } else {
+                console.log("User failed to Login!");
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+});
+
+
+function rememberMe() {
+    var checkBox = document.getElementById("remember-me");
+    var email = document.getElementById("email").value;
+    if (checkBox.checked == true) {
+        localStorage.setItem("userEmail", email);
+        // Proceed with further actions, such as submitting to the server
+    } else {
+        localStorage.removeItem("userEmail");
+    }
+}
+
+

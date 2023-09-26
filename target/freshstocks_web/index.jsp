@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Home | freshstocks</title>
-<link rel="stylesheet" href="assets/css/index.css">
+<link rel="stylesheet" href="assets/css/indexpage.css">
 <!-- google fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +34,35 @@
 </head>
 <body>
 
-	<jsp:include page="pages/header.jsp" />
+		<!-- navbar start -->
+    <div class="navbar">
+        <a href="pages/home.jsp"><img class="logo"
+			src="assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="pages/userabout.jsp">About</a></li>
+            <li><a href="#">Market</a></li>
+            <li><a href="#">Trade</a></li>
+            <li><a href="#">Learn</a></li>
+            <li><a href="pages/userContact.jsp">Contact</a></li>
+        </ul>
+        <div class="login-signup">
+        <form action="pages/login.jsp">
+            <button>Login</button></form>
+            <form action="pages/register.jsp"><button>Signup</button></form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 
 	<div class="heropage">
 

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.fssa.freshstocks.model.*"%>
 <%@ page import="com.fssa.freshstocks.services.*"%>
@@ -52,7 +52,7 @@
 
 	<div class="chat-bot-popup" id="chatBotPopup">
 		<div class="chat-icon">
-			<!-- chat bot icon css -->
+			<img name="quiz-icon" id="quiz-icon" src="../assets/images/quiz.png"/>
 		</div>
 	</div>
 

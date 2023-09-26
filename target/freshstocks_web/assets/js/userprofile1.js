@@ -177,7 +177,7 @@ let newUserObj = {
             location.reload();
         })
         .catch(error => {
-            console.error('Error editing profile:', error);
+            alert("Error editing profile:" + error);
         });
 };
 
@@ -203,7 +203,7 @@ function deleteUser() {
 
             })
             .catch(error => {
-                console.error('Error editing profile:', error);
+                alert("Error editing profile:" + error);
             });
     }
 }
@@ -218,13 +218,15 @@ function logout() {
             .then(response => {
                 console.log(response.data);
                 alert(response.data);
+                
+                localStorage.removeItem("userEmail");
 
                 let newWindow = window.open("/freshstocks_web/index.jsp", "_blank", "noopener,noreferrer");
                 window.close();
                 newWindow.focus();
             })
             .catch(error => {
-                console.error('Error logging out:', error);
+                alert("Error logging out:" + error);
             });
     }
 }

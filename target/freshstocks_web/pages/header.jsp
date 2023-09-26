@@ -1,8 +1,8 @@
 <%@page import="com.fssa.freshstocks.services.UserService"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="" crossorigin="anonymous">
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +11,11 @@
      <c:choose>
         <c:when test="${not empty loggedInEmail}">
             <!-- Include CSS for logged-in users -->
-            <link rel="stylesheet" href="assets/css/headerlogged.css" />
+            <link rel="stylesheet" href="../assets/css/headerlog.css" />
         </c:when>
         <c:otherwise>
             <!-- Include CSS for not logged-in users -->
-            <link rel="stylesheet" href="assets/css/header.css" />
+            <link rel="stylesheet" href="../assets/css/headernotlog.css" />
         </c:otherwise>
     </c:choose>
 </head>
@@ -27,34 +27,34 @@
 	if (loggedInEmail == null) {
 	%>
 
-	<!-- navbar start -->
-	<div class="topnav" id="myTopnav">
-		<a href="index.jsp" class="active"><img class="nav-logo"
-			src="assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
-		<div class="navlinks">
-			<a href="javascript:void(0);" style="font-size: 15px;" class="icon"
-				onclick="myFunction()">&#9776;</a> <a href="./pages/userabout.html"
-				class="navlink">About</a> <a href="./pages/marketdata.html"
-				class="navlink">Market</a> <a href="#" class="navlink">Trade</a> <a
-				href="#" class="navlink">Learn</a> <a
-				href="./pages/userContact.html" class="navlink">Contact</a> <a
-				class="login1" href="#contact">
-				<div class="notification">
-					<form class="login1" action="pages/login.jsp">
-						<button class="login" alt="">Log In</button>
-					</form>
-					</span>
-				</div>
-			</a> <a class="login2" href="#contact"><div class="notification">
-					<span class="hint--left" aria-label="Sign Up / Register">
-						<form action="pages/register.jsp">
-							<button class="registration" alt="">FREE TRIAL</button>
-						</form>
-					</span>
-				</div></a>
-		</div>
-	</div>
+    <div class="navbar">
+        <a href="home.jsp"><img class="logo"
+			src="../assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="userabout.jsp">About</a></li>
+            <li><a href="marketdata.html">Market</a></li>
+            <li><a href="live_trading.jsp">Trade</a></li>
+            <li><a href="learn.jsp">Learn</a></li>
+            <li><a href="userContact.jsp">Contact</a></li>
+        </ul>
+        <div class="login-signup">
+        <form action="login.jsp">
+            <button>Login</button></form>
+            <form action="register.jsp"><button>Signup</button></form>
+        </div>
+    </div>
 
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 
 	<!-- nav end -->
 
@@ -67,153 +67,34 @@
 		UserService userService = new UserService();
 		String profileImg = userService.getUserProfilesFromUserID(loggedInUserID);
 	%>
+	
+    <div class="navbar">
+        <a href="home.jsp"><img class="logo"
+			src="../assets/images/Screenshot 2023-02-11 021952.png" alt=""></a>
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="userabout.jsp">About</a></li>
+            <li><a href="marketdata.html">Market</a></li>
+            <li><a href="live_trading.jsp">Trade</a></li>
+            <li><a href="learn.jsp">Learn</a></li>
+            <li><a href="userContact.jsp">Contact</a></li>
+        </ul>
+       <div class="login-signup">
+    <a href="userContact.jsp"><i class="fas fa-envelope"></i></a>&nbsp; <!-- Contact Icon -->
+    <a href="userProfile.jsp"><img id="userProfile" src="<%= profileImg %>" alt="User Profile"></a> <!-- User Profile Icon -->
+</div>
+    </div>
 
-	<nav>
-		<div class="navbar">
-			<img class="nav-logo"
-				src="../assets/images/Screenshot 2023-02-11 021952.png" alt="">
-
-			<div class="navlinks">
-				<a href="./userabout.html" class="navlink">About</a>&emsp;
-				<div class="dropdown">
-					<a class="dropbtn" href="marketdata.html">Market</a>
-
-				</div>
-				<div class="dropdown">
-					<a class="dropbtn" href="live_trading.html">Trade</a>
-
-				</div>
-				<div class="dropdown">
-					<a class="dropbtn" href="learn.jsp">Learn</a> <a
-						href="./userContact.html" class="navlink" id="contact">Contact</a>
-
-				</div>
-
-
-
-			</div>
-
-			<!-- support images notification img start -->
-			<div class="notification" id="notification-img">
-
-				<div class="dropdown">
-					<span class="hint--bottom hint--rounded" aria-label="Notifications"><img
-						class="notificationimg" onclick="profile1()"
-						src="../assets/images/icons8-notification-50.png"
-						alt="notification-img"></span>
-					<div class="dropdown-content-notification">
-						<a><div class="notify-head">
-
-								<h1 class="notify-user-h1">Notifications</h1>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Ajith</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Chnadru</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Kamalesh</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Durga</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Vanitha</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Vicky</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Susi kumar</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Akshaya</b> promoted your answer
-								</p>
-
-							</div></a>
-					</div>
-				</div>
-
-			</div>
-			<div class="notification">
-				<div class="dropdown1">
-					<span class="hint--bottom hint--rounded"
-						aria-label="Lnaguage Selector"><img class="notificationimg"
-						onclick="profile1()"
-						src="../assets/images/icons8-translator-50.png"
-						alt="translator-img"></span>
-					<div class="dropdown-content-lang">
-						<br>
-						<div id="google_translate_element" id="lang"></div>
-					</div>
-				</div>
-			</div>
-			<div class="notification">
-
-				<a id="notificationimg" href="userContact.html"> <span
-					class="hint--bottom hint--rounded" aria-label="Contact Support"><img
-						class="notificationimg"
-						src="../assets/images/icons8-online-support-50.png"
-						alt="support-img"></span>
-				</a>
-
-			</div>
-
-			<div class="notification">
-
-				<!-- js code start userprofile -->
-				<span class="hint--bottom hint--rounded" aria-label="User Profile"><a
-					id="form" href="userProfile.jsp"> <img alt="profileImage"
-						src="<%=profileImg%>" id="user-profile">
-				</a></span>
-			</div>
-
-		</div>
-
-		<hr>
-	</nav>
-
-	<!-- nav end -->
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 
 	<%
 	}

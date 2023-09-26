@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 20px;
+        }
+        
+        .login-signup i {
+        font-size: 35px; /* Adjust the font size as needed */
+    color: dodgerblue; /* Set the color of the icons */
+    margin-left: 20px; /* Add some spacing between the icons */
+    cursor: pointer;
+}
+
+.login-signup i:hover {
+    color: #ff8c00; /* Change color on hover */
+}
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: black;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            width:180px;
+            height:50px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap:20px;
+        }
+
+        .nav-links li {
+            margin: 0 10px;
+        }
+
+        .nav-links a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: dodgerblue;
+        }
+
+        .login-signup {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-signup button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            background-color: dodgerblue;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger-icon div {
+            width: 30px;
+            height: 4px;
+            background-color: #f2f2f2;
+            margin: 4px 0;
+            border-radius: 4px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .nav-links {
+                display: none;
+                text-align: center;
+                width: 100%;
+                justify-content: center;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                background-color: dodgerblue;
+                flex-direction: column;
+            }
+            
+            .logo {
+              width:160px;
+              height:50px;
+              margin-left:-20px;
+            }
+
+            .hamburger-icon {
+               width:30px;
+               height:30px;
+               margin-left:70px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .nav-links a {
+                padding: 10px 20px;
+                display: block;
+                color:white;
+            }
+
+            .login-signup {
+                margin-left: auto;
+            }
+
+            .hamburger-icon {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <img class="logo"
+			src="../assets/images/Screenshot 2023-02-11 021952.png" alt="">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Market</a></li>
+            <li><a href="#">Trade</a></li>
+            <li><a href="#">Learn</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+       <div class="login-signup">
+    <i class="fas fa-envelope"></i> <!-- Contact Icon -->
+    <i class="fas fa-user-circle"></i> <!-- User Profile Icon -->
+</div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+
+</body>
+
+</html>

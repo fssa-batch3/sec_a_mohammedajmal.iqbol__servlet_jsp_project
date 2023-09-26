@@ -1,6 +1,18 @@
 /**
  * 
  */
+function showLoader() {
+  document.getElementById('loader').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+setTimeout(hideLoader, 5000);
 
  // Assuming you have an API endpoint to fetch courses data
 axios.get('/freshstocks_web/UpdateCourseServlet')
@@ -46,7 +58,7 @@ axios.get('/freshstocks_web/UpdateCourseServlet')
                 fresh Price: ₹${course.sellingPrice}
               </p>
               <p>
-                Old Price: <strike class="course-oldcost">₹${course.markedPrice}</strike>
+                Old Price: <strike class="course-oldcost" id="course-oldcost">₹${course.markedPrice}</strike>
               </p>
               <p class="course-discount">
                 Discount: ${discountFormatted}%
@@ -63,6 +75,7 @@ axios.get('/freshstocks_web/UpdateCourseServlet')
 
         scrollCoursesDiv.appendChild(courseCardDiv);
       });
+      
     }
   })
   .catch(error => {

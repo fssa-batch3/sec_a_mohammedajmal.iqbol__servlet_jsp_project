@@ -8,6 +8,17 @@ const courseId = urlParams.get('courseId');
 console.log(courseId);
 
 
+function showLoader() {
+    document.getElementById('loader').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
 // Step 3: Send data using Axios
 axios.get(`/freshstocks_web/SaveCourseServlet?courseId=${courseId}`)
   .then(function(response) {
@@ -15,8 +26,7 @@ axios.get(`/freshstocks_web/SaveCourseServlet?courseId=${courseId}`)
    const courseData = response.data;
     console.log('Course Data:', courseData);
     
-    
-    // show course data dynamically
+// show course data dynamically
 let div1;
 
 div1 = document.createElement('div');
@@ -60,13 +70,13 @@ div1.setAttribute("class","contain");
      </div>
      <div>
          <label for="courseVideo1">Course Video 1:</label>
-    <input type="text" id="courseVideo1" name="courseVideo1" value="${courseData.courseVideo1}"><br>
+    <input type="file" id="courseVideo1" name="courseVideo1" accept="video/*" onchange="Main()" required><br><br>
     
     <label for="courseVideo2">Course Video 2:</label>
-    <input type="text" id="courseVideo2" name="courseVideo2" value="${courseData.courseVideo2}"><br>
+    <input type="file" id="courseVideo2" name="courseVideo2" accept="video/*" onchange="Main1()" required><br><br>
     
         <label for="courseVideo3">Course Video 3:</label>
-    <input type="text" id="courseVideo3" name="courseVideo3" value="${courseData.courseVideo3}"><br>
+    <input type="file" id="courseVideo3" name="courseVideo3" accept="video/*" onchange="Main2()" required><br><br>
     
     <label for="courseVideoName1">Course Video Name 1:</label>
     <input type="text" id="courseVideoName1" name="courseVideoName1" value="${courseData.courseVideoName1}"><br>
@@ -83,6 +93,10 @@ div1.setAttribute("class","contain");
 
 document.querySelector("#form").append(div1);
 
+    if(document.getElementById("courseVideoName3").value) {
+		hideLoader();
+	}
+
 
   })
   .catch(function(error) {
@@ -96,11 +110,60 @@ document.querySelector("#form").append(div1);
 
  
   //editcourses page js code start
+  
+  
+   let videoString1;
+ let videoString2;
+ let videoString3;
+ 
+async function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
+}
+
+async function Main() {
+    const file = document.querySelector('#courseVideo1').files[0];
+    try {
+        const result = await toBase64(file);
+        videoString1 = result;
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+async function Main1() {
+    const file = document.querySelector('#courseVideo2').files[0];
+    try {
+        const result = await toBase64(file);
+        videoString2 = result;
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+
+async function Main2() {
+    const file = document.querySelector('#courseVideo3').files[0];
+    try {
+        const result = await toBase64(file);
+        videoString3 = result;
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+
 
 //form submit event start
 //seller can add courses when he/she submit the form with valid details
 function editcourse(event) {
 	 event.preventDefault();
+	 
+	 showLoader();
 
     //for adding new course these are course details we get from user.
     let coverImage = document.getElementById("updatedCoverImage").value;
@@ -113,9 +176,6 @@ function editcourse(event) {
     let instructorName = document.getElementById("updatedInstructorName").value;
     let companyName = document.getElementById("updatedCompanyName").value;
     let companyCategory = document.getElementById("updatedCompanyCategory").value;
-    let courseVideo1 = document.getElementById("courseVideo1").value;
-    let courseVideo2 = document.getElementById("courseVideo2").value;
-    let courseVideo3 = document.getElementById("courseVideo3").value;
     let courseVideoName1 = document.getElementById("courseVideoName1").value;
     let courseVideoName2 = document.getElementById("courseVideoName2").value;
     let courseVideoName3 = document.getElementById("courseVideoName3").value;
@@ -137,9 +197,9 @@ let courseID = urlParam.get('courseId');
       instructorName,
       companyName,
       companyCategory,
-      courseVideo1,
-      courseVideo2,
-      courseVideo3,
+      videoString1,
+      videoString2,
+      videoString3,
       courseVideoName1,
       courseVideoName2,
       courseVideoName3,
@@ -151,14 +211,18 @@ let courseID = urlParam.get('courseId');
   .then(response => {
     console.log(response.data);
     const res = response.data;
+    if (res === "Course Updated Successfully.") {
+        hideLoader();
+    }
     alert(response.data);
+    hideLoader();
     if(res === "Course Updated Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";
     }
     // Handle success
   })
   .catch(error => {
-    console.error('Error Updating course:', error);
+    alert("Error updating courseL:" + error);
     // Handle error
   });
     

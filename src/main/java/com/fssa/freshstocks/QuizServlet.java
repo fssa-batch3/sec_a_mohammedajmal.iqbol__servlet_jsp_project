@@ -31,10 +31,8 @@ public class QuizServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			// Establish a database connection
 			try (Connection connection = ConnectionUtil.getConnection()) {
 
-				// Query the database to retrieve questions
 				String questionsQuery = "SELECT * FROM quiz_questions";
 				try (PreparedStatement questionsStatement = connection.prepareStatement(questionsQuery);
 						ResultSet questionsResultSet = questionsStatement.executeQuery()) {

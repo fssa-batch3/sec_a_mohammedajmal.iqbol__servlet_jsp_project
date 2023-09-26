@@ -175,7 +175,8 @@ scheduler.schedule(task, 24, TimeUnit.HOURS);
 						    let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
 						    let countdownElement = document.getElementById('next-quiz');
-						    countdownElement.textContent = "Next quiz available in " + hours + " hr : " + minutes + " min : " + seconds + " sec";
+						    countdownElement.textContent = "Next quiz available in " + hours + " hr : " + minutes + " min : " + seconds + " sec"
+						}
 						// Call the function once to display the initial countdown
 						updateCountdown();
 
@@ -226,6 +227,12 @@ scheduler.schedule(task, 24, TimeUnit.HOURS);
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        // User switched tabs or minimized the window
+        submitQuizAndExitFullscreen(); // Submit the quiz when user switches away
+    }
+});
 
          var quizStartTime = new Date(); 
          var quizStartTimeMillis = quizStartTime.getTime();
