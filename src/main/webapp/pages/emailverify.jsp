@@ -42,7 +42,7 @@
         <input class="input" type="password" id="otp-input">
         <button class="btn1" id="submit">Resend OTP</button>
         <button class="btn2" id="verify">Verify OTP</button>
-        <button class="btn3" onclick="back()">Back</button>
+        <button class="btn3" onclick="back()" >Back</button>
       </form>
 
 

@@ -7,13 +7,17 @@ axios.get('/freshstocks_web/SellerSalesServlet')
     // Handle the response (sales data)
     const salesData = response.data;
     console.log(salesData);
+    
+    
+let newData = { ...salesData };
+delete newData["Total Revenue"];
 
 
 const coursesData = {
-  labels: Object.keys(salesData).filter(course => course !== 'Total Revenue'),
+  labels: Object.keys(newData),
   datasets: [{
     label: 'Courses Bought',
-    data: Object.values(salesData).filter((_, index) => index !== 1),
+    data: Object.values(newData),
     fill: false,
     borderColor: 'rgba(75, 192, 192, 1)',
     borderWidth: 2,
@@ -123,15 +127,24 @@ new Chart(mostPopularCtx, {
 });
 
 
+// least course data
 
-const leastPopularCourse = coursesWithoutTotalRevenue.reduce((a, b) => salesData[a] < salesData[b] ? a : b);
+let minCourseValue = Infinity;
+let minCourseName = "";
+
+for (let key in newData) {
+    if (newData[key] < minCourseValue) {
+        minCourseValue = newData[key];
+        minCourseName = key;
+    }
+}
 
 // Prepare data for the chart
 const leastPopularData = {
-  labels: [leastPopularCourse],
+  labels: [minCourseName],
   datasets: [{
-    label: [leastPopularCourse],
-    data: [salesData[leastPopularCourse]],
+    label: [minCourseName],
+    data: [minCourseValue],
     backgroundColor: 'rgba(75, 192, 192, 0.2)',
     borderColor: 'rgba(75, 192, 192, 1)',
     borderWidth: 1

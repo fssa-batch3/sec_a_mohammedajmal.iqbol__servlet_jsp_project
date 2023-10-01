@@ -8,11 +8,21 @@ function hideLoader() {
 
 setTimeout(hideLoader, 5000);
 
+
+
+ axios.get("/freshstocks_web/ENVServlet")
+ .then(response => {	 
+	 const res = response.data;
+	 
+	 const twelvedatakey = res.TWELVEDATA_API_KEY;
+	const alphavantagekey = res.ALPHAVANTAGE_API_KEY;
+		
+
 //required params contains api key and host permissions 
 const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "0dbd38fc8dmsh7004146a64a1761p17226ejsnceab381ff0ef",
+    "X-RapidAPI-Key": res.FOREX_RAPID_KEY,
     "X-RapidAPI-Host": "seeking-alpha.p.rapidapi.com",
   },
 };
@@ -49,6 +59,11 @@ const options = {
     .catch((err) => console.error(err));
 
 
+
+ })
+ .catch((error) => {
+	 console.error(error);
+ })
 
 //market news page js code end
 

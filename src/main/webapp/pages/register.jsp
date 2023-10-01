@@ -18,7 +18,7 @@
 <body>
 	<main class="fullpage">
 
-			<div class="alert alert-danger" role="alert" style="display:none;"></div>
+		<div class="alert alert-danger" role="alert" style="display: none;"></div>
 
 		<div>
 			<img class="nav-logo"
@@ -44,7 +44,7 @@
 						</div>
 						<br> <select class="form-select" id="select"
 							aria-label="Default select example" required name="gender">
-							<option disabled>Select Your Gender</option>
+							<option disabled selected>Select Your Gender</option>
 							<option value="male">Male</option>
 							<option value="female">Female</option>
 							<option value="other">Other</option>
@@ -67,9 +67,9 @@
 					</div>
 					<div>
 						<br> <br> <select class="form-select" id="role"
-							aria-label="Default select example" required name="role"
-							style="width: 450px; margin-left: 38px;">
-							<option disabled>Select Role</option>
+							aria-label="Default select example"
+							style="width: 450px; margin-left: 38px;" required name="role">
+							<option disabled selected>Select Role</option>
 							<option value="0">Buyer</option>
 							<option value="1">Seller</option>
 						</select> <br>
@@ -118,6 +118,7 @@
 
 
 	<script src="../assets/js/userRegister.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"
 		integrity=""></script>

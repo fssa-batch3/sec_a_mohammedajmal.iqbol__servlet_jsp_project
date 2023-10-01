@@ -7,6 +7,11 @@ let url = window.location.search;
 let urlParams = new URLSearchParams(url);
 let email = urlParams.get("email");
 
+function back() {
+	event.preventDefault();
+	window.location.href = "register.jsp";
+}
+
 
 //when click submit this event will happen
 let submit = document.getElementById("submit")
@@ -115,8 +120,3 @@ emailjs.send("service_sp6m68x","template_uo2qcla",params)
 
 
  });
-
-//back function 
- function back() {
-   window.location.href = "register.html";
- }

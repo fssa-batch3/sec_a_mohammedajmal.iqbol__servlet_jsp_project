@@ -18,17 +18,6 @@
 	}
 	%>
 
-        <!-- Loading container -->
-	<div id="loading" style="display:none;">
-		<div class="loader">
-            <video class="loader2" autoplay muted >
-                <source src="../assets/website images/istockphoto-1300261742-640_adpp_is.mp4" type="video/mp4">
-                <source src="../assets/website images/istockphoto-1300261742-640_adpp_is.mp4" type="video/ogg">
-              </video>
-        </div>
-	</div>
-    <!-- Loading container -->
-
    <header class="header" id="container">
    
 

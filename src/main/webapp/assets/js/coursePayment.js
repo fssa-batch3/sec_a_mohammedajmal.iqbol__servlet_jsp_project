@@ -5,6 +5,10 @@
 let urlParams = new URLSearchParams(window.location.search);
     let courseID = urlParams.get('courseId');  
     
+    if(courseID == null) {
+		window.location.href="internal-server-error.jsp";
+	}
+    
     
     axios.get(`/freshstocks_web/SaveCourseServlet?courseId=${courseID}`)
 .then(function (response) {
@@ -35,8 +39,8 @@ div1.innerHTML = `
               </div>
           </div>
           <div class="form-group">
-              <label or="NameOnCard">Course Name</label>
-              <input id="NameOnCard" class="form-control" type="text" value="${name}" style="width:200px;" disabled></input>
+              <label or="NameOnCard1">Course Name</label>
+              <input id="NameOnCard1" class="form-control" type="text" value="${name}" style="width:200px;" disabled></input>
           </div><br>
           <div class="form-group">
               <label or="NameOnCard">Cardholder Name:</label>
@@ -84,22 +88,59 @@ document.querySelector("body").append(div1);
 
 
 function submitpayment(courseID) {
-	event.preventDefault();
-	
-	let msg = confirm("Are you Sure Would You like to Pay Now ?");
-	
-	if(msg == true) {
-		
-		axios.post(`/freshstocks_web/BuyCourseServlet?courseId=${courseID}`)
-            .then(function(response) {
-                alert(response.data);
-                window.location.href="learn.jsp";
-            })
-            .catch(function(error) {
-                alert(error);
-            });
-	}
-	
+    event.preventDefault();
+
+    try {
+        let cardholderName = document.getElementById("NameOnCard").value.trim();
+        let cardNumber = document.getElementById("CreditCardNumber").value.trim();
+        let expiryDate = document.getElementById("ExpiryDate").value.trim();
+
+        // Regular expressions for validation
+        let nameRegex = /^[A-Za-z\s'-]{2,}(?:\s[A-Za-z\s'-]{2,}){1,3}$/;
+        let cardNumberRegex = /^[0-9]{16}$/;
+        let expiryDateRegex = /^(0[1-9]|1[0-2])\/[0-9]{4}$/;
+
+        // Validation
+        if (!cardholderName.match(nameRegex)) {
+            alert("Please enter a valid cardholder name Hint: John Doe");
+            return; 
+        } else if (!cardNumber.match(cardNumberRegex)) {
+            alert("Please enter a 16-digit card number");
+            return; 
+        } else if (!expiryDate.match(expiryDateRegex)) {
+            alert("Please enter the expiry date in MM/YYYY format");
+            return; 
+        }
+        
+        let currentDate = new Date();
+        let expiryParts = expiryDate.split('/');
+        let expiryMonth = parseInt(expiryParts[0], 10);
+        let expiryYear = parseInt(expiryParts[1], 10);
+
+        let expirationDate = new Date(expiryYear, expiryMonth - 1);
+
+        if (expirationDate <= currentDate) {
+            alert("Future Date Not Accepted! Please enter a valid expiry date");
+            return;
+        }
+
+        let msg = confirm("Are you sure you would like to pay now?");
+
+        if (msg == true) {
+
+            axios.post(`/freshstocks_web/BuyCourseServlet?courseId=${courseID}`)
+                .then(function (response) {
+                    alert(response.data);
+                    window.location.href = "learn.jsp";
+                })
+                .catch(function (error) {
+                    alert(error);
+                });
+        }
+
+    } catch (error) {
+        console.error("Error: " + error);
+    }
 }
 
 

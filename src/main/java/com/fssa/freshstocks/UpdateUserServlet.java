@@ -62,11 +62,12 @@ public class UpdateUserServlet extends HttpServlet {
 	    JSONObject userJson = userData.getJSONObject("newUserObj");
 
             String gender = userJson.getString("gender");
+            String userprofile = userJson.getString("userprofile");
             String mobileNumber = userJson.getString("mobile_number");
             String dateOfBirth = userJson.getString("date_of_birth");
 
             UserService userService = new UserService();
-            User user = new User(gender, mobileNumber, dateOfBirth);
+            User user = new User(userprofile,gender, mobileNumber, dateOfBirth);
             String email = (String) session.getAttribute("loggedInEmail");
 
              if (userService.updateUser(user,email)) {

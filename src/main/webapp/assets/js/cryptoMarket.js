@@ -10,24 +10,15 @@
 setTimeout(hideLoader, 3000);
 
 
-//headers and options i get from rapidapi
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '5209d67708msh2b4c4487ee24df4p1a9455jsn60b60f48436e',
-		'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
-	}
-};
-
 //fetch api get response
   fetch(
-    "https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0",
-    options
-  )
+    "https://api.coinranking.com/v2/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0")
     .then((response) => response.json())
     .then((data) => {
       // Access the array of coins from the response object
       const coins = data.data.coins;
+      
+      console.log(coins);
 
       // Extract the names of the coins using map()
       const coinNames = coins.map((coin) => coin);
@@ -101,30 +92,3 @@ for (let i = 0; i < 50; i++) {
 
 
 
-//crypto market page js code end
-
-
-      //loading effect when api call is started
-      $(document).ready(function() {
-        // Show loading container before making the API call
-        $('#loading').show();
-        $("#rowdiv").hide();
-        // Make the API call
-
-        setInterval( function() {
-        $.ajax({
-          url: 'https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=yhjMzLPhuIDl&timePeriod=24h&tiers%5B0%5D=1&orderBy=marketCap&orderDirection=desc&limit=50&offset=0',
-          method: 'GET',
-          success: function(data) {
-            // Hide the loading container after the response comes
-            $('#loading').hide();
-            $("#rowdiv").show();
-          },
-          error: function(error) {
-            // Hide the loading container after the response comes
-            $('#loading').hide();
-            console.log(error);
-          }
-        });
-      } , 2000 );
-      });

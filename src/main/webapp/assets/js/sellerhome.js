@@ -2,9 +2,6 @@
  * 
  */
 
- /**
- * 
- */
 function showLoader() {
   document.getElementById('loader').style.display = 'block';
   document.getElementById('overlay').style.display = 'block';

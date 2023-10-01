@@ -114,7 +114,7 @@
     <a href="userProfile.jsp"><img id="userProfile" src="<%= profileImg %>" alt="User Profile"></a> <!-- User Profile Icon -->
     </div>
     </nav>
-    
+
 <!-- Product Listings -->
 <div class="container mt-5" id="nav">
  <div class="text-left mb-3">
