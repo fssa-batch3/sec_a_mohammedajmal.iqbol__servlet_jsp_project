@@ -12,7 +12,7 @@
 
 
  <a href="home.jsp">
- <img style="width:100%;height:900px;margin-top:35px;" src="../assets/images/internalerror.jpg" />
+ <img style="width:100%;height:900px;margin-top:35px;" alt="500 error image" src="../assets/images/internalerror.jpg" />
  </a>
 </body>
 </html>

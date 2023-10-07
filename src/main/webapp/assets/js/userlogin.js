@@ -37,14 +37,18 @@ login.addEventListener("submit", (event) => {
            window.close();
           newWindow.focus();
 	  } else if (response.data === "Invalid") {
-		  alert("Authentication Failed! Recheck Your Credentials");
+	    document.getElementById("errormsg").innerText = "Authentication Failed! Recheck Your Credentials";
+		document.getElementById("errormsg").style.display = "block";
 	  } else {
-		   alert("Authentication Failed! Recheck Your Credentials");
+	    document.getElementById("errormsg").innerText = "Authentication Failed! Recheck Your Credentials";
+		document.getElementById("errormsg").style.display = "block";
 	  }
 })
 .catch((error) => {
   // Handle errors, such as incorrect credentials
-  alert("Authentication failed: Recheck Your Credentials!");
+  document.getElementById("errormsg").innerText = "Authentication Failed! Recheck Your Credentials";
+  document.getElementById("errormsg").style.display = "block";
+  
 });
 
     //catch statement

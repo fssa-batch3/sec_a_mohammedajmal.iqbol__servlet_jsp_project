@@ -114,14 +114,20 @@ function createcourse(event) {
     };
     
     
-    axios.post('/freshstocks_web/CreateCourseServlet', { courseObj })
+   axios.post('/freshstocks_web/CreateCourseServlet', { courseObj })
   .then(response => {
     console.log(response.data);
     const res = response.data;
     if (res === "Course Created Successfully.") {
         hideLoader();
     }
-   alert(response.data);
+    if (res === "Course Created Successfully.") {
+        alert(response.data);
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+	}
+   
     if(res === "Course Created Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";
     }

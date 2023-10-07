@@ -72,7 +72,7 @@ Runnable task = () -> {
 };
 
 // Schedule the task to run after 24 hours
-scheduler.schedule(task, 24, TimeUnit.HOURS);
+scheduler.schedule(task, 3600, TimeUnit.SECONDS);
 
 %>
 	<div class="container">

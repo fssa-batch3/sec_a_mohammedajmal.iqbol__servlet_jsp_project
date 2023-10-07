@@ -56,7 +56,7 @@ public class SellerSalesServlet extends HttpServlet {
             }
             
             
-        } catch (SQLException e) {
+        } catch (SQLException | DAOException e) {
             e.printStackTrace();
             salesMap = Collections.emptyMap();
         }
@@ -71,7 +71,7 @@ public class SellerSalesServlet extends HttpServlet {
 	
 	
 	
-	public Map<String, Integer> getSellerSales(String sellerEmail) throws SQLException {
+	public Map<String, Integer> getSellerSales(String sellerEmail) throws SQLException, DAOException {
 	    CourseDAO courseDAO = new CourseDAO();
 	    UserService userService = new UserService();
 	    UserDAO userDAO = new UserDAO();

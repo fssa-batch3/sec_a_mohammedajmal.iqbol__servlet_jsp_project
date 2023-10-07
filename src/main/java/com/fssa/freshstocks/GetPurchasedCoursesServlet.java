@@ -55,8 +55,7 @@ public class GetPurchasedCoursesServlet extends HttpServlet {
 	            response.setContentType("application/json");
 	            response.setCharacterEncoding("UTF-8");
 	            response.getWriter().write(String.valueOf(coursePurchased));
-	        } catch (SQLException e) {
-	            e.printStackTrace();
+	        } catch (ServiceException | DAOException e) {
 	            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching purchased courses.");
 	        }
 	    } else {
@@ -68,8 +67,7 @@ public class GetPurchasedCoursesServlet extends HttpServlet {
 	            response.setCharacterEncoding("UTF-8");
 	            response.getWriter().write(new Gson().toJson(purchasedCourses));
 	            
-	        } catch (SQLException e) {
-	            e.printStackTrace();
+	        } catch (ServiceException | DAOException e) {
 	            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching purchased courses.");
 	        }
 	    }

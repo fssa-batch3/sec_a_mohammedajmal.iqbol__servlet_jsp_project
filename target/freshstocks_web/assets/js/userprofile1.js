@@ -58,10 +58,11 @@ let section;
 </div>
 
 <div class="section-about-head">
+<ul class="errorMessages" id="errormsg"></ul>
  <h1>About</h1>
   <div class="section-about">
      <div>
-       <textarea name="about" type="text"  id="about" disabled >${"about_me"}</textarea><br>
+       <input name="userprofile" type="file" id="userprofile" disabled onchange="changeuserProfile()" /><br>
        <input name="role" type="text" id="address" value="${role}" disabled ><br>
      </div>
      <div>
@@ -94,77 +95,102 @@ document.getElementById("userprofile-img").style.borderRadius = '20px';
 // read userprofile code end
 
 function enable() {
-	document.getElementById("about").disabled = false;
 document.getElementById("address").disabled = true;
 document.getElementById("date").disabled = false;
 document.getElementById("age").disabled = true;
 document.getElementById("gender").disabled = false;
 document.getElementById("number").disabled = false;
-// document.getElementById("editprofile").style.display = "block";
+document.getElementById("userprofile").disabled = false;
+
+document.getElementById("address").style.backgroundColor = "white";
+document.getElementById("date").style.backgroundColor = "white";
+document.getElementById("age").style.backgroundColor = "white";
+document.getElementById("gender").style.backgroundColor = "white";
+document.getElementById("number").style.backgroundColor = "white";
+document.getElementById("userprofile").style.backgroundColor = "white";
 
 }
 
 
-	//local image to http link image
-let cloudinaryData;
+	//local image from user file
+let base64Image; 
 
 function changeuserProfile() {
-	
-	//file input from user local to cloud storage and link generate
-const fileInput = document.getElementById('editprofile');
+    // file input from user local to base64
+    const fileInput = document.getElementById('userprofile');
 
-  const file = fileInput.files[0];
-  
-  loader();
+    const file = fileInput.files[0];
 
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', 'ml_default'); // Replace with your upload preset name
-let x;
-  fetch('https://api.cloudinary.com/v1_1/dwkjxihmr/auto/upload', {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => response.json())
-    .then(data => {
-      
-      x = data;
+    const reader = new FileReader();
 
-      cloudinaryData = x.url; 
-      console.log(cloudinaryData);
-      
-    })
-    .catch(error => console.error(error));
-};
+    reader.onload = function(event) {
+        base64Image = event.target.result;
+        console.log(base64Image);
+    }
 
+    reader.readAsDataURL(file);
+}
 
 
 
 //edit done
 function edited() {
+	
+	let userprofile1;
+	if(base64Image != null) {
+		userprofile1 = base64Image;
+	} else {
+		userprofile1 = profilePic;
+	}
 
-//let datas;
-//if(cloudinaryData !== undefined){
-// datas = cloudinaryData;
-//} else {
-//  datas = profilePic;
-//}
-
-document.getElementById("about").disabled = true;
 document.getElementById("address").disabled = true;
 document.getElementById("date").disabled = true;
 document.getElementById("age").disabled = true;
 document.getElementById("gender").disabled = true;
 document.getElementById("number").disabled = true;
-// document.getElementById("editprofile").style.display = "none";
+document.getElementById("userprofile").disabled = true;
 
 
 let date_of_birth = document.getElementById("date").value;
+let userprofile = userprofile1;
 let gender = document.getElementById("gender").value;
 let mobile_number = document.getElementById("number").value;
 
 
+   // Regex validation
+    let mobileNumberRegex = /^[6-9]\d{9}$/;
+    let dateOfBirthRegex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+
+    // Validation
+   if (!mobile_number.match(mobileNumberRegex)) {
+      document.getElementById("errormsg").innerText = "Please enter a valid 10-digit mobile number";
+		document.getElementById("errormsg").style.display = "block";
+      return;
+    } else if (!dateOfBirthRegex.test(date_of_birth)) {
+      document.getElementById("errormsg").innerText = "Please enter a valid date of birth (yyyy-mm-dd)";
+		document.getElementById("errormsg").style.display = "block";
+      return;
+    } else {
+      let birthDate = new Date(date_of_birth);
+      let minDate = new Date("1900-01-01");
+
+      if (birthDate <= minDate) {
+        document.getElementById("errormsg").innerText = "Please enter a valid date of birth";
+		document.getElementById("errormsg").style.display = "block";
+        return;
+    } else {
+      let today = new Date();
+      let birthDate = new Date(date_of_birth);
+      let age = today.getFullYear() - birthDate.getFullYear();
+
+      if (age < 18) {
+        document.getElementById("errormsg").innerText = "You must be at least 18 years old";
+		document.getElementById("errormsg").style.display = "block";
+      } else {
+
+
 let newUserObj = {
+	userprofile,
     date_of_birth,
     gender,
     mobile_number
@@ -173,12 +199,23 @@ let newUserObj = {
       axios.post('/freshstocks_web/UpdateUserServlet', { newUserObj })
         .then(response => {
             console.log(response.data);
-            alert(response.data);
-            location.reload();
+            const res = response.data;
+            
+    if (res.includes("User Profile Updated Successfully.")) {
+        alert(response.data);
+        location.reload();
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+	}
         })
         .catch(error => {
             alert("Error editing profile:" + error);
         });
+        
+        }
+      }
+    }
 };
 
 
@@ -229,22 +266,4 @@ function logout() {
                 alert("Error logging out:" + error);
             });
     }
-}
-
-
-function loader() {
-	
-	const fileInput1 = document.getElementById('editprofile');
-const loadingDiv = document.getElementById("loading");
-const body = document.getElementById("body");
-const container = document.getElementById("container");
-
-  loadingDiv.style.display = "block"; // Show loading div
-  body.style.backgroundColor = "white";
-  container.style.backgroundColor = "white";
-  setTimeout(function() {
-    loadingDiv.style.display = "none"; // Hide loading div after 5 seconds
-    body.style.backgroundColor = "white";
-    container.style.backgroundColor = "white";
-  }, 15000);
 }

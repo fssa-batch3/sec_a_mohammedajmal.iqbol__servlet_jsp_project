@@ -10,6 +10,17 @@
 setTimeout(hideLoader, 3000);
 
 
+ axios.get("/freshstocks_web/ENVServlet")
+ .then(response => {	 
+	 const res = response.data;
+	 
+	 console.log(res);
+	 
+	 const twelvedatakey = res.TWELVEDATA_API_KEY;
+	const alphavantagekey = res.ALPHAVANTAGE_API_KEY;
+		
+	
+
 //api call new
 
 const options = {
@@ -17,8 +28,8 @@ const options = {
   method: "GET",
   //headers from rapidAPI 
   headers: {
-    "X-RapidAPI-Key": "0dbd38fc8dmsh7004146a64a1761p17226ejsnceab381ff0ef",
-    "X-RapidAPI-Host": "currency-conversion-and-exchange-rates.p.rapidapi.com",
+    "X-RapidAPI-Key": res.FOREX_RAPID_KEY,
+    "X-RapidAPI-Host": res.FOREX_RAPID_HOST,
   },
 };
 
@@ -62,6 +73,12 @@ const options = {
     })
     //catch statement
     .catch((err) => console.error(err));
+    
+    
+     })
+ .catch((error) => {
+	 console.error(error);
+ })
 
 
 //search query for search bar code start

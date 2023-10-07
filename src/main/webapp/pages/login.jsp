@@ -39,6 +39,7 @@
 			</h1>
 			<!-- form start -->
 			<form id="form">
+			<ul class="errorMessages" id="errormsg"></ul>
 				<div class="form-floating mb-3" id="emailinput">
 					<input type="email" class="form-control" id="email"
 						placeholder="name@example.com" value="freekyajmal@gmail.com"

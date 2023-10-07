@@ -58,6 +58,7 @@ let section;
 </div>
 
 <div class="section-about-head">
+<ul class="errorMessages" id="errormsg"></ul>
  <h1>About</h1>
   <div class="section-about">
      <div>
@@ -162,17 +163,20 @@ let mobile_number = document.getElementById("number").value;
 
     // Validation
    if (!mobile_number.match(mobileNumberRegex)) {
-      alert("Please enter a valid 10-digit mobile number");
+      document.getElementById("errormsg").innerText = "Please enter a valid 10-digit mobile number";
+		document.getElementById("errormsg").style.display = "block";
       return;
     } else if (!dateOfBirthRegex.test(date_of_birth)) {
-      alert("Please enter a valid date of birth (yyyy-mm-dd)");
+      document.getElementById("errormsg").innerText = "Please enter a valid date of birth (yyyy-mm-dd)";
+		document.getElementById("errormsg").style.display = "block";
       return;
     } else {
       let birthDate = new Date(date_of_birth);
       let minDate = new Date("1900-01-01");
 
       if (birthDate <= minDate) {
-        alert("Please enter a valid date of birth");
+        document.getElementById("errormsg").innerText = "Please enter a valid date of birth";
+		document.getElementById("errormsg").style.display = "block";
         return;
     } else {
       let today = new Date();
@@ -180,7 +184,8 @@ let mobile_number = document.getElementById("number").value;
       let age = today.getFullYear() - birthDate.getFullYear();
 
       if (age < 18) {
-        alert("You must be at least 18 years old");
+        document.getElementById("errormsg").innerText = "You must be at least 18 years old";
+		document.getElementById("errormsg").style.display = "block";
       } else {
 
 
@@ -194,8 +199,15 @@ let newUserObj = {
       axios.post('/freshstocks_web/UpdateUserServlet', { newUserObj })
         .then(response => {
             console.log(response.data);
-            alert(response.data);
-            location.reload();
+            const res = response.data;
+            
+    if (res.includes("User Profile Updated Successfully.")) {
+        alert(response.data);
+        location.reload();
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+	}
         })
         .catch(error => {
             alert("Error editing profile:" + error);

@@ -1,33 +1,133 @@
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.util.Collections"%>
+<%@page import="com.fssa.freshstocks.services.exception.ServiceException"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.fssa.freshstocks.model.Course"%>
+<%@page import="java.util.List"%>
+<%@page import="com.fssa.freshstocks.services.CourseService"%>
+<%@page import="com.fssa.freshstocks.services.UserService"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.fssa.freshstocks.model.*"%>
-<%@ page import="com.fssa.freshstocks.services.*"%>
-<%@ page import="com.fssa.freshstocks.services.exception.*"%>
-<%@ page import="java.util.*"%>
-<%@ page import="java.text.DecimalFormat"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learn</title>
-<link rel="stylesheet" href="../assets/css/learn.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Tilt+Neon&display=swap"
-	rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/hint.css@2.7.0/hint.min.css"
-	integrity="" rel="stylesheet">
-<link rel="stylesheet" href="hint.css" />
-<link rel="stylesheet" href="../assets/css/loader1.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Course Learn Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/loader1.css"/>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light Blue */
+        }
+
+        header {
+            background-color: #87cefa; /* Dodger Blue */
+        }
+
+        header a {
+            color: #ffffff; /* White */
+        }
+        
+        .form-inline {
+        width:500px;
+        }
+
+            .search-input {
+        width: 500px; /* Set the width to 500 pixels */
+        border: 2px solid #87cefa;
+        padding: 10px;
+        border-radius: 5px;
+        outline: none;
+    }
+    
+        #searchbar {
+        width: 500px;
+        }
+        
+        .nav-tabs .nav-item .nav-link {
+    color: #000000; /* Black */
+}
+
+        .search-input:focus {
+            border-color: #007bff; /* Blue */
+        }
+        
+        .card ,.card:hover {
+          text-decoration:none;
+          color:black;
+        }
+       
+
+        .btn-primary {
+            background-color: #007bff !important; /* Blue */
+            border-color: #007bff !important; /* Blue */
+            color: #ffffff; /* White */
+        }
+        
+                #description {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+        display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+}
+        
+        .card-img-top {
+          max-width:350px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3 !important; /* Darker Blue */
+            border-color: #0056b3 !important; /* Darker Blue */
+        }
+        
+        .card {
+    border: none;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    transition: transform 0.3s; 
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+        
+                   #userProfile {
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+   #fa-envelope {
+       font-size: 40px;
+    color: dodgerblue;
+    margin-left: 10px;
+    cursor: pointer;
+    position: relative;
+    top:15px;
+   }
+   
+   .row {
+    display:flex;
+    gap:30px;
+   }
+        
+    </style>
 </head>
 
 <body>
-	<% 
-   
+
+
+<%
+
    if(session.getAttribute("loggedInemail") == null) {
         response.sendRedirect("login.jsp");
      } else {
@@ -40,198 +140,71 @@
 
     %>
     
-   <div class="overlay" id="overlay"></div>
+    
+       <div class="overlay" id="overlay"></div>
    <div class="loading" id="loader">
 	  <div class="loading-1"></div>
 	  <div class="loading-2"></div>
 	  <div class="loading-3"></div>
 	  <div class="loading-4"></div>
 	</div>
-	
-	
-	<nav>
-		<div class="navbar">
-			<img class="nav-logo"
-				src="../assets/images/Screenshot 2023-02-11 021952.png" alt="">
-			<span class="hint--bottom hint--rounded"
-				aria-label="Search for Trading Courses"><input class="search"
-				type="text" placeholder="Search for courses,videos & Blogs"
-				id="searchbar"></span>
-			<div class="notification" id="notification-img">
+    
+    <!-- Header Section -->
+    <header class="bg-white py-2">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <a href="home.jsp"><img src="../assets/images/Screenshot 2023-02-11 021952.png" height="55" width="169" alt="Logo" class="img-fluid"></a>
+                </div>
+                <div class="col-md-6">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-3 search-input" type="search" id="searchbar" placeholder="Search" aria-label="Search">
+                    </form>
+                </div>
+                <div class="col-md-3 text-right">
+                    <a href="userContact.jsp" class="text-dark"><i class="fas fa-envelope" id="fa-envelope"></i></a>&nbsp;
+                    <a href="userProfile.jsp" class="text-dark ml-3"><img id="userProfile" src="<%= profileImg %>" alt="User Profile"></a>
+                </div>
+            </div>
+            <!-- Nav Tabs -->
+            <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="all-courses-tab" data-toggle="tab" href="#all-courses" role="tab" aria-controls="all-courses" aria-selected="true">All Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="free-courses-tab" data-toggle="tab" href="#free-courses" role="tab" aria-controls="free-courses" aria-selected="false">Free Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="latest-courses-tab" data-toggle="tab" href="#latest-courses" role="tab" aria-controls="latest-courses" aria-selected="false">Latest Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="my-courses-tab" data-toggle="tab" href="#my-courses" role="tab" aria-controls="my-courses" aria-selected="false">My Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="blogs-tab" data-toggle="tab" href="#blogs" role="tab" aria-controls="blogs" aria-selected="false">Blogs</a>
+                </li>
+            </ul>
+        </div>
+    </header>
 
-				<div class="dropdown">
-					<span class="hint--bottom hint--rounded" aria-label="Notifications"><img
-						class="notificationimg" onclick="profile1()"
-						src="../assets/images/icons8-notification-50.png"
-						alt="notification-img"></span>
-					<div class="dropdown-content-notification">
-						<a><div class="notify-head">
-
-								<h1 class="notify-user-h1">Notifications</h1>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Ajith</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Chnadru</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Kamalesh</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Durga</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Vanitha</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Vicky</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Susi kumar</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Akshaya</b> promoted your answer
-								</p>
-
-							</div></a>
-					</div>
-				</div>
-
-			</div>
-			<div class="notification">
-				<div class="dropdown1">
-					<span class="hint--bottom hint--rounded"
-						aria-label="Language Selector"><img class="notificationimg"
-						onclick="profile1()"
-						src="../assets/images/icons8-translator-50.png"
-						alt="translator-img"></span>
-					<div class="dropdown-content-lang">
-						<br>
-						<div id="google_translate_element" id="lang"></div>
-					</div>
-				</div>
-			</div>
-			<div class="notification">
-
-				<a id="notificationimg" href="contact.html"> <span
-					class="hint--bottom hint--rounded" aria-label="Contact Support"><img
-						class="notificationimg"
-						src="../assets/images/icons8-online-support-50.png"
-						alt="support-img"></span>
-				</a>
-
-			</div>
-			<div class="notification">
-				<span class="hint--bottom hint--rounded" aria-label="User Profile"><a
-					class="dropdown" id="dropuser" href="userProfile.jsp"> 
-					<img alt="profileImage" src="<%=profileImg%>" id="user-profile">
-					</a></span>
-               
-			</div>
-
-		</div>
-
-		<div class="tab">
-			<button class="tablinks active" id="tab-courses" onclick="homeon()">All
-				Courses</button>
-			<button class="tablinks" onclick="openCity(event, 'free-courses')">Free
-				Courses</button>
-			<button class="tablinks" onclick="openCity(event, 'live-courses')">Live
-				Courses</button>
-			<svg height="100" width="100" class="blinking">
-        <circle cx="50" cy="50" r="10" fill="red" />
-      </svg>
-			<button class="tablinks" onclick="openCity(event, 'latest-courses')">&emsp;Latest
-				Courses</button>
-			<button class="tablinks" onclick="openCity(event, 'my-courses')">My
-				Courses</button>
-			<button class="tablinks" onclick="openCity(event, 'blogs')">Blogs</button>
-			<button class="tablinks" onclick="openCity(event, 'youtube-videos')">Youtube
-				Videos</button>
-			<button class="tablinks" onclick="openCity(event, 'bookmarks')">Bookmarks</button>
-
-
-		</div>
-	</nav>
-	<main>
-
-		<div class="bread-crumb">
-			<div>
-				<span class="slash">=></span> <a class="bread-crumb1"
-					href="../pages/userHome.html">Home</a>
-			</div>
-			<span class="slash">/</span>
-			<div>
-				<a class="bread-crumb1">Learn</a>
-			</div>
-		</div>
-
-
-		<div id="default">
-
-
-			<div class="course-selection-div">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Grow Your Money with Our Courses
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Our Latest
-					courses and learn how to trade using this incredibly useful tips.
-					Its simple logic and readability makes trading perfect for Stocks,
-					forex, futures, and Crytocurrencies. You'll learn how to trade in
-					all assets and markets with using these courses...</p>
-				<button class="course-btn">Explore All Courses</button>
-
-
-				<div class="scroll-courses-div-stocks">
-
-
-
+    <!-- Main Content Section -->
+    <div class="container my-5">
+        <div class="tab-content" id="myTabContent">
+            <!-- All Courses Tab Content -->
+            <div class="tab-pane fade show active" id="all-courses" role="tabpanel" aria-labelledby="all-courses-tab">
+                <div class="row" id="all-course">
+                    <!-- Course Divs for All Courses -->
+                    <!-- Add your course cards here -->
+                    
+                    
+ 
 					<%
 					CourseService courseService = new CourseService();
 					List<Course> courses = new ArrayList<>();
 
 					try {
 						courses = courseService.getAllCourses();
+						Collections.reverse(courses);
 					} catch (ServiceException e) {
 						e.printStackTrace();
 					}
@@ -242,9 +215,6 @@
 					<%
 					} else {
 
-					// Reverse the list of courses
-					Collections.reverse(courses);
-
 					for (Course course : courses) {
 
 						double markedPrice = course.getMarkedPrice();
@@ -253,111 +223,67 @@
 
 						DecimalFormat df = new DecimalFormat("#.00");
 					%>
-					<a class="first-course2-stocks" href="details.jsp?courseID=<%=course.getCourseID()%>">
-						<div>
-							<img class="course-img-stocks" src="<%=course.getCoverImage()%>"
-								alt="">
-						</div>
-						<div>
-							<h3 class="course-title"><%=course.getName()%></h3>
-							<p class="course-description"><%=course.getDescription()%></p>
-							<div class="course-details">
-								<p class="course-timing">
-									<span class="timing">Timing:</span>
-									<%=course.getTiming()%></p>
-								<p class="course-ln">
-									<span class="lang">Language:</span>
-									<%=course.getLanguage()%></p>
-							</div>
-							<div class="flexcost">
-								<p class="course-cost">
-									fresh Price: &#8377;<%=course.getSellingPrice()%></p>
-								<p>
-									Old Price: <strike class="course-oldcost">&#8377;<%=course.getMarkedPrice()%></strike>
-								<p>
-								<p class="course-discount">
-									Discount:
-									<%=df.format(discountPercentage)%>%
-								</p>
-							</div>
-							<br>
-						</div>
-					</a>
-					<%
+                    
+                                   
+  <a class="card mb-4" href="details.jsp?courseID=<%=course.getCourseID()%>">
+    <img src="<%=course.getCoverImage()%>" class="card-img-top" alt="Course Image">
+    <div class="card-body">
+        <h5 class="card-title"><%=course.getName()%></h5>
+        <p class="card-text" id="description"><%=course.getDescription()%></p>
+        <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex flex-column">
+                <span class="text-muted">Timing</span>
+                <span><%=course.getTiming()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Language</span>
+                <span><%=course.getLanguage()%></span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column">
+                <span class="text-muted">Selling Price</span>
+                <span>&#8377;<%=course.getSellingPrice()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Old Price</span>
+                <span>&#8377;<%=course.getMarkedPrice()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Discount</span>
+                <span><%=df.format(discountPercentage)%>%</span>
+            </div>
+        </div>
+    </div>
+</a>             
+         		   <%
 					}
 					}
 					%>
+                                     
+                </div>
+            </div>
 
-				</div>
-			</div>
-
-
-
-
-		</div>
-
-
-		<div id="live-courses" class="tabcontent">
-
-
-			<div class="course-selection-div-videos">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Explore Our Variety of Live Courses
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Market Trading
-					Videos and learn how to trade using this incredibly useful tips.
-					Its simple logic and readability makes trading perfect for Stocks,
-					forex and Crytocurrencies. You'll learn how to trade in all assets
-					and markets using our Videos...</p>
-				<button class="course-btn">Explore Learing Videos</button>
-
-
-				<div class="scroll-courses-div-videos"></div>
-			</div>
-			<!-- videos end -->
-
-
-
-
-		</div>
-
-		<div id="free-courses" class="tabcontent">
-
-
-			<div class="course-selection-div-videos">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Grow Your Money with Our free Courses
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Our Latest
-					courses and learn how to trade using this incredibly useful tips.
-					Its simple logic and readability makes trading perfect for Stocks,
-					forex, futures, and Crytocurrencies. You'll learn how to trade in
-					all assets and markets with using these courses...</p>
-				<button class="course-btn">Explore Latest Courses</button>
-
-
-
-				<div class="scroll-courses-div">
-				
-				
+            <!-- Free Courses Tab Content -->
+            <div class="tab-pane fade" id="free-courses" role="tabpanel" aria-labelledby="free-courses-tab">
+                <div class="row" id="free-course">
+                    <!-- Course Divs for Free Courses -->
+      
+       				
 									<%
-					CourseService courseService1 = new CourseService();
 					List<Course> courses1 = new ArrayList<>();
 
-					try {
-						courses1 = courseService1.getFreeCourses();
-					} catch (ServiceException e) {
-						e.printStackTrace();
-					}
+                    		for (Course course : courses) {
+                    		    if (course.getSellingPrice() == 0) {
+                    		    	courses1.add(course);
+                    		    }
+                    		}
 
 					if (courses1.isEmpty()) {
 					%>
 					<p>No courses available.</p>
 					<%
 					} else {
-
-					// Reverse the list of courses
-					Collections.reverse(courses1);
 
 					for (Course course : courses1) {
 
@@ -367,99 +293,67 @@
 
 						DecimalFormat df = new DecimalFormat("#.00");
 					%>
-					<div class="first-course2-stocks">
-						<div>
-							<img class="course-img-stocks" src="<%=course.getCoverImage()%>"
-								alt="">
-						</div>
-						<div>
-							<h3 class="course-title"><%=course.getName()%></h3>
-							<p class="course-description"><%=course.getDescription()%></p>
-							<div class="course-details">
-								<p class="course-timing">
-									<span class="timing">Timing:</span>
-									<%=course.getTiming()%></p>
-								<p class="course-ln">
-									<span class="lang">Language:</span>
-									<%=course.getLanguage()%></p>
-							</div>
-							<div class="flexcost">
-								<p class="course-cost">
-									fresh Price: &#8377;<%=course.getSellingPrice()%></p>
-								<p>
-									Old Price: <strike class="course-oldcost">&#8377;<%=course.getMarkedPrice()%></strike>
-								<p>
-								<p class="course-discount">
-									Discount:
-									<%=df.format(discountPercentage)%>%
-								</p>
-							</div>
-							<br>
-						</div>
-					</div>
+                                   
+  <a class="card mb-4" href="details.jsp?courseID=<%=course.getCourseID()%>">
+    <img src="<%=course.getCoverImage()%>" class="card-img-top" alt="Course Image">
+    <div class="card-body">
+        <h5 class="card-title"><%=course.getName()%></h5>
+        <p class="card-text" id="description"><%=course.getDescription()%></p>
+        <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex flex-column">
+                <span class="text-muted">Timing</span>
+                <span><%=course.getTiming()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Language</span>
+                <span><%=course.getLanguage()%></span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column">
+                <span class="text-muted">Selling Price</span>
+                <span>&#8377;<%=course.getSellingPrice()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Old Price</span>
+                <span>&#8377;<%=course.getMarkedPrice()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Discount</span>
+                <span><%=df.format(discountPercentage)%>%</span>
+            </div>
+        </div>
+    </div>
+</a>  
 					<%
 					}
 					}
-					%>
-				
-				
-				</div>
-			</div>
+					%>             
 
+                </div>
+            </div>
 
-		</div>
-		<div id="youtube-videos" class="tabcontent">
-
-			<div class="course-selection-div-latestcourses">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Grow Your Money with Our Wide Range of Youtube Videos
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Our Latest
-					courses and learn how to trade using this incredibly useful tips.
-					Its simple logic and readability makes trading perfect for Stocks,
-					forex, futures, and Crytocurrencies. You'll learn how to trade in
-					all assets and markets with using these courses...</p>
-				<button class="course-btn">Explore Our Youtube Videos</button>
-
-
-				<div class="scroll-courses-div-youtube"></div>
-			</div>
-
-
-		</div>
-		<div id="latest-courses" class="tabcontent">
-
-			<div class="course-selection-div-latestcourses">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Grow Your Money with Our Latest Courses
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Our Latest
-					courses and learn how to trade using this incredibly useful tips.
-					Its simple logic and readability makes trading perfect for Stocks,
-					forex, futures, and Crytocurrencies. You'll learn how to trade in
-					all assets and markets with using these courses...</p>
-				<button class="course-btn">Explore All Courses</button>
-
-				<div class="scroll-courses-div5">
-				
-				
+            <!-- Latest Courses Tab Content -->
+            <div class="tab-pane fade" id="latest-courses" role="tabpanel" aria-labelledby="latest-courses-tab">
+                <div class="row" id="latest-course">
+                    <!-- Course Divs for Latest Courses -->
+                   
+                   
+                   
+                   
+                   
+                   
+  				
 				<%
-					CourseService courseService2 = new CourseService();
-					List<Course> courses2 = new ArrayList<>();
+				List<Course> latestCourses = courses.subList(0, Math.min(courses.size(), 5));
 
-					try {
-						courses2 = courseService2.getLatestCourses();
-					} catch (ServiceException e) {
-						e.printStackTrace();
-					}
-
-					if (courses2.isEmpty()) {
+					if (latestCourses.isEmpty()) {
 					%>
 					<p>No courses available.</p>
 					<%
 					} else {
 
-					for (Course course : courses2) {
+					for (Course course : latestCourses) {
 
 						double markedPrice = course.getMarkedPrice();
 						double sellingPrice = course.getSellingPrice();
@@ -467,118 +361,76 @@
 
 						DecimalFormat df = new DecimalFormat("#.00");
 					%>
-					<div class="first-course2-stocks">
-						<div>
-							<img class="course-img-stocks" src="<%=course.getCoverImage()%>"
-								alt="">
-						</div>
-						<div>
-							<h3 class="course-title"><%=course.getName()%></h3>
-							<p class="course-description"><%=course.getDescription()%></p>
-							<div class="course-details">
-								<p class="course-timing">
-									<span class="timing">Timing:</span>
-									<%=course.getTiming()%></p>
-								<p class="course-ln">
-									<span class="lang">Language:</span>
-									<%=course.getLanguage()%></p>
-							</div>
-							<div class="flexcost">
-								<p class="course-cost">
-									fresh Price: &#8377;<%=course.getSellingPrice()%></p>
-								<p>
-									Old Price: <strike class="course-oldcost">&#8377;<%=course.getMarkedPrice()%></strike>
-								<p>
-								<p class="course-discount">
-									Discount:
-									<%=df.format(discountPercentage)%>%
-								</p>
-							</div>
-							<br>
-						</div>
-					</div>
+  <a class="card mb-4" href="details.jsp?courseID=<%=course.getCourseID()%>">
+    <img src="<%=course.getCoverImage()%>" class="card-img-top" alt="Course Image">
+    <div class="card-body">
+        <h5 class="card-title"><%=course.getName()%></h5>
+        <p class="card-text" id="description"><%=course.getDescription()%></p>
+        <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex flex-column">
+                <span class="text-muted">Timing</span>
+                <span><%=course.getTiming()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Language</span>
+                <span><%=course.getLanguage()%></span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column">
+                <span class="text-muted">Selling Price</span>
+                <span>&#8377;<%=course.getSellingPrice()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Old Price</span>
+                <span>&#8377;<%=course.getMarkedPrice()%></span>
+            </div>
+            <div class="d-flex flex-column">
+                <span class="text-muted">Discount</span>
+                <span><%=df.format(discountPercentage)%>%</span>
+            </div>
+        </div>
+    </div>
+</a>  
 					<%
 					}
 					}
 					%>
-				
-				
-				
-				</div>
-			</div>
 
+                   
+                </div>
+            </div>
 
-		</div>
-		<div id="blogs" class="tabcontent">
+            <!-- My Courses Tab Content -->
+            <div class="tab-pane fade" id="my-courses" role="tabpanel" aria-labelledby="my-courses-tab">
+                <div class="row .my-course" id="my-course">
+                    <!-- Course Divs for My Courses -->
+                    <!-- Add your course cards here -->
+                </div>
+            </div>
 
-			<div class="blogs-selection-div">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Explore Our Variety of Blogs Posted By
-					Proffessional Traders
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Market Trading
-					Blogs and learn how to trade using this incredibly useful tips. Its
-					simple logic and readability makes trading perfect for Stocks,
-					forex and Crytocurrencies. You'll learn how to trade in all assets
-					and markets using our Blogs...</p>
-				<button class="course-btn">Explore Our Blogs</button>
+            <!-- Blogs Tab Content -->
+            <div class="tab-pane fade" id="blogs" role="tabpanel" aria-labelledby="blogs-tab">
+                <div class="row .blog" id="blog">
+                    <!-- Blog Posts -->
+                    <!-- Add your blog content here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <%
+    }
+    %>
 
-
-				<div class="scroll-courses-div4"></div>
-			</div>
-
-
-		</div>
-
-		<div id="my-courses" class="tabcontent">
-
-			<div class="blogs-selection-div">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Explore the Courses Bought By You
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Market Trading
-					Blogs and learn how to trade using this incredibly useful tips. Its
-					simple logic and readability makes trading perfect for Stocks,
-					forex and Crytocurrencies. You'll learn how to trade in all assets
-					and markets using our Blogs...</p>
-				<button class="course-btn">Explore Our Blogs</button>
-
-
-				<div class="scroll-courses-div-mycourses"></div>
-			</div>
-
-
-		</div>
-
-
-		<div id="bookmarks" class="tabcontent">
-
-			<div class="course-selection-div-videos">
-				<h1 class="course-category">
-					<br>&emsp;&emsp;Explore Your Recent Bookmarks
-				</h1>
-				<p class="course-desc">Take one of NSE's range of Market Trading
-					courses and learn how to trade using this incredibly useful tips.
-					Its simple logic and readability makes trading perfect for Stocks,
-					forex and Crytocurrencies. You'll learn how to trade in all assets
-					and markets using our Blogs...</p>
-				<button class="course-btn">Your Recent Bookmarks</button>
-
-
-				<div class="scroll-bookmarks-div4"></div>
-			</div>
-	</main>
-
-<%
-}
-%>
-
+    <!-- Bootstrap Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<!-- <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> -->
-	<script src="../assets/js/learn.js"></script>
-	<script type="text/javascript"
-		src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-		integrity=""></script>
-
+    <script src="../assets/js/learn.js" async></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>
+    

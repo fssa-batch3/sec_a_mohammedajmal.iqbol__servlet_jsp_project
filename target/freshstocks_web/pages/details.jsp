@@ -1,24 +1,418 @@
-<%@page import="java.util.Collections"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
-<%@page import="java.text.DecimalFormat"%>
+<%@page import="com.fssa.freshstocks.services.UserService"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.fssa.freshstocks.model.*"%>
-<%@ page import="com.fssa.freshstocks.services.*"%>
-<%@ page import="com.fssa.freshstocks.services.exception.*"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Course Details</title>
-<link rel="stylesheet" href="../assets/css/details.css" />
-<link rel="stylesheet" href="../assets/css/loader1.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Course Details Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="../assets/css/loader1.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light Blue */
+            font-size: 16px;
+        }
+
+        .cover-image {
+            max-height: 300px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .course-title {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .course-details li {
+            list-style-type: none;
+            margin-bottom: 10px;
+        }
+
+        .course-cost {
+            font-size: 1.5em;
+            color: green;
+        }
+
+        .course-old-cost {
+            text-decoration: line-through;
+            font-size: 1em;
+            color: #888;
+        }
+
+        .course-discount {
+            font-size: 1.5em;
+            color: #d9534f;
+        }
+
+        .instructor-details {
+            margin-top: 20px;
+        }
+
+        .instructor-name {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .instructor-description {
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        .video-accordion .card-header {
+            cursor: pointer;
+            font-size: 1.2em;
+            background-color: #f8f9fa; /* Light Gray */
+        }
+
+        .video-accordion .card-body {
+            display: none;
+            font-size: 1em;
+        }
+        
+        .comments {
+            height:600px;
+            overflow-y: scroll;
+        }
+        
+        .comments::-webkit-scrollbar {
+	display: none;
+}
+        
+
+        .comments-section {
+            margin-top: 20px;
+        }
+
+        .comment {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .comment-box {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            resize: vertical;
+        }
+        
+.submit-comment {
+	position: relative;
+	top: -15px;
+	    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-comment:hover {
+	transform: scale(1.05);
+}
+
+.datenow {
+	font-family: sans-serif;
+	margin-top:15px;
+	margin-left:15px;
+}
+
+.comment-1 {
+	width: 90%;
+	/* height:50px; */
+	border-radius: 5px;
+	background-color: beige;
+	color: black;
+	margin-left: 50px;
+	margin-top: 10px;
+}
+
+.comment-letters {
+	font-size: 18px;
+	font-family: sans-serif;
+	margin-left: 30px;
+	position: relative;
+	top: 18px;
+}
+
+.comment-time {
+	font-size: 18px;
+	font-family: sans-serif;
+	margin-left: 30px;
+	position: relative;
+	top: 15px;
+	width: 20px;
+	height: 20px;
+}
+
+.comment-edit-delete1_none, .comment-edit-delete2_none {
+	font-size: 18px;
+	font-family: sans-serif;
+	margin-left: 30px;
+	position: relative;
+	top: 10px;
+	width: 70px;
+	height: 30px;
+	display: none;
+}
+
+.comment-edit-delete1_block, .comment-edit-delete2_block {
+	font-size: 18px;
+	font-family: sans-serif;
+	margin-left: 30px;
+	position: relative;
+	top: 10px;
+	width: 70px;
+	height: 30px;
+	display: block;
+}
+
+.comment-edit {
+	font-size: 18px;
+	font-family: sans-serif;
+	margin-left: 30px;
+	position: relative;
+	top: 10px;
+	width: 200px;
+	height: 20px;
+	display: none;
+}
+
+.comment-edit-delete3 {
+	font-size: 18px;
+	font-family: sans-serif;
+	margin-left: 30px;
+	position: relative;
+	top: 10px;
+	width: 100px;
+	height: 30px;
+	display: none;
+}
+
+#new-comments {
+	height: 600px;
+	overflow-y: scroll;
+}
+
+#new-comments::-webkit-scrollbar {
+	display: none;
+}
+
+.profile-img_none {
+	width: 30px;
+	height: 30px;
+	margin-left: 20px;
+	margin-top: 10px;
+	border-radius: 50%;
+	display: none;
+}
+
+.profile-img_block {
+	width: 30px;
+	height: 30px;
+	margin-left: 20px;
+	margin-top: 15px;
+	border-radius: 50%;
+	display: block;
+}
+
+.comment-img {
+	display: flex;
+}
+        
+        
+
+.progress-container {
+    margin: 20px 0;
+    text-align: center;
+        color: black;
+    font-size: 15px;
+}
+
+.progress-label, .last-modified {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0; /* Light gray background */
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+        .accordion-arrow::before {
+            content: "\f078"; /* Unicode for angle down (font-awesome) */
+            font-family: 'Font Awesome 6 Free';
+            margin-right: 5px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-arrow.collapsed::before {
+            transform: rotate(-180deg);
+        }
+
+.progress {
+height:1.3rem;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    background-color: #007bff; /* Dodger blue fill color */
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px 0 0 10px;
+}
+
+.progress-text, #lastModifiedText {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.last-modified {
+    font-style: italic;
+}
+
+
+/* Add this CSS to your stylesheet */
+
+@keyframes confettiAnimation {
+  0% {
+    transform: translateY(0) rotateZ(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1000px) rotateZ(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #e2264d;
+  opacity: 1;
+  animation: confettiAnimation 4s ease-out infinite;
+}
+
+body.celebration-active {
+  overflow: hidden;
+}
+
+body.celebration-active .confetti-container {
+  pointer-events: none;
+}
+
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.confetti-container .confetti {
+  position: absolute;
+  transform-origin: center;
+}
+
+.celebration-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+
+        #viewcertify {
+            margin-top: 10px;
+        }
+        
+        
+        .accordion {
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
+	width: 350px;
+	margin-left: 0px;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+	transition: 0.4s;
+}
+
+.active, .accordion:hover {
+	background-color: #ccc;
+}
+
+.accordion:after {
+	content: '\002B';
+	color: #777;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+}
+
+.active:after {
+	content: "\21E3";
+}
+
+.panel {
+	padding: 0 18px;
+	display: none;
+	background-color: white;
+	overflow: hidden;
+	margin-left: 0px;
+	padding-top: 10px;
+}
+
+.errorMessages {
+    display: none;
+    list-style-type: disc;
+    margin: 0 10px 15px 10px;
+    padding: 8px 35px 8px 30px;
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border: 2px solid #EED3D7;
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.errorMessages span {
+    font-weight: bold;
+}
+
+    </style>
 </head>
+
 <body>
+
+
 	<%
 	if (session.getAttribute("loggedInemail") == null) {
 		response.sendRedirect("login.jsp");
@@ -37,173 +431,17 @@
 	  <div class="loading-4"></div>
 	</div>
 	
-	<nav>
-		<div class="navbar">
-			<img class="nav-logo"
-				src="../assets/images/Screenshot 2023-02-11 021952.png" alt="">
-			<span class="hint--bottom hint--rounded"
-				aria-label="Search for Trading Courses"><input class="search"
-				type="text" placeholder="Search for courses,videos & Blogs"
-				id="searchbar"></span>
-			<div class="notification" id="notification-img">
-
-				<div class="dropdown">
-					<span class="hint--bottom hint--rounded" aria-label="Notifications"><img
-						class="notificationimg" onclick="profile1()"
-						src="../assets/images/icons8-notification-50.png"
-						alt="notification-img"></span>
-					<div class="dropdown-content-notification">
-						<a><div class="notify-head">
-
-								<h1 class="notify-user-h1">Notifications</h1>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Ajith</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Chnadru</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Kamalesh</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Durga</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Vanitha</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Vicky</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-1">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Susi kumar</b> promoted your answer
-								</p>
-
-							</div></a> <a href="#"><div class="notify-2">
-
-								<img class="notify-user-img"
-									src="../assets/images/icons8-male-user-48.png" alt="">
-								<p class="notify-user-p">
-									<b>Akshaya</b> promoted your answer
-								</p>
-
-							</div></a>
-					</div>
-				</div>
-
-			</div>
-			<div class="notification">
-				<div class="dropdown1">
-					<span class="hint--bottom hint--rounded"
-						aria-label="Language Selector"><img class="notificationimg"
-						onclick="profile1()"
-						src="../assets/images/icons8-translator-50.png"
-						alt="translator-img"></span>
-					<div class="dropdown-content-lang">
-						<br>
-						<div id="google_translate_element"></div>
-					</div>
-				</div>
-			</div>
-			<div class="notification">
-
-				<a id="notificationimg" href="userContact.html"> <span
-					class="hint--bottom hint--rounded" aria-label="Contact Support"><img
-						class="notificationimg"
-						src="../assets/images/icons8-online-support-50.png"
-						alt="support-img"></span>
-				</a>
-
-			</div>
-			<div class="notification">
-				<span class="hint--bottom hint--rounded" aria-label="User Profile"><a
-					class="dropdown" id="dropuser" href="userProfile.jsp"> <img
-						id='dropusers' alt="profilepic" src="<%=profileImg%>">
-
-				</a></span>
-
-			</div>
-
-		</div>
-
-		<div class="tab">
-			<marquee class="live-marquee-heading">LIVE COURSES ARE GOING TO
-				START BY NOW. IT'S 100% FREE TO LEARN. JOIN TODAY TO LEARN MORE
-				ABOUT TECHNICAL ANALYSIS AND WIN EXCITING ASSURE GIFTS FOR FREE</marquee>
-		</div>
-
-
-	</nav>
-
-
-	<!-- nav end -->
-
-
+	
 	<%
-	int courseId = Integer.parseInt(request.getParameter("courseID"));
-
-	// Get the session and set the attribute
-	session.setAttribute("loggedInCourseID", courseId);
-
-	request.setAttribute("loggedInCourseID", courseId);
-	CourseService courseService = new CourseService();
-	Course course = null;
-
-	try {
-		course = courseService.getCoursesFromCourseId(courseId);
-	} catch (ServiceException e) {
-		e.printStackTrace();
-	}
-
-	if (course == null) {
-	%>
-	<p>No course details available.</p>
-	<%
-	} 
 	}
 	%>
 
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-		<script src="../assets/js/detail.js"></script>
-		<script type="text/javascript"
-			src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-			integrity=""></script>
-		<!-- Google Translate API -->
-		<script type="text/javascript"
-			src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!-- Bootstrap Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../assets/js/details.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 </body>
+
 </html>

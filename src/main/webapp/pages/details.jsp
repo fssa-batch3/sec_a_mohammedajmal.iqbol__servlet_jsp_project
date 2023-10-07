@@ -391,6 +391,22 @@ body.celebration-active .confetti-container {
 	margin-left: 0px;
 	padding-top: 10px;
 }
+
+.errorMessages {
+    display: none;
+    list-style-type: disc;
+    margin: 0 10px 15px 10px;
+    padding: 8px 35px 8px 30px;
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border: 2px solid #EED3D7;
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.errorMessages span {
+    font-weight: bold;
+}
+
     </style>
 </head>
 

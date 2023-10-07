@@ -33,11 +33,12 @@
 
 			<!-- form start -->
 			<form id="form">
+			<ul class="errorMessages" id="errormsg"></ul>
 				<div class="input-display">
 					<div>
 						<div class="form-floating" id="emailinput">
 							<input type="text" class="form-control" id="name"
-								placeholder="Password" required pattern="[A-Za-z0-9_]{1,15}"
+								placeholder="Password" required pattern="[A-Za-z\s]{3,15}"
 								name="username"
 								title="Username (letters and numbers only, no punctuation or special characters)"
 								value="Ajmal"> <label for="username">Username</label>

@@ -136,7 +136,8 @@ div1.innerHTML = `
 
                     </div>
                     <br>
-                    <form id="addcomment" onsubmit="addcomment(event)">
+    <form id="addcomment" onsubmit="addcomment(event)">
+    <ul class="errorMessages" id="errormsg"></ul>
         <div class="input-group mb-3">
             <textarea class="form-control" id="comment-input" placeholder="Add a comment" onkeypress="entercomment(event)"></textarea>
             <div class="input-group-append">
@@ -454,10 +455,9 @@ axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
            
                    let div1 = document.createElement("div");
         div1.setAttribute("class", "comment");
-        div1.setAttribute("id", "comment");
         div1.innerHTML = `
             <div class="comment-img">
-                <p class="comment-text" id="comment-letters">No Comments Available Right Now! </p>
+                <p class="comment-text">No Comments Available Right Now! </p>
             </div>
         `;
         
@@ -609,7 +609,7 @@ function closeEditPopup() {
 // using this method, I will add comment to database
 function addcomment(event) {
 	 event.preventDefault();
-	 
+
 	 let urlParams = new URLSearchParams(window.location.search);
      let courseId = urlParams.get('courseID');
 
@@ -626,7 +626,14 @@ function addcomment(event) {
   .then(response => {
     console.log(response.data);
     const res = response.data;
-    alert(response.data);
+   
+    if (res === "Comment Created Successfully.") {
+        alert(response.data);
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+	}
+	
     if(res == "Comment Created Successfully.") {
       window.location.href=`/freshstocks_web/pages/details.jsp?courseID=${courseId}`;
     }
@@ -635,6 +642,9 @@ function addcomment(event) {
   .catch(error => {
     console.error('Error creating course:', error);
     // Handle error
+  })
+    .finally(() => {
+    hideLoader();
   });
     
     

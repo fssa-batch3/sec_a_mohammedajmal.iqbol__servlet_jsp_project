@@ -214,16 +214,23 @@ let courseID = urlParam.get('courseId');
     if (res === "Course Updated Successfully.") {
         hideLoader();
     }
-    alert(response.data);
-    hideLoader();
+    if (res === "Course Created Successfully.") {
+        alert(response.data);
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+	}
     if(res === "Course Updated Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";
     }
     // Handle success
   })
   .catch(error => {
-    alert("Error updating courseL:" + error);
+    alert("Error updating course:" + error);
     // Handle error
+  })
+  .finally(() => {
+    hideLoader();
   });
     
     

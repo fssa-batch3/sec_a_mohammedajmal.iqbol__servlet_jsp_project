@@ -59,27 +59,6 @@ function hideLoader() {
     document.getElementById('overlay').style.display = 'none';
 }
 
-toastr.options = {
-  "closeButton": true,
-  "debug": false,
-  "newestOnTop": true,
-  "progressBar": true,
-  "positionClass": "toast-top-right",
-  "preventDuplicates": false,
-  "onclick": null,
-  "showDuration": "400",
-  "hideDuration": "1000",
-  "timeOut": "5000",
-  "extendedTimeOut": "1000",
-  "showEasing": "swing",
-  "hideEasing": "linear",
-  "showMethod": "fadeIn",
-  "hideMethod": "fadeOut"
-}
-    
-
-    toastr.error('Hello, this is a success message!');
-
 
 //form submit event start
 //seller can add courses when he/she submit the form with valid details
@@ -135,14 +114,20 @@ function createcourse(event) {
     };
     
     
-    axios.post('/freshstocks_web/CreateCourseServlet', { courseObj })
+   axios.post('/freshstocks_web/CreateCourseServlet', { courseObj })
   .then(response => {
     console.log(response.data);
     const res = response.data;
     if (res === "Course Created Successfully.") {
         hideLoader();
     }
-   alert(response.data);
+    if (res === "Course Created Successfully.") {
+        alert(response.data);
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+	}
+   
     if(res === "Course Created Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";
     }

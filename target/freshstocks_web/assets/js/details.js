@@ -7,7 +7,7 @@ function hideLoader() {
     document.getElementById('overlay').style.display = 'none';
 }
 
-setTimeout(hideLoader, 4000);
+setTimeout(hideLoader, 2000);
 
 
 // using this method, I will show the whole details page dynamically
@@ -20,199 +20,138 @@ axios.get(`/freshstocks_web/SaveCourseServlet?courseId=${courseID}`)
 	
     let courseDetails = response.data;
     
+    
+    console.log(courseDetails);
+    
     const markedPrice = courseDetails.markedPrice;
         const sellingPrice = courseDetails.sellingPrice;
         const discountPercentage = ((markedPrice - sellingPrice) / markedPrice) * 100;
         const discountFormatted = Math.floor(discountPercentage.toFixed(2));
 
 let div1 = document.createElement("div");
-div1.setAttribute("class","heropage"); 
+div1.setAttribute("class","container my-5"); 
 div1.innerHTML = `
 
-   <div class="details-head">
+     <h1 class="text-center mb-4">Course Details</h1>
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="course-title mb-4">${courseDetails.name}</h2>
+                <img src="${courseDetails.coverImage}" alt="Course Cover Image" class="cover-image mb-4">
+                <ul class="course-details mb-4">
+                  <div style="display:flex; justify-content:space-evenly;">  <li>Course Timing:  ${courseDetails.timing}</li>
+                    <li>Course Language: ${courseDetails.language}</li>
+                     </div>   
+                    <div style="display:flex; justify-content:space-between;">
+                    <li class="course-cost">Course Cost:  &#8377;${courseDetails.sellingPrice}</li>
+                    <li class="course-old-cost">Course Old Cost:  &#8377;${courseDetails.markedPrice}</li>
+                    <li class="course-discount">Course Discount:  ${discountFormatted}%</li>
+                 </div>
+                </ul>
+                <button class="btn btn-primary mr-2" id="add-to-cart" onclick="enrollcourse(${courseDetails.courseId})">Enroll Now</button>
+                <button class="btn btn-danger mr-2" id="deletecourse" onclick="deletemycourses()" style="display:none;">Delete from My Courses</button>
+                <button class="btn btn-success mr-2" onclick="share()" >Share to friends</button>
+                <hr>
+                <br>
+                <h3>About</h3>
+                <p class="mb-4">What you'll learn from this course:<br>
+                    ${courseDetails.description}</p>
+                <h3>Top Skills You'll Learn</h3>
+                <p class="mb-4">${courseDetails.topSkills}</p>
+                <br>
+                <h3>Highlights</h3>
+                <ul class="mb-4">
+                    <li>100% worth of money</li>
+                    <li>You will get a certificate once you completed the course</li>
+                    <li>You always get 24/7 Chat Support</li>
+                    <li>Participate the Live trading session</li>
+                </ul>
+                <br>
+                <div style="display:flex;justify-content:flex-start;">
+                <div>
+                <h3>Instructor</h3>
+                <div class="instructor-details mb-4">
+                    <p class="instructor-name">${courseDetails.instructorName}</p>
+                    <p class="instructor-description">${courseDetails.companyName}</p>
+                    <p>4 Courses</p>
+                </div>
+                </div>
+                <div style="margin-left:100px;">
+                <h3>Offered By</h3>
+                <div class="instructor-details mb-4">
+                    <p class="instructor-name">${courseDetails.companyName}</p>
+                    <p class="instructor-description">${courseDetails.companyCategory}</p>
+                    <p>4 Courses</p>
+                </div>
+                </div>
+                </div>
+ 
+ <div id="celebration-container"></div>
+                
 
-		<div class="heropage">
-			<div class="breadcrumb">
-				<a href="home.jsp" class="breadcrumblink">Home</a> <a
-					href="learn.jsp" class="breadcrumblink">Learn</a> <a href="#"
-					class="breadcrumblink">Details</a>
-			</div>
-
-			<div class="course-details">
-				<p>Course Title :</p>
-				<h1>${courseDetails.name}</h1>
-
-
-				<div class="course-detail-time">
-					<p>
-						<b>Course Timing</b> <br> <br>${courseDetails.timing}</p>
-					<p>
-						<b>Course Language</b> <br> <br>${courseDetails.language}</p>
-					<p>
-						<b>Students Intake</b> <br> <br>200 Per Batch
-					</p>
-					<p id="sellingPrice">
-						<b>Course Cost</b> <br> <br>&emsp; &#8377;
-						${courseDetails.sellingPrice}</p>
-
-
-
-					<div>
-						<div class="course-price" id="course-price">
-							<p>
-								<b>Course Cost</b> <br> <br>&#8377;
-								${courseDetails.sellingPrice}</p>
-							<br> <br>
-							<p>
-								<b>Course Old Cost</b> <br> <br> <strike>&#8377;
-								   ${courseDetails.markedPrice}</strike>
-							</p>
-							<br> <br>
-							<p>
-								<b>Course Discount</b> <br> <br>${discountFormatted} %
-							</p>
-						</div>
-						<p id="course-days">
-							<span><b>Days Left</b> <br> <br>30 days</span>&nbsp;left
-							at this price!
-						</p>
-
-						<div class="buttons-div">
-
-							<button class="add-to-cart" id="add-to-cart" onclick="enrollcourse(${courseDetails.sellingPrice})">Enroll Now</button>
-							<br>
-							<button id="deletecourse" class="delete" onclick="deletemycourses()">Delete from My
-								Courses</button>
-							<br>
-							<button id="deletebookmark" class="delete">Remove from
-								Bookmark</button>
-							<br> <a class="full-access-para" href="">Full Lifetime
-								Access</a>
-							<button class="share" id="share" onclick="share()">Share</button>
-							<br>
-							<button class="gift" onclick="gift()">Gift this course</button>
-							<br>
-
-						</div>
-					</div>
-
-
-
-
-				</div>
-
-				<br>
-
-
-				<div class="navlinks" id="navlinks">
-					<a href="#about" class="link1">About</a> <a href="#instructor"
-						class="link1">Instructor</a> <a href="#offered-by" class="link1">Offered
-						By</a> <a href="#videos" class="link1">Videos</a> <a href="#comment"
-						class="link1">Comments</a> <a href="../pages/userContact.jsp"
-						class="link1">Contact</a>
-				</div>
-
+            </div>
+            <div class="col-lg-4">
+                <div class="video-progress mb-4">
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            Course Progress:
+                            <span id="progressText" class="progress-text">0%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar">
+                                <div id="progressBar" class="progress-fill"></div>
+                            </div>
+                        </div>
+                        <div id="lastModified" class="last-modified">
+                            Last Modified: <span id="lastModifiedText"></span>
+                        </div>
+                        <button type="button" onclick="viewcertify()" class="btn btn-primary"  id="viewcertify" style="display:none;">View the Course Certificate</button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <h3 class="mb-3">Comments</h3>
+                    <div class="comments">
+<div class="container mt-5">
+    <div id="new-comments">
+        <!-- Comment List -->
 
 
-				<h1 class="learn-couse" id="about">About</h1>
-
-				<h1 class="learn-couse">What you'll learn from this course</h1>
-
-				<ul class="list-learnings">
-					<h2 class="list-learning">Course Description</h2>
-					<p class="course-desc">${courseDetails.description}</p>
-					<br>
-					<h2 class="list-learning">Top Skills You'll Learn</h2>
-					<br>
-					<div id="list-learn">
-
-						<li class="list-learning">${courseDetails.topSkills}
-				</ul>
-
-
-
-
-				<ul class="list-learnings">
-					<br>
-					<h2 class="list-learning">Highlights</h2>
-					<li class="list-learning">100% worth of money</li>
-					<li class="list-learning">You will get a certificate once you
-						completed the course</li>
-					<li class="list-learning">You always get 24/7 Chat Support</li>
-					<li class="list-learning">Participate the Live trading session</li>
-				</ul>
-				<br>
-
-
-
-				<div class="instructorcontainer">
-					<p class="learn-couse" id="instructor">Instructor</p>
-
-					<div class="instructor-div">
-						<div>
-							<img src="${courseDetails.coverImage}" alt="" id="instruct-image">
-						</div>
-						<div class="letters-instuct">
-							<a href="#" class="instruct-namelink"><h2>${courseDetails.instructorName}</h2></a>
-							<p>${courseDetails.companyName}</p>
-							<p class="courses-add">
-								<b>4</b> Courses
-							</p>
-						</div>
-
-					</div>
-
-				</div>
-
-
-
-
-
-				<div class="offered-by" id="offered-by">
-					<p class="learn-couse" id="about">Offered By</p>
-
-					<div class="instructor-div">
-						<div>
-							<img src="${courseDetails.coverImage}" alt="" id="instruct-image">
-						</div>
-						<div class="letters-instuct">
-							<a href="#" class="instruct-namelink"><h2>${courseDetails.companyName}</h2></a>
-							<p>${courseDetails.companyCategory}</p>
-							<p class="courses-add">
-								<b>4</b> Courses
-							</p>
-						</div>
-
-					</div>
-
-				</div>
-
-
-				<div class="offered-by-videos" id="videos">
-					<p class="learn-couse" id="about1">Videos</p>
-					
-					
-					
-				<div class="progress-container">
-    <div class="progress-label">
-        Course Progress:
-        <span id="progressText" class="progress-text">0%</span>
-    </div>
-    <div class="progress">
-        <div class="progress-bar">
-            <div id="progressBar" class="progress-fill"></div>
+        <!-- Edit Popup -->
+        <div id="edit-popup" class="popup" style="display:none;">
+            <div class="popup-content">
+                <span class="close" onclick="closeEditPopup()">&times;</span>
+                <h2 class="popup-title">Edit Comment</h2>
+                <form onsubmit="submitEditComment(event)">
+                    <input type="hidden" id="edit-comment-id" name="commentId">
+                    <div class="input-group">
+                        <input type="text" id="edit-comment-input" class="form-control edit-comment-input" placeholder="Edit your comment...">
+                        <div class="input-group-append">
+                            <button type="submit" id="submit-edit-comment" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    <div id="lastModified" class="last-modified">
-        Last Modified: <span id="lastModifiedText"></span>
-    </div>
-    <button type="button" onclick="viewcertify()" id="viewcertify" style="display:none;margin-left: 43%;">View the Course Certificate</button>
 </div>
 
-<div id="celebration-container"></div>
-
-
-					<button class="accordion">Beginner's Module <span id="locked1">&#128274;</span></button>
+                    </div>
+                    <br>
+    <form id="addcomment" onsubmit="addcomment(event)">
+    <ul class="errorMessages" id="errormsg"></ul>
+        <div class="input-group mb-3">
+            <textarea class="form-control" id="comment-input" placeholder="Add a comment" onkeypress="entercomment(event)"></textarea>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" id="submit-comment">Submit</button>
+            </div>
+        </div>
+    </form>
+    
+    
+    <div>
+      <br>
+       <h2>Course Videos</h2>
+       <br>
+    					<button class="accordion">Beginner's Module <span id="locked1">&#128274;</span></button>
 					<div class="panel">
 						<a href="courseVideoPlayer.jsp?courseID=${courseID}&videoId=${1}" class="course-links" id="course-links1"
 							target="_blank" onclick="openFile(event)"><li
@@ -232,167 +171,14 @@ div1.innerHTML = `
 							target="_blank" onclick="openFile(event)"><li
 							class="begginer-module">${courseDetails.courseVideoName3}</li></a> <br>
 					</div>
-
-
-				</div>
-
-
-				<div class="offered-by" id="comment">
-					<p class="learn-couse" id="about">Comments</p>
-					<div class="what-you-learn">
-
-						<form id="addcomment" onsubmit="addcomment(event)">
-							<span class="hint--bottom hint--rounded"
-								aria-label="Use this textarea to Give Comments for this course">
-								<textarea type="text" name="comment" id="comment-input"
-									placeholder="comment here" onkeypress="entercomment(event)"></textarea>
-							</span> <span class="hint--top hint--rounded"
-								aria-label="Submit Your Comments"><button
-									class="submit-comment" type="submit" id="submit-comment">Submit</button></span>
-						</form>
-
-						<div id="new-comments">
-							<!-- comments div start -->
-							
-
-
-<div id="edit-popup" class="popup" style="display:none;">
-    <div class="popup-content">
-        <span class="close" onclick="closeEditPopup()">&times;</span>
-        <h2 class="popup-title">Edit Comment</h2>
-        <form onsubmit="submitEditComment(event)">
-            <input type="hidden" id="edit-comment-id" name="commentId">
-            <input type="text" id="edit-comment-input" class="edit-comment-input" placeholder="Edit your comment...">
-            <button type="submit" id="submit-edit-comment" class="submit-edit-comment">Submit</button>
-        </form>
+    
+    
+    
     </div>
-</div>
-
-
-						</div>
-						<!-- comments div end -->
-						<br> <br> <br> <br>
-
-					</div>
-
-				</div>
-
-
-			</div>
-
-
-		</div>
-		<div class="heropage2">
-			<img src="${courseDetails.coverImage}" alt="" id="course-image">
-		</div>
-	</div>
-
-	<div class="course-container">
-
-		<div class="course">
-
-			<div class="course-div">
-				<button class="add-to-cart" id="add-to-cart" onclick="enrollcourse(${courseDetails.courseId})">Enroll Now</button>
-				<br>
-				<button id="deletecourse" class="delete">Delete from My
-					Courses</button>
-				<br>
-				<button id="deletebookmark" class="delete">Remove from
-					Bookmark</button>
-				<br> <a class="full-access-para" href="">Full Lifetime
-					Access</a>
-				<div>
-					<button class="share" id="share" onclick="share()">Share</button>
-					<br>
-					<button class="gift" onclick="gift()">Gift this course</button>
-					<br>
-				</div>
-			</div>
-		</div>
-
-
-
-
-		<div class="share-div" id="share-div" style="display: none;">
-			<h1 class="share-h1">Share The Course</h1>
-			<p class="share-p">
-				You can Share this Course to your friends and relatives<br>
-				through these Social Media or using this link to get the course
-			</p>
-			<div class="social-media">
-				<a href="https://www.google.com/"><img class="google"
-					src="https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1"
-					alt=""></a> <a href="https://www.facebook.com/"><img
-					class="facebook"
-					src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1200px-Facebook_f_logo_%282021%29.svg.png"
-					alt=""></a> <a href="https://www.instagram.com/"><img
-					class="instagram"
-					src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1200px-Instagram_logo_2022.svg.png"
-					alt=""></a> <a href="https://twitter.com/home"><img
-					class="instagram"
-					src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4n_urpJ9XpwOTdzBVbGvactwHrPagYQrTJPYjxfxLGkSyu7nJZVqRVGAeohnPgKMrnKE&amp;usqp=CAU"
-					alt=""></a> <a href="https://mail.google.com/mail/u/0/#inbox"><img
-					class="instagram"
-					src="https://play-lh.googleusercontent.com/KSuaRLiI_FlDP8cM4MzJ23ml3og5Hxb9AapaGTMZ2GgR103mvJ3AAnoOFz1yheeQBBI"
-					alt=""></a>
-			</div>
-			<p class="share-p">
-				<b>Or Use the link to share the Course</b>
-			</p>
-			<input class="link-input" id="link-input" type="text" name=""
-				value="" disabled="">
-			<button class="share-p" id="back" onclick="back()">Back</button>
-		</div>
-
-
-		<div class="gift-div" id="gift-div" style="display: none;">
-			<h1 class="share-h1">Gift The Course</h1>
-			<p class="share-p">
-				You can Gift this Course to your friends and relatives<br>
-				through these Social Media or using this link to get the course for
-				free
-			</p>
-			<div class="social-media">
-				<a href="https://www.google.com/"><img class="google"
-					src="https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1"
-					alt=""></a> <a href="https://www.facebook.com/"><img
-					class="facebook"
-					src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/1200px-Facebook_f_logo_%282021%29.svg.png"
-					alt=""></a> <a href="https://www.instagram.com/"><img
-					class="instagram"
-					src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1200px-Instagram_logo_2022.svg.png"
-					alt=""></a> <a href="https://twitter.com/home"><img
-					class="instagram"
-					src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4n_urpJ9XpwOTdzBVbGvactwHrPagYQrTJPYjxfxLGkSyu7nJZVqRVGAeohnPgKMrnKE&amp;usqp=CAU"
-					alt=""></a> <a href="https://mail.google.com/mail/u/0/#inbox"><img
-					class="instagram"
-					src="https://play-lh.googleusercontent.com/KSuaRLiI_FlDP8cM4MzJ23ml3og5Hxb9AapaGTMZ2GgR103mvJ3AAnoOFz1yheeQBBI"
-					alt=""></a>
-			</div>
-			<p class="share-p">
-				<b>Or Use the link to Gift the Course</b>
-			</p>
-			<input class="link-input" id="link-input1" type="text" name=""
-				value="" disabled="">
-			<button class="share-p" id="back" onclick="giftback()">Back</button>
-		</div>
-
-
-		<!-- edit new tab -->
-
-		<form class="edit-comment" id="edit-comment"
-			action="../EditCommentServlet" style="display: none;" method="post">
-			<h1 class="share-h1">Edit Comment</h1>
-			<input class="comment-input" id="comment-edit" type="text"
-				name="comment" placeholder="  Enter a new Comment"> <input
-				type="hidden" name="commentId" value="commentId" />
-			<button class="share-p" id="submit-edit" onclick="submitedit()"
-				type="submit">Submit</button>
-			<button class="share-p" id="back" onclick="backedit()">Back</button>
-		</form>
-		
-		
-		</div>
+    
+                </div>
+            </div>
+        </div>
 `;
 
 
@@ -425,19 +211,10 @@ function coursePurchased() {
         
         if(purchasedCourse){
 			document.getElementById("add-to-cart").style.display = "none";
-			
-		let buttonsDiv = document.querySelector('.buttons-div');
-
-    buttonsDiv.style.position = 'absolute';
-    buttonsDiv.style.left = '100px';
-    buttonsDiv.style.top = '360px';
-    
+            document.getElementById("deletecourse").style.display = "";
     document.getElementById("locked1").style.display = "none";
     document.getElementById("locked2").style.display = "none";
     document.getElementById("locked3").style.display = "none";
-    document.getElementById("course-price").style.right = '700px';
-    document.getElementById("course-days").style.top = '27px';
-    document.getElementById("course-days").style.right = '170px';
     
         // accordian code function start
 let acc = document.getElementsByClassName("accordion");
@@ -498,6 +275,7 @@ axios.get(`/freshstocks_web/UpdateMyCoursesServlet?courseId=${CourseID}`)
            celebrateCompletion(courseID);
            
             document.getElementById("viewcertify").style.display = "block";
+            document.getElementById("viewcertify").style.marginLeft = "63px";
         }
 
     })
@@ -614,21 +392,21 @@ axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
     
     rev.forEach(course => {
         let div1 = document.createElement("div");
-        div1.setAttribute("class", "comment-1");
+        div1.setAttribute("class", "comment");
         div1.setAttribute("id", "comment-" + course.commentId);
         div1.innerHTML = `
             <div class="comment-img">
                 <img class="profile-img_block" id="profile-pic" src="${course.userProfile}">
                 <p class="comment-letters" id="comment-letters">${course.commentBody}</p>
                 &emsp;
-                <p class="datenow">${course.createdTime}</p>
+            </div>
+            <p class="datenow">Time Posted: ${course.createdTime}</p>
                 <a onclick="openEditPopup(${course.commentId})" id="anker1-${course.commentId}"
                     style="display: inline-block; padding: 5px 16px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px; transition: background-color 0.3s; height: fit-content; margin: 15px 20px;">Edit</a>
                 <a onclick="deleteComment(${course.commentId})" id="anker2-${course.commentId}"
                     style="display: inline-block; padding: 5px 16px; background-color: red; color: #fff; text-decoration: none; border-radius: 4px; transition: background-color 0.3s; height: fit-content; margin: 15px 0px;">Delete</a>
                 <button style="display: none;">Edit</button>
                 <button style="display: none;">Delete</button>
-            </div>
         `;
         
         document.querySelector("#new-comments").appendChild(div1);
@@ -656,11 +434,10 @@ axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
     document.getElementById("submit-comment").disabled = true;
 			
 			            let div1 = document.createElement("div");
-        div1.setAttribute("class", "comment-1");
-        div1.setAttribute("id", "comment-1");
+        div1.setAttribute("class", "comment");
         div1.innerHTML = `
             <div class="comment-img">
-                <p class="comment-letters" id="comment-letters">Kindly, Enroll this Course to Access the Comment Section! </p>
+                <p class="comment-text">Kindly, Enroll this Course to Access the Comment Section! </p>
             </div>
         `;
         
@@ -677,11 +454,10 @@ axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
     if(courses[0] == null){
            
                    let div1 = document.createElement("div");
-        div1.setAttribute("class", "comment-1");
-        div1.setAttribute("id", "comment-1");
+        div1.setAttribute("class", "comment");
         div1.innerHTML = `
             <div class="comment-img">
-                <p class="comment-letters" id="comment-letters">No Comments Available Right Now! </p>
+                <p class="comment-text">No Comments Available Right Now! </p>
             </div>
         `;
         
@@ -690,13 +466,12 @@ axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
     
     courses.forEach(course => {
         let div1 = document.createElement("div");
-        div1.setAttribute("class", "comment-1");
-        div1.setAttribute("id", "comment-1");
+        div1.setAttribute("class", "comment");
         div1.innerHTML = `
             <div class="comment-img">
                 <img class="profile-img_block" id="profile-pic" src="${course.userProfile}">
-                <p class="comment-letters" id="comment-letters">${course.commentBody}</p>
-            </div>
+                <p class="comment-text">${course.commentBody}</p>
+            </div>   
         `;
         
         document.querySelector("#new-comments").appendChild(div1);
@@ -834,7 +609,7 @@ function closeEditPopup() {
 // using this method, I will add comment to database
 function addcomment(event) {
 	 event.preventDefault();
-	 
+
 	 let urlParams = new URLSearchParams(window.location.search);
      let courseId = urlParams.get('courseID');
 
@@ -851,7 +626,14 @@ function addcomment(event) {
   .then(response => {
     console.log(response.data);
     const res = response.data;
-    alert(response.data);
+   
+    if (res === "Comment Created Successfully.") {
+        alert(response.data);
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+	}
+	
     if(res == "Comment Created Successfully.") {
       window.location.href=`/freshstocks_web/pages/details.jsp?courseID=${courseId}`;
     }
@@ -860,6 +642,9 @@ function addcomment(event) {
   .catch(error => {
     console.error('Error creating course:', error);
     // Handle error
+  })
+    .finally(() => {
+    hideLoader();
   });
     
     
@@ -906,39 +691,25 @@ function entercomment(event) {
     }
 }
 
-// video or image file reader code end
 
-// share div display block
 function share() {
-  document.querySelector(".course-container").style.opacity = "0.7";
-  document.querySelector("body").style.backgroundColor = "black";
-  document.getElementById("share-div").style.display = "block";
-  document.getElementById("share-div").style.opacity = "1";
+
+  try {
+    if (navigator.share) {
+       navigator.share({
+        title: 'Course Title',
+        text: 'Check out this awesome course!',
+        url: window.location.search
+      });
+    } else {
+      alert('Web Share API is not supported in your browser.');
+    }
+  } catch (error) {
+    console.error('Error sharing:', error);
+  }
+
 }
 
-// share div back
-function back() {
-  document.getElementById("share-div").style.display = "none";
-  document.querySelector(".course-container").style.opacity = "1";
-  document.querySelector("body").style.backgroundColor = "#F6F8FC";
-}
-
-// gift div display block
-function gift() {
-  document.querySelector(".course-container").style.opacity = "0.7";
-  document.querySelector("body").style.backgroundColor = "black";
-  document.getElementById("gift-div").style.display = "block";
-  document.getElementById("gift-div").style.opacity = "1";
-}
-
-// gift div back
-function giftback() {
-  document.getElementById("gift-div").style.display = "none";
-  document.querySelector(".course-container").style.opacity = "1";
-  document.querySelector("body").style.backgroundColor = "#F6F8FC";
-}
-
-//delete course from my courses when clicking a button
 
 //if else for show comments
 //edit function new popup div
@@ -955,10 +726,4 @@ function edit() {
 function backedit() {
     document.getElementById("edit-comment").style.display = "none";
     document.querySelector(".course-container").style.opacity = "1";
-}
-
-
-function googleTranslateElementInit() {
-  const translateElement = new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-  return translateElement;
 }

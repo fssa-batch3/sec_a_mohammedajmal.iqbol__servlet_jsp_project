@@ -28,6 +28,7 @@
 	<h1>Create Course Form</h1>
 
 	<form id="createcourseform" onsubmit="createcourse(event)">
+	<ul class="errorMessages" id="errormsg"></ul>
 		<div class="contain">
 			<div>
 				<label for="name">Course Name:</label> <input type="text" id="name"

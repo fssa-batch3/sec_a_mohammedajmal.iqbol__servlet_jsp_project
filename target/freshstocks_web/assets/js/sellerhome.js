@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 function showLoader() {
   document.getElementById('loader').style.display = 'block';
   document.getElementById('overlay').style.display = 'block';
@@ -14,12 +15,14 @@ function hideLoader() {
 
 setTimeout(hideLoader, 5000);
 
+  
+
  // Assuming you have an API endpoint to fetch courses data
 axios.get('/freshstocks_web/UpdateCourseServlet')
   .then(response => {
     const courses = response.data;
 
-    const scrollCoursesDiv = document.querySelector('.scroll-courses-div-stocks');
+    const scrollCoursesDiv = document.querySelector('.row');
 
     if (courses.length === 0) {
       scrollCoursesDiv.innerHTML = '<p>No courses available.</p>';
@@ -34,43 +37,30 @@ axios.get('/freshstocks_web/UpdateCourseServlet')
         const discountFormatted = discountPercentage.toFixed(2);
 
         const courseCardDiv = document.createElement('div');
-        courseCardDiv.classList.add('first-course2-stocks');
+            courseCardDiv.classList.add('col-md-4', 'mb-4');
 
-        courseCardDiv.innerHTML = `
-          <div>
-            <img class="course-img-stocks" src="${course.coverImage}" alt="">
-          </div>
-          <div>
-            <h3 class="course-title">${course.name}</h3>
-            <p class="course-description">${course.description}</p>
-            <div class="course-details">
-              <p class="course-timing">
-                <span class="timing">Timing:</span>
-                ${course.timing}
-              </p>
-              <p class="course-ln">
-                <span class="lang">Language:</span>
-                ${course.language}
-              </p>
+        courseCardDiv.innerHTML = `          
+            <div class="card">
+                <img src="${course.coverImage}" class="card-img-top" alt="Course 1">
+                <span class="badge badge-success">Best Selling</span>
+                <div class="card-body">
+                    <h5 class="card-title">${course.name}</h5>
+                    <p class="card-text">${course.description}</p>
+                    <div class="flexcost">
+                        <p class="course-cost">
+                            Fresh Price: &#8377;${course.sellingPrice}
+                        </p>
+                        <p>
+                            Old Price: <strike class="course-oldcost" id="course-oldcost">&#8377;${course.markedPrice}</strike>
+                        </p>
+                        <p class="course-discount">
+                            Discount: ${discountFormatted}%
+                        </p>
+                    </div>
+                    <a class="btn btn-primary btn-sm mr-2" href="editcourse.jsp?courseId=${course.courseID}">Edit</a>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete(${course.courseID})">Delete</button>
+                </div>
             </div>
-            <div class="flexcost">
-              <p class="course-cost">
-                fresh Price: ₹${course.sellingPrice}
-              </p>
-              <p>
-                Old Price: <strike class="course-oldcost" id="course-oldcost">₹${course.markedPrice}</strike>
-              </p>
-              <p class="course-discount">
-                Discount: ${discountFormatted}%
-              </p>
-            </div>
-            <form method="post" style="margin-left: 20px;width:40px;">
-              <a href="editcourse.jsp?courseId=${course.courseID}" style="padding:7px;width:50px;background-color:dodgerblue;color:white;border:3px dodgerblue;border-radius:5px;">Edit</a>
-            </form>
-              <button type="button" onclick="confirmDelete(${course.courseID})" style="margin-left:70px;position: relative;top: -23px;padding:7px;width:60px;background-color:red;color:white;border:3px red;border-radius:5px;">Delete</button>
-            
-            <br>
-          </div>
         `;
 
         scrollCoursesDiv.appendChild(courseCardDiv);
@@ -105,50 +95,7 @@ function confirmDelete(courseId) {
 }
   
 
-//google translate element
-function googleTranslateElementInit() {
-  const translateElement = new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-  return translateElement;
-}
 
-
-
-let searchbar = document.getElementById("searchbar");
-const cards = document.getElementsByClassName("first-course2-stocks");
-
-let debounceTimer;
-searchbar.addEventListener("input", () => {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    const searchValue = searchbar.value.toLowerCase().trim();
-    if (searchValue === "") {
-      for (let i = 0; i < cards.length; i++) {
-        cards[i].style.display = "block";
-      }
-      return;
-    }
-
-    const searchWords = searchValue.split(/\s+/);
-
-    for (let i = 0; i < cards.length; i++) {
-      const element = cards[i];
-      const cardContent = element.innerText.toLowerCase();
-      let match = true;
-
-      searchWords.forEach(word => {
-        if (!cardContent.includes(word)) {
-          match = false;
-        }
-      });
-
-      if (match) {
-        element.style.display = "block";
-      } else {
-        element.style.display = "none";
-      }
-    }
-  }, 300); // Adjust the debounce time (in milliseconds) as needed
-});
 
   
   

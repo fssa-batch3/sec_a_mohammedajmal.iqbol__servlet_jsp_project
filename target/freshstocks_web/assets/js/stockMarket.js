@@ -14,18 +14,6 @@ function showLoader() {
 
 
 
-//try statement
-
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "0dbd38fc8dmsh7004146a64a1761p17226ejsnceab381ff0ef",
-      "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-    },
-  };
-  
-
-
 //data for user to enter the stock nae not stock symbol
 let stockdata = {
   "Apple Inc.": "AAPL",
@@ -159,6 +147,14 @@ let stockdata = {
 };
 
 
+ axios.get("/freshstocks_web/ENVServlet")
+ .then(response => {	 
+	 const res = response.data;
+	 	 
+	 const twelvedatakey = res.TWELVEDATA_API_KEY;
+	const alphavantagekey = res.ALPHAVANTAGE_API_KEY;
+		
+
 
 //When user clicks the submit the stock event runs
 let newticker = document.getElementById("submit");
@@ -179,7 +175,6 @@ newticker.addEventListener("click", (event) => {
 });
   
 
-
 //stock market data page js code end
 async function getData() {
   try{
@@ -193,7 +188,7 @@ async function getData() {
         }
    }
 
-   let response = await fetch(`https://alpha-vantage.p.rapidapi.com/query?interval=5min&function=TIME_SERIES_INTRADAY&symbol=${tickersymbol}&datatype=json&output_size=compact`,options)
+   let response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${tickersymbol}&interval=5min&apikey=${alphavantagekey}`)
    let data = await response.json()
 
    let x = data["Time Series (5min)"];
@@ -248,17 +243,11 @@ async function getData() {
       window.location.reload();
     console.error( "Error" + err);
   }
-
 }
 
 
-
-      const myButton = document.getElementById("submit");
-const loadingDiv = document.getElementById("loading");
-
-myButton.addEventListener("click", function() {
-  loadingDiv.style.display = "block"; // Show loading div
-  setTimeout(function() {
-    loadingDiv.style.display = "none"; // Hide loading div after 5 seconds
-  }, 2500);
-});
+  
+ })
+ .catch((error) => {
+	 console.error(error);
+ })

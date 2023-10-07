@@ -29,7 +29,9 @@
 	</div>
 	
 <h1>Update Course Form</h1>
-<form onsubmit="editcourse(event)" id="form"></form>
+<form onsubmit="editcourse(event)" id="form">
+<ul class="errorMessages" id="errormsg"></ul>
+</form>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="../assets/js/editCourse.js"></script>
     	<script

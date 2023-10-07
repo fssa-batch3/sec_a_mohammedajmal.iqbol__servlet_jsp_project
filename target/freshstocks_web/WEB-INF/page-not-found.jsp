@@ -8,11 +8,11 @@
 </head>
 <body style="overflow:hidden;background-color:whitesmoke;">
 
-<jsp:include page="header.jsp" />
+<jsp:include page="../pages/header.jsp" />
 
 
  <a href="home.jsp">
- <img style="width:100%;height:800px;margin-top:35px;" src="../assets/images/404-error-page-templates.jpg" />
+ <img style="width:100%;height:800px;margin-top:35px;" alt="404 error image" src="../assets/images/404-error-page-templates.jpg" />
  </a>
 </body>
 </html>

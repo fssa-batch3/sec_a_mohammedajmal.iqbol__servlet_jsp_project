@@ -10,7 +10,6 @@
     document.getElementById('overlay').style.display = 'none';
 }
 
-
 setTimeout(hideLoader, 5000);
 
 
@@ -52,37 +51,24 @@ searchbar.addEventListener("input", () => {
 });
 
 //api data
-const options = {
+
+ axios.get("/freshstocks_web/ENVServlet")
+ .then(response => {	 
+	 const res = response.data;
+	 
+	 const twelvedatakey = res.TWELVEDATA_API_KEY;
+	const alphavantagekey = res.ALPHAVANTAGE_API_KEY;
+		
+	
+	const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "0dbd38fc8dmsh7004146a64a1761p17226ejsnceab381ff0ef",
+    "X-RapidAPI-Key": res.FOREX_RAPID_KEY,
     "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
   },
 };
 
-const optionmovers = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "0dbd38fc8dmsh7004146a64a1761p17226ejsnceab381ff0ef",
-    "X-RapidAPI-Host": "bravenewcoin.p.rapidapi.com",
-  },
-};
 
-const optionsss = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "0dbd38fc8dmsh7004146a64a1761p17226ejsnceab381ff0ef",
-    "X-RapidAPI-Host": "twelve-data1.p.rapidapi.com",
-  },
-};
-
-const optionsssss = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "0dbd38fc8dmsh7004146a64a1761p17226ejsnceab381ff0ef",
-    "X-RapidAPI-Host": "twelve-data1.p.rapidapi.com",
-  },
-};
 
 //try statement
 try {
@@ -105,37 +91,37 @@ try {
       options
     ),
     fetch(
-      "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=USD&apikey=XQJN6X4YXV76D14M"
+      `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=USD&apikey=${alphavantagekey}`
     ),
     fetch(
-      "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=XQJN6X4YXV76D14M"
+      `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=${alphavantagekey}`
     ),
     fetch(
-      "https://www.alphavantage.co/query?function=WTI&interval=monthly&apikey=XQJN6X4YXV76D14M"
+      `https://www.alphavantage.co/query?function=WTI&interval=monthly&apikey=${alphavantagekey}`
     ),
     fetch(
-      "https://api.twelvedata.com/logo?symbol=AAPL&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/logo?symbol=AAPL&apikey=${twelvedatakey}`
     ),
     fetch(
-      "https://api.twelvedata.com/logo?symbol=FRSH&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/logo?symbol=FRSH&apikey=${twelvedatakey}`
     ),
     fetch(
-      "https://api.twelvedata.com/logo?symbol=AMZN&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/logo?symbol=AMZN&apikey=${twelvedatakey}`
     ),
     fetch(
-      "https://api.twelvedata.com/logo?symbol=TSLA&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/logo?symbol=TSLA&apikey=${twelvedatakey}`
     ),
     fetch(
-      "https://api.twelvedata.com/price?symbol=AAPL&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/price?symbol=AAPL&apikey=${twelvedatakey}`
     ),
     fetch(
-      "https://api.twelvedata.com/price?symbol=FRSH&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/price?symbol=FRSH&apikey=${twelvedatakey}`
     ),
     fetch(
-      "https://api.twelvedata.com/price?symbol=AMZN&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/price?symbol=AMZN&apikey=${twelvedatakey}`
     ),
     fetch(
-      "https://api.twelvedata.com/price?symbol=TSLA&apikey=b078605a87aa49e1921e6797102c2271"
+      `https://api.twelvedata.com/price?symbol=TSLA&apikey=${twelvedatakey}`
     ),
   ])
     .then((responses) => Promise.all(responses.map((res) => res.json())))
@@ -156,7 +142,7 @@ try {
       ] = data;
 
       x = data1["Time Series (5min)"];
-      y = data2["Time Series (Digital Currency Daily)"];
+      y = data2["Realtime Currency Exchange Rate"]['5. Exchange Rate'];
       z = data3["Time Series (Digital Currency Daily)"];
       a = data4["data"];
       b = data4;
@@ -168,150 +154,12 @@ try {
       h = data10;
       i = data11;
       j = data12;
+      
+      console.log(i);
 
       // create(y)
-
-      const labels = Object.keys(x).reverse();
-      const prices = Object.values(x)
-        .map((item) => parseFloat(item["4. close"]))
-        .reverse();
-      const ctx = document.getElementById("lineChart").getContext("2d");
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: "MSFT Stock Price",
-              data: prices,
-              backgroundColor: "#E9FCD4", // Customize chart appearance
-              borderColor: "rgba(75, 192, 192, 1)",
-              borderWidth: 0,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              display: true,
-              title: "Time",
-            },
-            y: {
-              display: true,
-              title: "Price",
-            },
-          },
-        },
-      });
-
-      //forex data api show
-
-      const label = Object.keys(y).reverse();
-      const datas = Object.values(y)
-        .map((item) => parseFloat(item["4a. close (USD)"]))
-        .reverse();
-
-      const ctx1 = document
-        .getElementById("optionMoversChart")
-        .getContext("2d");
-      new Chart(ctx1, {
-        type: "bar",
-        data: {
-          labels: label,
-          datasets: [
-            {
-              label: "Volume Gainers BTC-USD",
-              data: datas,
-              backgroundColor: "rgba(75, 192, 192, 0.2)", // Set desired background color
-              borderColor: "rgba(75, 192, 192, 1)", // Set desired border color
-              borderWidth: 1, // Set desired border width
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-
-      //api data call cryptos
-      // const pricesss = data3['Time Series (Digital Currency Daily)'];
-      const labelsss = Object.keys(z).reverse(); // Get the dates and reverse the order for chronological display
-      const valuesss = Object.keys(z).map((date) =>
-        parseFloat(date["4b. close (CNY)"])
-      ); // Get the closing prices as values
-
-      const ctx2 = document.getElementById("cryptoChart").getContext("2d");
-
-      // Create a chart using Chart.js
-
-      new Chart(ctx2, {
-        type: "line", // Use 'line' for a line chart
-        data: {
-          labels: labelsss,
-          datasets: [
-            {
-              label: "Bitcoin Price (CNY)",
-              data: valuesss,
-              backgroundColor: "rgba(75, 192, 192, 0.2)", // You can customize the appearance of the chart
-              borderColor: "rgba(75, 192, 192, 1)",
-              borderWidth: 1,
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: false,
-            },
-          },
-        },
-      });
-
-      //crude oil api
-
-      const crudelabels = [];
-      const crudevalues = [];
-      for (let i = 0; i < a.length; i++) {
-        crudelabels.push(a[i]["date"]);
-        crudevalues.push(a[i]["value"]);
-      }
-
-      // Get the dates and reverse the order for chronological display
-
-      const ctx3 = document.getElementById("crudeChart").getContext("2d");
-      new Chart(ctx3, {
-        type: "line", // Use 'line' for a line chart
-        data: {
-          labels: crudelabels.reverse(),
-          datasets: [
-            {
-              label: "WTI Crude Oil Price (USD)",
-              data: crudevalues.reverse(),
-              backgroundColor: "rgba(75, 192, 192, 0.2)", // You can customize the appearance of the chart
-              borderColor: "rgba(75, 192, 192, 1)",
-              borderWidth: 1,
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: false,
-            },
-          },
-        },
-      });
-
-      //api call front card create from api response
+      
+         //api call front card create from api response
 
       let rowdiv = document.createElement("div");
       rowdiv.setAttribute("class", "notifications-container");
@@ -364,6 +212,152 @@ try {
                         </div>`;
 
       document.querySelector("#row").append(rowdiv3);
+
+      const labels = Object.keys(x).reverse();
+      const prices = Object.values(x)
+        .map((item) => parseFloat(item["4. close"]))
+        .reverse();
+      const ctx = document.getElementById("lineChart").getContext("2d");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "MSFT Stock Price",
+              data: prices,
+              backgroundColor: "#E9FCD4", // Customize chart appearance
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              display: true,
+              title: "Time",
+            },
+            y: {
+              display: true,
+              title: "Price",
+            },
+          },
+        },
+      });
+      
+      
+console.log(z);
+
+// Extract dates and prices
+const labelsss = Object.keys(z).reverse(); // Get the dates and reverse the order for chronological display
+const valuesss = labelsss.map(date => parseFloat(z[date]["4b. close (USD)"])); // Get the closing prices as values
+
+const ctx2 = document.getElementById("cryptoChart").getContext("2d");
+
+// Create a chart using Chart.js
+new Chart(ctx2, {
+  type: "line", // Use 'line' for a line chart
+  data: {
+    labels: labelsss,
+    datasets: [
+      {
+        label: "Bitcoin Price (USD)",
+        data: valuesss,
+        backgroundColor: "rgba(75, 192, 192, 0.2)", // You can customize the appearance of the chart
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+        fill: true,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: false,
+      },
+    },
+  },
+});
+
+
+      //crude oil api
+
+      const crudelabels = [];
+      const crudevalues = [];
+      for (let i = 0; i < a.length; i++) {
+        crudelabels.push(a[i]["date"]);
+        crudevalues.push(a[i]["value"]);
+      }
+
+      // Get the dates and reverse the order for chronological display
+
+      const ctx3 = document.getElementById("crudeChart").getContext("2d");
+      new Chart(ctx3, {
+        type: "line", // Use 'line' for a line chart
+        data: {
+          labels: crudelabels.reverse(),
+          datasets: [
+            {
+              label: "WTI Crude Oil Price (USD)",
+              data: crudevalues.reverse(),
+              backgroundColor: "rgba(75, 192, 192, 0.2)", // You can customize the appearance of the chart
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: false,
+            },
+          },
+        },
+      });
+      
+      
+      console.log(y);
+
+
+      //forex data api show
+
+    const exchangeRate = y;
+    
+    const label = ['BTC to USD'];
+    const datas = [parseFloat(exchangeRate)];
+
+      const ctx1 = document
+        .getElementById("optionMoversChart")
+        .getContext("2d");
+      new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: label,
+          datasets: [
+            {
+              label: "Volume Gainers BTC-USD",
+              data: datas,
+              backgroundColor: "rgba(75, 192, 192, 0.2)", // Set desired background color
+              borderColor: "rgba(75, 192, 192, 1)", // Set desired border color
+              borderWidth: 1, // Set desired border width
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+   
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -374,24 +368,17 @@ try {
   console.error("Error" + error);
 }
 
+
+ })
+ .catch((error) => {
+	 console.error(error);
+ })
+ 
+
 //market data front page dashboard js code end
 
  }  catch (error) {
   console.error("Error" + error);
 };
 
-
-//page loader 
-window.onload = function() {
-  // Show the loading screen
-  document.getElementById("loading").classList.remove("hide");
-
-  document.querySelector("#row").classList.add("hide");
-
-  // Hide the loading screen after 5 seconds
-  setTimeout(function() {
-    document.getElementById("loading").classList.add("hide");
-    document.querySelector("#row").classList.remove("hide");
-  }, 3000)
-};
 
