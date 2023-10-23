@@ -377,11 +377,10 @@ axios.get(`/freshstocks_web/UpdateCommentServlet?courseId=${CourseID}`)
     if(firstComment == null){
            
                    let div1 = document.createElement("div");
-        div1.setAttribute("class", "comment-1");
-        div1.setAttribute("id", "comment-1");
+        div1.setAttribute("class", "comment");
         div1.innerHTML = `
             <div class="comment-img">
-                <p class="comment-letters" id="comment-letters">No Comments Available Right Now! </p>
+                <p class="comment-text">No Comments Available Right Now!</p>
             </div>
         `;
         
@@ -586,7 +585,15 @@ function submitEditComment(event) {
         // Handle success
         console.log('Comment updated successfully');
         const res = response.data;
-        alert(res);
+           if (res === "Comment updated successfully.") {
+        alert(response.data);
+    } else {
+		document.getElementById("errormsg").innerText = response.data;
+		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
+	}
         
     })
     .catch(function (error) {
@@ -632,6 +639,9 @@ function addcomment(event) {
     } else {
 		document.getElementById("errormsg").innerText = response.data;
 		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
 	}
 	
     if(res == "Comment Created Successfully.") {

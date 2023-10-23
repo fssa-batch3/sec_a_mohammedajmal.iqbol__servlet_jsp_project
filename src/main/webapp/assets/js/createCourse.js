@@ -126,6 +126,9 @@ function createcourse(event) {
     } else {
 		document.getElementById("errormsg").innerText = response.data;
 		document.getElementById("errormsg").style.display = "block";
+	    setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
 	}
    
     if(res === "Course Created Successfully.") {

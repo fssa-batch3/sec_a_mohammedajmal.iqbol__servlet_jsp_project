@@ -35,7 +35,7 @@
         }
         
         .form-inline {
-        width:500px;
+        width:auto;
         }
 
             .search-input {
@@ -119,6 +119,54 @@
     display:flex;
     gap:30px;
    }
+   
+    /* Pagination css */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  color: #007bff;
+  background-color: #fff;
+  border: 1px solid #007bff;
+  padding: 6px 12px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  margin: 3px;
+  border-radius: 5px;
+}
+
+/* Active Page Style */
+.pagination a.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Disabled Button Style */
+.pagination a.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Next Button Style */
+.pagination .next {
+  border: 1px solid #007bff;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 3px;
+  color: #007bff;
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.pagination .next:hover {
+  background-color: #007bff;
+  color: white;
+}
+ 
         
     </style>
 </head>
@@ -194,26 +242,27 @@
             <div class="tab-pane fade show active" id="all-courses" role="tabpanel" aria-labelledby="all-courses-tab">
                 <div class="row" id="all-course">
                     <!-- Course Divs for All Courses -->
-                    <!-- Add your course cards here -->
-                    
                     
  
 					<%
 					CourseService courseService = new CourseService();
 					List<Course> courses = new ArrayList<>();
+                    		
+                    int coursesPerPage = 5; 
+                    int currentPage = 1; 
+
+                    if (request.getParameter("page") != null) {
+                       currentPage = Integer.parseInt(request.getParameter("page"));
+                    }
+
+                   int startIndex = (currentPage - 1) * coursesPerPage;
 
 					try {
-						courses = courseService.getAllCourses();
-						Collections.reverse(courses);
-					} catch (ServiceException e) {
-						e.printStackTrace();
-					}
-
-					if (courses.isEmpty()) {
-					%>
-					<p>No courses available.</p>
-					<%
-					} else {
+					    courses = courseService.getCoursesWithLimitOffset(startIndex, coursesPerPage);
+					    if (courses.isEmpty() && currentPage > 1) {
+					        response.sendRedirect("learn.jsp?page=" + (currentPage - 1));
+					    }
+					    Collections.reverse(courses);
 
 					for (Course course : courses) {
 
@@ -258,10 +307,30 @@
 </a>             
          		   <%
 					}
+					
+					} catch (ServiceException e) {
+						e.printStackTrace();
 					}
 					%>
                                      
                 </div>
+                
+<%-- Pagination Links --%>
+<div class="pagination">
+    <%
+    int totalCourses = courseService.getTotalCourseCount();
+    int totalPages = (int) Math.ceil((double) totalCourses / coursesPerPage);
+    %>
+    <a href="<%=currentPage == 1 ? "javascript:void(0);" : "learn.jsp?page=" + (currentPage - 1)%>" class="<%=currentPage == 1 ? "disabled" : ""%>">Previous</a>
+    <%
+    for (int i = 1; i <= totalPages; i++) {
+    %>
+    <a href="learn.jsp?page=<%=i%>" class="<%=i == currentPage ? "active" : ""%>"><%=i%></a>
+    <%
+    }
+    %>
+    <a href="<%=currentPage == totalPages ? "javascript:void(0);" : "learn.jsp?page=" + (currentPage + 1)%>" class="<%=currentPage == totalPages ? "disabled" : ""%>">Next</a>
+</div>
             </div>
 
             <!-- Free Courses Tab Content -->

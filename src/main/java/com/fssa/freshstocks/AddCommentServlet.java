@@ -71,8 +71,6 @@ public class AddCommentServlet extends HttpServlet {
             } else {
                 out.print("Comment Creation Failed.");
             }
-        } catch (JSONException e) {
-            out.println("Invalid JSON format.");
         } catch (NumberFormatException e) {
             out.println("Role must be a valid integer.");
         } catch (Exception e) {

@@ -147,7 +147,7 @@ input[type=email]:invalid,input[type=password]:invalid,input[type=text]:invalid 
 
 
 .errorMessages {
-    display: none;
+   display: none;
     position:absolute;
     top:50px;
     left:35px;

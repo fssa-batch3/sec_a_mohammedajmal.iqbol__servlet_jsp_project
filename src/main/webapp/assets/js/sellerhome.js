@@ -13,9 +13,27 @@ function hideLoader() {
 }
 
 
-setTimeout(hideLoader, 5000);
+setTimeout(hideLoader, 1500);
 
-  
+
+axios.get('/freshstocks_web/SellerSalesServlet')
+  .then(function (response) {
+    // Handle the response (sales data)
+    const salesData = response.data;
+    console.log(salesData);
+    
+    
+let maxPurchases = -1;
+let maxCourse = '';
+
+for (const course in salesData) {
+    if (salesData[course] > maxPurchases && course !== "Total Revenue") {
+        maxPurchases = salesData[course];
+        maxCourse = course;
+    }
+}
+
+
 
  // Assuming you have an API endpoint to fetch courses data
 axios.get('/freshstocks_web/UpdateCourseServlet')
@@ -38,11 +56,10 @@ axios.get('/freshstocks_web/UpdateCourseServlet')
 
         const courseCardDiv = document.createElement('div');
             courseCardDiv.classList.add('col-md-4', 'mb-4');
-
         courseCardDiv.innerHTML = `          
             <div class="card">
                 <img src="${course.coverImage}" class="card-img-top" alt="Course 1">
-                <span class="badge badge-success">Best Selling</span>
+                ${course.name === maxCourse ? '<span class="badge badge-success">Best Selling</span>' : ''}
                 <div class="card-body">
                     <h5 class="card-title">${course.name}</h5>
                     <p class="card-text">${course.description}</p>
@@ -65,11 +82,18 @@ axios.get('/freshstocks_web/UpdateCourseServlet')
 
         scrollCoursesDiv.appendChild(courseCardDiv);
       });
-      
+        
     }
   })
   .catch(error => {
     console.error('Error fetching courses:', error);
+  });
+  
+  
+  
+  })
+  .catch(function (error) {
+    console.error('Error fetching seller sales:', error);
   });
 
 

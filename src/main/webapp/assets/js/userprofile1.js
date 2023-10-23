@@ -165,10 +165,16 @@ let mobile_number = document.getElementById("number").value;
    if (!mobile_number.match(mobileNumberRegex)) {
       document.getElementById("errormsg").innerText = "Please enter a valid 10-digit mobile number";
 		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
       return;
     } else if (!dateOfBirthRegex.test(date_of_birth)) {
       document.getElementById("errormsg").innerText = "Please enter a valid date of birth (yyyy-mm-dd)";
 		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
       return;
     } else {
       let birthDate = new Date(date_of_birth);
@@ -177,6 +183,9 @@ let mobile_number = document.getElementById("number").value;
       if (birthDate <= minDate) {
         document.getElementById("errormsg").innerText = "Please enter a valid date of birth";
 		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
         return;
     } else {
       let today = new Date();
@@ -186,6 +195,9 @@ let mobile_number = document.getElementById("number").value;
       if (age < 18) {
         document.getElementById("errormsg").innerText = "You must be at least 18 years old";
 		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
       } else {
 
 
@@ -207,6 +219,9 @@ let newUserObj = {
     } else {
 		document.getElementById("errormsg").innerText = response.data;
 		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
 	}
         })
         .catch(error => {

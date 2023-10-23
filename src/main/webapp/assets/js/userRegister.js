@@ -1,8 +1,7 @@
 /**
  * 
  */
-
- 
+    
 //user registration page js code start
 
 let form = document.getElementById("form");
@@ -29,31 +28,61 @@ form.addEventListener("submit", (event) => {
     if (!name.match(nameRegex)) {
       document.getElementById("errormsg").innerText = "Please enter a valid name (only letters and spaces)";
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
     } else if (gender === "Select Your Gender") {
       document.getElementById("errormsg").innerText = "Please select a valid gender";
+         setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
     } else if (!mobile_number.match(mobileNumberRegex)) {
       document.getElementById("errormsg").innerText = "Please enter a valid 10-digit mobile number";
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
     } else if (!dateOfBirthRegex.test(date_of_birth)) {
       document.getElementById("errormsg").innerText = "Please enter a valid date of birth (yyyy-mm-dd)";
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
     } else if (!email.match(emailRegex)) {
       document.getElementById("errormsg").innerText = "Please enter a valid email address";
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
     } else if (password !== confirm_password) {
       document.getElementById("errormsg").innerText = "Password and Confirm Password do not match. Please try again";
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
     } else if (role === "Select Role") {
       document.getElementById("errormsg").innerText = "Please select a valid role";
 		document.getElementById("errormsg").style.display = "block";
-    } else {
+ 
+  setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
+      
+         } else {
+ 
       let birthDate = new Date(date_of_birth);
       let minDate = new Date("1900-01-01");
 
       if (birthDate <= minDate) {
         document.getElementById("errormsg").innerText = "Please enter a valid date of birth";
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
     } else {
       let today = new Date();
       let birthDate = new Date(date_of_birth);
@@ -62,6 +91,9 @@ form.addEventListener("submit", (event) => {
       if (age < 18) {
         document.getElementById("errormsg").innerText = "You must be at least 18 years old to register";
 		document.getElementById("errormsg").style.display = "block";
+		 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
       } else {
 		
 		axios.get(`/freshstocks_web/fetchUserDetailsFromEmail?email=${email}`)
@@ -74,6 +106,9 @@ form.addEventListener("submit", (event) => {
 			if(fetchedemail != null) {
 				document.getElementById("errormsg").innerText = "You are Already have an account! Kindly Login";
 	         	document.getElementById("errormsg").style.display = "block";
+	         	 setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 4000);
 				return;
 			} else {
 				
@@ -107,4 +142,4 @@ form.addEventListener("submit", (event) => {
     console.error("Error" + error);
   }
 });
-
+    

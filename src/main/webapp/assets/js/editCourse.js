@@ -219,6 +219,9 @@ let courseID = urlParam.get('courseId');
     } else {
 		document.getElementById("errormsg").innerText = response.data;
 		document.getElementById("errormsg").style.display = "block";
+		setTimeout(() => {
+        document.getElementById("errormsg").style.display = "none";
+      }, 2000);
 	}
     if(res === "Course Updated Successfully.") {
         window.location.href="/freshstocks_web/pages/sellerhome.jsp";

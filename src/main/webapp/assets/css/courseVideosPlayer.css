@@ -235,15 +235,15 @@ input[type=range]::-moz-range-thumb {
 }
 
 #fullScreenButton {
-	position: absolute;
-    top: 13px;
+    position: absolute;
+    top: 10px;
     right: 11px;
-    width: 60px;
+    width: 40px;
 }
 
-.fullscreen-emoji {
-    font-size: 3em; 
-    color: #007BFF;
+.fullscreen-emoji { 
+    font-size: 20px;
+    color: black;
 }
 
 .course-details p {

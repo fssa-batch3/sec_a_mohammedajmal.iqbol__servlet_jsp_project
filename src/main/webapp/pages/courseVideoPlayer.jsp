@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <title>HTML Video Player</title>
-  <link rel="stylesheet" href="../assets/css/courseVideoPlayer.css">
+  <link rel="stylesheet" href="../assets/css/courseVideosPlayer.css">
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
 <body>
