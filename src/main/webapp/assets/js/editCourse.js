@@ -69,13 +69,13 @@ div1.setAttribute("class","contain");
     <br>
      </div>
      <div>
-         <label for="courseVideo1">Course Video 1:</label>
+         <label for="courseVideo1">Course Video 1 <span class="required">*</span></label>
     <input type="file" id="courseVideo1" name="courseVideo1" accept="video/*" onchange="Main()" required><br><br>
     
-    <label for="courseVideo2">Course Video 2:</label>
+    <label for="courseVideo2">Course Video 2 <span class="required">*</span></label>
     <input type="file" id="courseVideo2" name="courseVideo2" accept="video/*" onchange="Main1()" required><br><br>
     
-        <label for="courseVideo3">Course Video 3:</label>
+        <label for="courseVideo3">Course Video 3 <span class="required">*</span></label>
     <input type="file" id="courseVideo3" name="courseVideo3" accept="video/*" onchange="Main2()" required><br><br>
     
     <label for="courseVideoName1">Course Video Name 1:</label>
