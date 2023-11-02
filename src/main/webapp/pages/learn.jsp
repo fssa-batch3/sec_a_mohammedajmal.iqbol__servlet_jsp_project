@@ -70,12 +70,22 @@
             color: #ffffff; /* White */
         }
         
-                #description {
+#description {
     max-width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
         display: -webkit-box;
     -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+}
+
+#description1 {
+    max-width: 300px;
+    font-size:23px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+        display: -webkit-box;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;  
 }
         
@@ -248,7 +258,7 @@
 					CourseService courseService = new CourseService();
 					List<Course> courses = new ArrayList<>();
                     		
-                    int coursesPerPage = 5; 
+                    int coursesPerPage = 6; 
                     int currentPage = 1; 
 
                     if (request.getParameter("page") != null) {
@@ -259,6 +269,7 @@
 
 					try {
 					    courses = courseService.getCoursesWithLimitOffset(startIndex, coursesPerPage);
+					    Collections.reverse(courses);
 					    if (courses.isEmpty() && currentPage > 1) {
 					        response.sendRedirect("learn.jsp?page=" + (currentPage - 1));
 					    }
@@ -483,6 +494,8 @@
                 <div class="row .blog" id="blog">
                     <!-- Blog Posts -->
                     <!-- Add your blog content here -->
+                    
+
                 </div>
             </div>
         </div>

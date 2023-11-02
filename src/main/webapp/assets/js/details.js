@@ -23,7 +23,7 @@ axios.get(`/freshstocks_web/SaveCourseServlet?courseId=${courseID}`)
     
     console.log(courseDetails);
     
-    const markedPrice = courseDetails.markedPrice;
+        const markedPrice = courseDetails.markedPrice;
         const sellingPrice = courseDetails.sellingPrice;
         const discountPercentage = ((markedPrice - sellingPrice) / markedPrice) * 100;
         const discountFormatted = Math.floor(discountPercentage.toFixed(2));
@@ -47,7 +47,7 @@ div1.innerHTML = `
                     <li class="course-discount">Course Discount:  ${discountFormatted}%</li>
                  </div>
                 </ul>
-                <button class="btn btn-primary mr-2" id="add-to-cart" onclick="enrollcourse(${courseDetails.courseId})">Enroll Now</button>
+                <button class="btn btn-primary mr-2" id="add-to-cart" onclick="enrollcourse(${courseDetails.sellingPrice})">Enroll Now</button>
                 <button class="btn btn-danger mr-2" id="deletecourse" onclick="deletemycourses()" style="display:none;">Delete from My Courses</button>
                 <button class="btn btn-success mr-2" onclick="share()" >Share to friends</button>
                 <hr>
@@ -499,7 +499,6 @@ function enrollcourse(sellingPrice2) {
 	
 	let urlParams = new URLSearchParams(window.location.search);
     let courseID = urlParams.get('courseID');  
-
      if (sellingPrice2 === 0) {
         axios.post(`/freshstocks_web/BuyCourseServlet?courseId=${courseID}`)
             .then(function(response) {

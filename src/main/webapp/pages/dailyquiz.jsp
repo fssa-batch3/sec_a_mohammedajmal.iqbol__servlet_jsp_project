@@ -22,6 +22,7 @@
 <meta charset="ISO-8859-1">
 <title>Daily Quiz</title>
 <link rel="stylesheet" href="../assets/css/dailyquiz.css" />
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <%
@@ -48,31 +49,6 @@ try (Connection connection = ConnectionUtil.getConnection()) {
 } catch (SQLException | DatabaseException e) {
     e.printStackTrace();
 }
-
-
-
-ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
-Runnable task = () -> {
-    // Use try-with-resources to automatically close the resources
-    try (Connection connection = ConnectionUtil.getConnection();
-         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user_quiz_info SET answered_today = false WHERE user_id = ?")) {
-        
-    	preparedStatement.setInt(1, userId);
-        int rowsAffected = preparedStatement.executeUpdate();
-
-        if (rowsAffected > 0) {
-            System.out.println("Boolean updated to false!");
-        } else {
-            System.out.println("No rows were updated.");
-        }
-    } catch (SQLException | DatabaseException e) {
-        e.printStackTrace();
-    }
-};
-
-// Schedule the task to run after 24 hours
-scheduler.schedule(task, 3600, TimeUnit.SECONDS);
 
 %>
 	<div class="container">
@@ -165,6 +141,20 @@ scheduler.schedule(task, 3600, TimeUnit.SECONDS);
 
 						// Calculate the start time for the next quiz
 						let nextQuizStartTime = new Date(endTime.getTime() + 24 * 60 * 60 * 1000);
+						
+						let now1 = new Date();
+					    let timeDifference1 = nextQuizStartTime - now1;
+						console.log(timeDifference1);
+						
+						if(timeDifference1 <= 0){
+							axios.post(`/freshstocks_web/AutoAnsweredBooleanServlet`)
+				            .then(function(response) {
+				                window.location.href="dailyquiz.jsp";
+				            })
+				            .catch(function(error) {
+				                console.error(error);
+				            });
+						} 
 
 						function updateCountdown() {
 						    let now = new Date();

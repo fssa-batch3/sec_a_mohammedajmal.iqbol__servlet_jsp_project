@@ -39,13 +39,17 @@ axios.get(`/freshstocks_web/getPurchasedCourses`)
 
         console.log(purchasedCourses);
         
+        
+        
         if(purchasedCourses.length == 0) {
 		    let div1 = document.createElement("div");
             div1.innerHTML = `<p>No Courses Available</p>`;
 		    document.querySelector("#my-course").append(div1);
 		} else {
     
-purchasedCourses.forEach(function(course) {
+for(let i=purchasedCourses.length-1; i>=0; i--){
+	
+	let course = purchasedCourses[i];
 	
 	const markedPrice = course.markedPrice;
         const sellingPrice = course.sellingPrice;
@@ -88,7 +92,8 @@ div1.innerHTML = `
 	`;
 	
 	document.querySelector("#my-course").append(div1);
-    });
+	
+    }
     
     
     }
@@ -97,5 +102,59 @@ div1.innerHTML = `
     .catch(function(error) {
         console.error(error);
     });
+    
+    
+    
+let blogData = [
+  {
+    "image": "https://tradeciety.com/hubfs/AUDUSD_2023-09-05_10-11-15.png",
+    "title": "Bollinger Bands Explained - The Best Trading Indicator",
+    "link": "https://tradeciety.com/bollinger-bands-explained-step-by-step"
+  },
+  {
+    "image": "https://tradeciety.com/hubfs/NASDAQ_2023-08-30_19-47-41.png",
+    "title": "How To Use The Reward Risk Ratio Like A Professional",
+    "link": "https://tradeciety.com/how-to-use-reward-risk-ratio-guide"
+  },{
+    "image": "https://tradeciety.com/hubfs/Imported_Blog_Media/Fotolia_50337059_XS-1.jpg",
+    "title": "How To Become A Profitable Trader - 8 steps",
+    "link": "https://tradeciety.com/become-a-profitable-trader"
+  },{
+    "image": "https://tradeciety.com/hubfs/CADJPY_2023-08-15_09-58-33.png",
+    "title": "Best Trend Following Trading Strategies",
+    "link": "https://tradeciety.com/best-trend-following-trading-strategies"
+  },{
+    "image": "https://tradeciety.com/hubfs/new%20traders.jpg",
+    "title": "7 Best Tips for New Traders - Best Tips Explained",
+    "link": "https://tradeciety.com/tips-for-new-traders"
+  },{
+    "image": "https://tradeciety.com/hubfs/Open%20%282%29.png",
+    "title": "Best Day Trading Trading Strategies Explained",
+    "link": "https://tradeciety.com/best-day-trading-trading-strategies-explained"
+  }
+];
+    
+    
+// trading blogs 
+let blogContainer = document.getElementById("blog");
+
+for (let blog of blogData) {
+  let card = document.createElement("a");
+  card.setAttribute("class", "card mb-3");
+  card.setAttribute("href", blog.link);
+  card.setAttribute("target","_blank");
+
+  // Create the card structure with dynamic content
+  card.innerHTML = `
+    <img src="${blog.image}" class="card-img-top" alt="Blog Image">
+    <div class="card-body">
+        <p class="card-title" id="description1">${blog.title}</p>
+    </div>
+  `;
+  blogContainer.appendChild(card);
+}
+    
+    
+    
     
     

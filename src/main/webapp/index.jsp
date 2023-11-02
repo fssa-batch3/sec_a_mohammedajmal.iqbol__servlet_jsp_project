@@ -77,7 +77,7 @@
 				Derivatives,Options,Funds,with more than 100+ markets worldwide
 			</p>
 			<div class="herobtnimgflex">
-				<form action="pages/register.html">
+				<form action="pages/register.jsp">
 					<button class="herobtn1">Start your free trial Now</button>
 				</form>
 				<img class="peopleimg" src="assets/images/team.png" alt="">
